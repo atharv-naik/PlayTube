@@ -1,0 +1,25 @@
+{% extends "play/base.html" %}
+{% load static %}
+
+{% block title %}404 - Page Not Found{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'play/styles/404.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="not-found">
+        <img class="not-found-img" src="https://www.youtube.com/img/desktop/unavailable/unavailable_video_dark_theme.png" width="278px" alt="">
+        <div class="not-found-text">
+            {{ info }}
+        </div>
+        <div class="home-btn">
+            <button class="btn" onclick="redirectToURL()">GO TO HOME</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'play/js/404.js' %}"></script>
+{% endblock %}
+```

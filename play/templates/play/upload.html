@@ -1,0 +1,22 @@
+{% extends 'play/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="video-upload-form">
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data" action="{% url 'play:upload-video' %}">
+        {% csrf_token %}
+        {% if error_message %}
+            <p>{{ error_message }}</p>
+        {% endif %}
+        {{ form.as_p }}
+        <input type="submit" value="upload" />
+    </form>
+</div>
+
+{% endblock %}

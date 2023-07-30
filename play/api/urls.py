@@ -1,0 +1,8 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.apiOverview, name='api-overview'),
+    path('get-video-stream/<str:video_id>/<str:file>', views.getVideoStream, name='get-video-stream'),
+    path('get-preview-thumbnails/<str:video_id>/<str:number>', views.getPreviewThumbnails, name='get-preview-thumbnails'),
+]

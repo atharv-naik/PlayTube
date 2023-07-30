@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!-- favicon -->
+    <link
+      rel="shortcut icon"
+      href="https://icons.iconarchive.com/icons/dakirby309/simply-styled/128/YouTube-icon.png"
+      type="image/x-icon"
+    />
+
+    <link rel="stylesheet" href="{% static 'play/styles/base.css' %}">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    {% block html_head %}{% endblock %}
+    {% block css %}{% endblock %}
+  </head>
+  <body>
+    <div class="main">
+      <div class="website-header">
+        <div class="yt-left-section-header">
+          <div class="yt-hamburger-menu sub-color">
+            <span class="material-icons">
+              menu
+            </span>
+            <!-- <img src="{% static 'play/icons/menu.svg' %}" alt=""> -->
+          </div>
+          <div class="website-name yt-logo">
+              <a href="{% url 'play:home' %}">
+                <img src="{% static 'play/images/ytLogoDark.png' %}" class="yt-logo-img" alt="youtube logo" height="22px">
+              <!-- <div class="webname">YouTube</div> -->
+            </a>
+            </div>
+        </div>
+        <div class="search-bar">
+          <form class="search-bar-form" action="{% url 'play:results' %}">
+            <input type="text" name="search_query" placeholder="Search" aria-label="search" class="search-input">
+            <!-- <button type="submit">Search</button> -->
+            <button class="search-btn sub-color" aria-label="submit search"><i class="fas fa-search"></i></button>
+            <!-- voice input -->
+            <button class="voice-search">
+              <i class="fa-solid fa-microphone"></i>
+            </button>
+          </form>
+        </div>
+        <div class="side-section">
+          {% if not user.is_authenticated %}
+            <div class="login-btn">
+              <a href="{% url 'play:login' %}">
+                  <button class="auth-btn">
+                  Sign in
+                </button>
+              </a>
+            </div>
+          {% else %}
+            <div class="logout-btn">
+              <a href="{% url 'play:logout' %}">
+                <button class="auth-btn">
+                  Log out
+                </button>
+              </a>
+            </div>
+            <a href="{% url 'play:upload-video' %}" class="upload-video-link">
+              <button class="upload-video">
+                <span class="material-icons">
+                  video_call
+                  </span>
+                </button>
+              </a>
+          {% endif %}
+
+          <div class="theme-switcher" data-theme="light">
+            <span class="material-icons dark-icon"> dark_mode </span>
+            <span class="material-icons light-icon"> light_mode </span>
+          </div>
+          {% if user.is_authenticated %}
+            <div class="user-profile">
+              <a href="#">
+                <img src="https://source.unsplash.com/featured/1" alt="profile pic" class="profile-pic">
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="content">
+        {% block content %} {% endblock %}
+      </div>
+    </div>
+  </body>
+
+  <script src="{% static 'play/js/base.js' %}">
+  </script>
+  <script src="https://kit.fontawesome.com/ec5245fd47.js" crossorigin="anonymous"></script>
+  {% block scripts %}{% endblock %}
+</html>

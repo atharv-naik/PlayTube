@@ -1,0 +1,203 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Poppins:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Oswald:wght@700&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  /* background-color: #101010; */
+  /* color: white; */
+  /* background-color: #1d1d1d; */
+  font-family: "Montserrat", sans-serif;
+  font-family: "Poppins", sans-serif;
+  /* declare a variable  */
+  --theme-color: black;
+  --theme-bc: white;
+  --box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.5);
+  --box-shadow-hover: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
+}
+
+a {
+  text-decoration: none;
+  color: var(--theme-color);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  margin-top: 6vh;
+}
+
+.website-header {
+  z-index: 1;
+  position: fixed;
+  background-color: var(--theme-bc);
+  color: var(--theme-color);
+  font-family: "Montserrat", sans-serif;
+  font-family: "Oswald", sans-serif;
+  font-size: 1.5rem;
+  height: 6vh;
+  width: 100%;
+  padding: 1.2rem 0 1.2rem 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  /* transition: all 0.5 ease-in-out; */
+}
+
+.dark-icon,
+.light-icon {
+  cursor: pointer;
+  scale: 1;
+}
+
+.theme-switcher {
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+  padding: 0.2rem 0.5rem;
+}
+
+.theme-switcher[data-theme="light"] .dark-icon {
+  display: none;
+}
+
+.theme-switcher[data-theme="dark"] .light-icon {
+  display: none;
+}
+
+.search-bar-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+  scale: 1.4;
+  margin: 0 2rem 0 4rem;
+  width: 100%;
+}
+
+.search-input {
+  border: none;
+  background-color: var(--theme-bc);
+  padding: 0.2rem 1rem;
+  color: var(--theme-color);
+  border-radius: 5000px 0 0 5000px;
+  width: 100%;
+  outline: 0.1px solid rgb(34, 34, 34);
+}
+
+.search-btn {
+  background-color: rgb(34, 34, 34);
+  padding: 0.255rem 1rem;
+  border-radius: 0 5000px 5000px 0;
+  color: var(--theme-color);
+  color: white;
+  border: 0.1px solid rgb(34, 34, 34);
+  cursor: pointer;
+}
+
+.voice-search {
+  background-color: var(--theme-bc);
+  color: var(--theme-color);
+  border-radius: 50%;
+  scale: 1;
+  aspect-ratio: 1/1;
+  border: none;
+  cursor: pointer;
+  margin: 0 0.5rem;
+  height: 100%;
+  padding: 0.3rem 0.6rem;
+}
+
+.voice-search:hover,
+.upload-video:hover,
+.theme-switcher:hover,
+.yt-hamburger-menu:hover {
+  background-color: rgb(34, 34, 34);
+}
+
+.auth-btn {
+  /* remove default styles */
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  /* custom styles */
+  padding: 12px 14px;
+  margin: 0.5rem;
+  color: rgb(66, 162, 252);
+  font-size: 0.8rem;
+  font-weight: 600;
+  /* font-family: 'Montserrat', sans-serif;
+  font-family: 'Oswald', sans-serif; */
+  border: 0.5px solid rgba(96, 96, 96, 0.562);
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+}
+.auth-btn:hover {
+  /* box-shadow: 0px 0px 4px 0px rgba(255, 255, 255, 0.5); */
+  background-color: rgba(152, 198, 251, 0.266);
+}
+.auth-btn:active {
+  /* box-shadow: 0px 0px 4px 0px rgba(255, 255, 255, 0.5); */
+  background-color: rgba(107, 144, 186, 0.266);
+}
+
+.side-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.content {
+  margin: 0 auto;
+  margin-top: 8vh;
+}
+
+.upload-video {
+  background-color: var(--theme-bc);
+  color: var(--theme-color);
+  cursor: pointer;
+  margin: 0 0.5rem 0 0.5rem;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+  border: none;
+  padding: 0.5rem;
+}
+
+.yt-left-section-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.yt-hamburger-menu {
+  margin: 0 1rem 0 0;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 0.25rem 0.5rem;
+}
+
+.sub-color {
+  color: rgb(171, 170, 170);
+}
+.user-profile img {
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+  height: 25px;
+  width: 25px;
+  margin: 0 0.5rem;
+  cursor: pointer;
+}

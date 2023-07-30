@@ -1,0 +1,70 @@
+{% extends 'play/base.html' %}
+{% load custom_filters %}
+{% load static %} 
+
+{% block title %}
+    YouTube - Home
+{% endblock %}
+
+{% block html_head %}
+    <link rel="stylesheet" href="{% static 'play/styles/landing.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="my-movies">
+            {% for movie_object in movies %}
+                <div class="movie movie-{{ movie_object.video_id }}">
+                    <div class="movie-img-container">
+                        <a target="_blank" href="{% url 'play:watch' %}?v={{ movie_object.video_id }}&ab_channel={{ movie_object.channel.channel_id }}">
+                            <!-- <img class="movie-img movie-img-{{ movie_object.id }}" src="https://wallpapercave.com/wp/wp10386562.jpg" alt="{{ movie_object.name }} thumbnail"> -->
+
+                            <!-- <img class="movie-img movie-img-{{ movie_object.video_id }}" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd0llIst6P7U2KN2v9w8_GylN92iXyUrjjjuXtOg41EiQOxELod81rZBBiokzUJZ0lr0M&usqp=CAU" alt=""> -->
+                            <!-- <img class="movie-preview-img movie-img movie-img-{{ movie_object.id }}" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd0llIst6P7U2KN2v9w8_GylN92iXyUrjjjuXtOg41EiQOxELod81rZBBiokzUJZ0lr0M&usqp=CAU" alt="{{ movie_object.name }} thumbnail"> -->
+                            
+                            <!-- <img class="movie-img movie-img-{{ movie_object.id }}" src="https://e1.pxfuel.com/desktop-wallpaper/952/780/desktop-wallpaper-netflix-logo-netflix-thumbnail.jpg" alt="{{ movie_object.name }} thumbnail"> -->
+                            <img class="movie-img movie-img-{{ movie_object.video_id }}" src="https://source.unsplash.com/featured/{{ forloop.counter }}" alt="">
+
+                            <div class="movie-duration-container">
+                                <div class="movie-duration" data-duration="{{ movie_object|calculate_duration }}">
+                                    00:00
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="movie-info-section">
+                        <div class="movie-header">
+                            <div class="movie-icon">
+                                <span class="material-icons">
+                                    movie
+                                </span>
+                            </div>
+                            <a target="_blank" href="{% url 'play:watch' %}?v={{ movie_object.video_id }}&ab_channel={{ movie_object.channel.channel_id }}">
+                                <div class="movie-name">
+                                {{ movie_object.title }}
+                                </div>
+                                <div class="movie-views">
+                                    {% if movie_object.release_year == '' %}
+                                    Released: N/A
+                                    {% else %}
+                                    Released: {{ movie_object.release_year }}
+                                    {% endif %}
+                                    <div class="movie-desc">
+                                        {{ movie_object.description|truncatechars:40 }}
+                                    </div>
+
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static 'play/js/landing.js' %}" defer></script>
+{% endblock %}
