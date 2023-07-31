@@ -1,5 +1,6 @@
 {% extends 'play/base.html' %}
-{% load static %} 
+{% load static %}
+{% load custom_filters %}
 
 {% block title %}
     History - YouTube
@@ -15,13 +16,15 @@
         <div class="my-movies">
             {% for history in history %}
                 <div class="movie movie-{{ history.video.video_id }}">
-                    <div class="movie-img-container">
+                    <div class="movie-img-container" data-percentage-watched="{{ history.percentage_watched }}">
                         <a target="_blank" href="{% url 'play:watch' %}?v={{ history.video.video_id }}&ab_channel={{ history.video.channel.channel_id }}">
                             <img class="movie-img movie-img-{{ history.video.video_id }}" src="https://source.unsplash.com/featured/{{ forloop.counter }}" alt="">
                             <div class="movie-duration-container">
-                                <div class="movie-duration" data-duration="{{ history.video.release_year }}">
+                                <div class="movie-duration" data-duration="{{ history.video|calculate_duration }}">
                                     00:00
                                 </div>
+                            </div>
+                            <div class="movie-percentage-watched-indication">
                             </div>
                         </a>
                     </div>
@@ -57,4 +60,12 @@
 
 {% block scripts %}
     <script src="{% static 'play/js/history.js' %}" defer></script>
+    <script>
+        // get the percentage watched data attribute from the movie-img-container and set the width of the movie-img-container::before element to that value
+        const movieImgContainers = document.querySelectorAll('.movie-img-container');
+        movieImgContainers.forEach(movieImgContainer => {
+            const percentageWatched = movieImgContainer.dataset.percentageWatched;
+            movieImgContainer.style.setProperty('--percentage-watched', `${percentageWatched}%`);
+        });
+    </script>
 {% endblock %}

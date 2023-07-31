@@ -121,6 +121,14 @@ class Video(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def get_duration(self):
+        import moviepy.editor as mp
+        try:
+            video = mp.VideoFileClip(self.video_file.path)
+            return video.duration
+        except:
+            return 0
 
 
 
@@ -129,7 +137,15 @@ class History(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     # get the video timestamp upto which the user has watched the video from the frontend
     timestamp = models.IntegerField(default=0)
+    percentage_watched = models.FloatField(default=0)
     last_viewed = models.DateTimeField(auto_now=True)
+
+    # calculate the percentage of the video watched before saving the history object
+    def save(self, *args, **kwargs):
+        video_duration = self.video.get_duration()
+        # create a new field in the history model to store the percentage of the video watched
+        self.percentage_watched = (self.timestamp / video_duration) * 100
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['-last_viewed']

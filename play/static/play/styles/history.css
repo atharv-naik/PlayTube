@@ -19,8 +19,19 @@
     width: 360px;
     /* border: 1px solid white; */
     /* background-color: rgba(192, 192, 192, 0.818); */
-    border-radius: 3%;
+    border-radius: 1em 1em 1em 1em;
     position: relative;
+  }
+
+  .movie-percentage-watched-indication {
+    /* indicate percentage video watched with border bottom of right width */
+    position: absolute;
+    bottom: 0.4em;
+    left: 0;
+    width: var(--percentage-watched);
+    height: 0.25em;
+    background-color: red;
+    border-radius: 1em 1em 1em 1em;
   }
   
   .movie-img {
@@ -80,8 +91,8 @@
   
   .movie-duration-container {
     position: absolute;
-    right: 0.2em;
-    bottom: 0.2em;
+    right: 0.25em;
+    bottom: 0.25em;
     background-color: black;
     color: white;
     width: fit-content;

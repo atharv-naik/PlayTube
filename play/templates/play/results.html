@@ -1,5 +1,6 @@
 {% extends 'play/base.html' %}
 {% load static %} 
+{% load custom_filters %}
 
 {% block title %}
     {{ search_query }} - YouTube
@@ -22,7 +23,7 @@
                         <a target="_blank" href="{% url 'play:watch' %}?v={{ movie_object.video_id }}&ab_channel={{ movie_object.channel.channel_id }}">
                             <img class="movie-img movie-img-{{ movie_object.video_id }}" src="https://source.unsplash.com/featured/{{ forloop.counter }}" alt="">
                             <div class="movie-duration-container">
-                                <div class="movie-duration" data-duration="{{ movie_object.release_year }}">
+                                <div class="movie-duration" data-duration="{{ movie_object|calculate_duration }}">
                                     00:00
                                 </div>
                             </div>
