@@ -15,7 +15,7 @@ urlpatterns = [
     path('watch/', views.watch, name='watch'),
     path('@<str:handle>/', views.channel_via_handle, name='channel-via-handle'),
     path('channel/<str:channel_id>/', views.channel_via_id, name='channel-via-id'),
-    path('get-notified/', views.get_notified, name='get-notified'),
+    path('history/', views.history, name='history'),
 ]
 
 if settings.DEBUG:

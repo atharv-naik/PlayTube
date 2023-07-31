@@ -2,27 +2,24 @@
 {% load static %} 
 
 {% block title %}
-    {{ search_query }} - YouTube
+    History - YouTube
 {% endblock %}
 
 {% block html_head %}
-    <link rel="stylesheet" href="{% static 'play/styles/results.css' %}">
+    <link rel="stylesheet" href="{% static 'play/styles/history.css' %}">
 {% endblock %}
 
 
 {% block content %}
     <div class="container">
-        <div class="search-results">
-            {{ movies|length }} result(s) for <strong class="search-query">{{ search_query }}</strong>
-        </div>
         <div class="my-movies">
-            {% for movie_object in movies %}
-                <div class="movie movie-{{ movie_object.video_id }}">
+            {% for history in history %}
+                <div class="movie movie-{{ history.video.video_id }}">
                     <div class="movie-img-container">
-                        <a target="_blank" href="{% url 'play:watch' %}?v={{ movie_object.video_id }}&ab_channel={{ movie_object.channel.channel_id }}">
-                            <img class="movie-img movie-img-{{ movie_object.video_id }}" src="https://source.unsplash.com/featured/{{ forloop.counter }}" alt="">
+                        <a target="_blank" href="{% url 'play:watch' %}?v={{ history.video.video_id }}&ab_channel={{ history.video.channel.channel_id }}">
+                            <img class="movie-img movie-img-{{ history.video.video_id }}" src="https://source.unsplash.com/featured/{{ forloop.counter }}" alt="">
                             <div class="movie-duration-container">
-                                <div class="movie-duration" data-duration="{{ movie_object.release_year }}">
+                                <div class="movie-duration" data-duration="{{ history.video.release_year }}">
                                     00:00
                                 </div>
                             </div>
@@ -35,18 +32,18 @@
                                     movie
                                 </span>
                             </div>
-                            <a target="_blank" href="{% url 'play:watch' %}?v={{ movie_object.video_id }}&ab_channel={{ movie_object.channel.channel_id }}">
+                            <a target="_blank" href="{% url 'play:watch' %}?v={{ history.video.video_id }}&ab_channel={{ history.video.channel.channel_id }}">
                                 <div class="movie-name">
-                                {{ movie_object.title }}
+                                {{ history.video.title }}
                                 </div>
                                 <div class="movie-views">
-                                    {% if movie_object.release_year == '' %}
+                                    {% if history.video.release_year == '' %}
                                         Released: N/A
                                     {% else %}
-                                        Released: {{ movie_object.release_year }}
+                                        Released: {{ history.video.release_year }}
                                     {% endif %}
                                     <div class="movie-desc">
-                                        {{ movie_object.description|truncatechars:150 }}
+                                        {{ history.video.description|truncatechars:150 }}
                                     </div>
                                 </div>
                             </a>
@@ -59,5 +56,5 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'play/js/results.js' %}" defer></script>
+    <script src="{% static 'play/js/history.js' %}" defer></script>
 {% endblock %}

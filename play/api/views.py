@@ -2,6 +2,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from play.models import Video, History
 from django.http import FileResponse
+from .serializers import HistorySerializer, VideoSerializer, UserSerializer
+from django.contrib.auth.models import User
 import os
 
 # Create your views here.
@@ -35,6 +37,18 @@ def getPreviewThumbnails(request, video_id, number):
     response = FileResponse(file)
     return response
 
+@api_view(['GET'])
+def getWatchHistory(request, user):
+    user = User.objects.get(username=user)
+    history = History.objects.filter(user=user)
+    serializer = HistorySerializer(history, many=True)
+    return Response(serializer.data)
+    # from django.contrib.auth.models import User
+    # user = User.objects.get(username=user)
+    # history = History.objects.filter(user=user)
+    # history = history.order_by('-last_viewed')
+    # history = history.values('video__video_id', 'video__title', 'video__description', 'video__thumbnail', 'timestamp')
+    # return Response(history)
 
 @api_view(['POST'])
 def updateHistory(request):

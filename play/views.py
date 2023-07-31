@@ -142,13 +142,18 @@ def channel_via_id(request, channel_id):
         return render(request, 'play/404.html', info, status=404)
     return HttpResponse(f"Hello, world. You're watching {user}'s channel {channel_name}")
 
-def get_notified(request):
-    # get email from form and send email to the user
-    print('sending email')
-    from .tasks import notify_user
-    task = notify_user.delay('amazondotus@gmail.com')
+def history(request):
+    # get user's watch history
+    try:
+        user = request.user
+        from .models import History
+        history = History.objects.filter(user=user)
+        history = history.order_by('-last_viewed')
+        # history = history.values('video__video_id', 'video__title', 'video__description', 'video__thumbnail', 'timestamp')
+        return render(request, 'play/history.html', {'history': history})
+    except:
+        return redirect('play:login')
 
-    return HttpResponse('Email sent')
 
 # custom error pages
 # handle custom 404 error
