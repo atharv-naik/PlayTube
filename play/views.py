@@ -82,6 +82,7 @@ def watch(request):
     video_id = request.GET.get('v')
     channel_id = request.GET.get('ab_channel')
     t = request.GET.get('t')
+    t = 0 if t is None else t
     if video_id is None and channel_id is None:
         info = {'info': 'This video isn\'t available anymore'}
         return render(request, 'play/404.html', info, status=404)
@@ -89,7 +90,21 @@ def watch(request):
         video = Video.objects.get(video_id=video_id)
         channel_id = video.channel.channel_id if channel_id is None else channel_id
         channel = Channel.objects.get(channel_id=channel_id) if channel_id is not None else None
-        # return HttpResponse(f"Hello, world. You're watching {video_id} from {channel_id}")
+        
+        # initialize history object
+        try:
+            user = request.user
+            from .models import History
+            # create history object if it doesn't exist
+            try:
+                history = History.objects.get(user=user, video=video)
+                t = history.timestamp if request.GET.get('t') is None else t
+            except History.DoesNotExist:
+                history = History.objects.create(user=user, video=video, timestamp=t)
+                history.save()
+        except:
+            pass
+
         stream_path = os.path.join(os.path.dirname(video.video_file.path), 'playlist.m3u8')
         return render(request, 'play/watch.html', {'video_id': video_id, 'channel_id': channel_id, 't': t, 'movie': video, 'channel': channel, 'stream_path': stream_path})
 

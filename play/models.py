@@ -116,6 +116,23 @@ class Video(models.Model):
         ('Gujarati', 'Gujarati'),
     ], default='English')
 
+    class Meta:
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.title
+
+
+
+class History(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    # get the video timestamp upto which the user has watched the video from the frontend
+    timestamp = models.IntegerField(default=0)
+    last_viewed = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-last_viewed']
+
+    def __str__(self):
+        return f'{self.user.username} watched {self.video.title}'

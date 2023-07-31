@@ -47,7 +47,7 @@ document.addEventListener("keydown", (e) => {
     case "m":
       toggleMute();
       showControls();
-      showVolumeAnimation(increase=true, showMute=video.muted)
+      showVolumeAnimation((increase = true), (showMute = video.muted));
       break;
     case "arrowleft":
       skip(-5);
@@ -163,8 +163,7 @@ function handleTimelineUpdate(e) {
     1,
     Math.floor((percent * video.duration) / 10)
   );
-  const previewImgSrc =
-    `http://0.0.0.0:8001/api/get-preview-thumbnails/${video_id}/${previewImgNumber}`;
+  const previewImgSrc = `http://0.0.0.0:8001/api/get-preview-thumbnails/${video_id}/${previewImgNumber}`;
   previewImg.src = previewImgSrc;
   timelineContainer.style.setProperty("--preview-position", percent);
 
@@ -178,13 +177,16 @@ function handleTimelineUpdate(e) {
 // Show amount of video loaded on seek bar
 video.addEventListener("progress", () => {
   const duration = video.duration;
-  if(duration > 0) {
+  if (duration > 0) {
     let percent = 0;
-    for(let i = 0; i < video.buffered.length; i++) {
+    for (let i = 0; i < video.buffered.length; i++) {
       if (
         video.buffered.start(video.buffered.length - 1 - i) < video.currentTime
-      ){
-        percent = Math.max(percent, video.buffered.end(video.buffered.length - 1 - i) / duration);
+      ) {
+        percent = Math.max(
+          percent,
+          video.buffered.end(video.buffered.length - 1 - i) / duration
+        );
         // break;
       }
     }
@@ -234,7 +236,7 @@ video.addEventListener("loadedmetadata", () => {
 // Disable hindi audio track
 video.addEventListener("loadedmetadata", () => {
   // check if multiple audio tracks are available
-  try{
+  try {
     if (video.audioTracks.length > 1) {
       // disable hindi audio track
       for (let i = 0; i < video.audioTracks.length; i += 1) {
@@ -245,14 +247,13 @@ video.addEventListener("loadedmetadata", () => {
         }
       }
     }
-  }
-  catch(err){
+  } catch (err) {
     console.log(err);
   }
 });
 
 function enableNextAudioTrack() {
-  try{
+  try {
     if (video.audioTracks.length > 1) {
       let len = video.audioTracks.length;
       // enable the next audio track and disable the current one
@@ -265,8 +266,7 @@ function enableNextAudioTrack() {
         }
       }
     }
-  }
-  catch(err){
+  } catch (err) {
     console.log(err);
   }
 }
@@ -347,7 +347,7 @@ function toggleMute() {
   video.muted = !video.muted;
 }
 
-function showVolumeAnimation(increase = true, showMute=false) {
+function showVolumeAnimation(increase = true, showMute = false) {
   // hide all animation icons
   volumeUpBtn.style.display = "none";
   volumeDawnBtn.style.display = "none";
@@ -358,7 +358,7 @@ function showVolumeAnimation(increase = true, showMute=false) {
   pauseBtn.style.display = "none";
   subtitlesBtn.style.display = "none";
 
-  if(showMute) {
+  if (showMute) {
     volumeMuteBtn.style.display = "block";
     circle.style.display = "block";
     circle.style.animation =
@@ -374,7 +374,8 @@ function showVolumeAnimation(increase = true, showMute=false) {
   if (increase) {
     volumeUpBtn.style.display = "block";
     circle.style.display = "block";
-    circle.style.animation = "dropOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+    circle.style.animation =
+      "dropOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
     // remove animation after it is done
     circle.addEventListener("animationend", () => {
       circle.style.display = "none";
@@ -476,46 +477,11 @@ video.addEventListener("leavepictureinpicture", () => {
 playPauseBtn.addEventListener("click", togglePlay);
 video.addEventListener("click", togglePlay);
 
-function showPlayAnimation(play) {
-  // hide all animation icons
-  playBtn.style.display = "none";
-  pauseBtn.style.display = "none";
-  circle.style.display = "none";
-  circle.style.animation = "";
-  volumeUpBtn.style.display = "none";
-  volumeDawnBtn.style.display = "none";
-  volumeMuteBtn.style.display = "none";
-  subtitlesBtn.style.display = "none";
-  if (play) {
-    playBtn.style.display = "block";
-    circle.style.display = "block";
-    circle.style.animation = "dropOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
-    // remove animation after it is done
-    circle.addEventListener("animationend", () => {
-      circle.style.display = "none";
-      circle.style.animation = "";
-      playBtn.style.display = "none";
-    });
-  } else {
-    pauseBtn.style.display = "block";
-    circle.style.display = "block";
-    circle.style.animation = "dropOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
-    // remove animation after it is done
-    circle.addEventListener("animationend", () => {
-      circle.style.display = "none";
-      circle.style.animation = "";
-      pauseBtn.style.display = "none";
-    });
-  }
-}
-
 function togglePlay() {
   if (video.paused) {
     video.play();
-    showPlayAnimation(play=true);
   } else {
     video.pause();
-    showPlayAnimation(play=false);
   }
 }
 
@@ -531,7 +497,10 @@ function hideControls() {
     videoControls.style.opacity = "0";
     videoTitle.style.opacity = "0";
     // hide cursor
-    if (videoContainer.matches(":hover") && document.body.style.cursor !== "none") {
+    if (
+      videoContainer.matches(":hover") &&
+      document.body.style.cursor !== "none"
+    ) {
       document.body.style.cursor = "none";
     }
   }
@@ -567,7 +536,6 @@ function showControls() {
 // });
 
 videoContainer.addEventListener("mousemove", () => {
-  
   if (!video.paused) {
     clearTimeout(timeout);
     showControls();
@@ -582,7 +550,7 @@ video.addEventListener("play", () => {
 video.addEventListener("pause", () => {
   videoContainer.classList.add("paused");
   clearTimeout(timeout);
-  showControls()
+  showControls();
 });
 
 // // video loading animation

@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from play.models import Video
+from play.models import Video, History
 from django.http import FileResponse
 import os
 
@@ -35,3 +35,26 @@ def getPreviewThumbnails(request, video_id, number):
     response = FileResponse(file)
     return response
 
+
+@api_view(['POST'])
+def updateHistory(request):
+    video_id = request.POST.get('video_id')
+    video = Video.objects.get(video_id=video_id)
+    t = int(eval(request.data['timestamp']))
+    # try to get user; skip if user is anonymous
+    try:
+        user = request.user
+    except:
+        return
+    # try to get history object for current video and user; create if it doesn't exist
+    try:
+        history = History.objects.get(user=user, video=video)
+        # update timestamp
+        history.timestamp = t
+        history.save()
+        return Response('History updated')
+    except:
+        history = History.objects.create(user=user, video=video, timestamp=t)
+        history.save()
+        return Response('History created')
+    
