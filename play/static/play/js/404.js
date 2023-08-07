@@ -1,11 +1,3 @@
 function redirectToURL() {
-  window.location.href = "{% url 'play:home' %}";
+  window.location.href = homeURL;
 }
-
-// check theme
-// const themeSwitcher = document.querySelector('.theme-switcher');
-
-applyThemeStyles();
-themeSwitcher.addEventListener("click", () => {
-  applyThemeStyles();
-});

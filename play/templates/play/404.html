@@ -20,6 +20,9 @@
 {% endblock %}
 
 {% block scripts %}
+    <script>
+        const homeURL = "{% url 'play:home' %}";
+    </script>
     <script src="{% static 'play/js/404.js' %}"></script>
 {% endblock %}
 ```

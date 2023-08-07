@@ -20,16 +20,6 @@ const leadingZeroFormatter = new Intl.NumberFormat(undefined, {
     movieDuration.innerHTML = formatDuration(duration);
   });
   
-  const myMovies = document.querySelector(".my-movies");
-  const theme = getCookie("theme");
-  if (theme == "light") {
-    // set light color on on-click-color property
-    myMovies.style.setProperty("--on-click-color", "rgba(213, 211, 211, 0.418)");
-  } else {
-    // set dark color on on-click-color property
-    myMovies.style.setProperty("--on-click-color", "rgba(118, 117, 117, 0.318)");
-  }
-  
   // show movie thumbnail only after image is loaded
   const movieImages = document.querySelectorAll(".movie-img");
   movieImages.forEach((movieImage) => {

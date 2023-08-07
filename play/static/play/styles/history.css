@@ -55,6 +55,7 @@
       grid-gap: 0.5rem;
       margin: 1rem 0;
       width: 100%;
+      --on-click-color: rgba(118, 117, 117, 0.318);
   }
   
   .movie {

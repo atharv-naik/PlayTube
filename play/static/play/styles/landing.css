@@ -26,7 +26,7 @@
     justify-content: center;
     align-items: stretch;
     /* border-radius: 5%; */
-    --on-click-color: rgba(118, 117, 117, 0.418);
+    --on-click-color: rgba(118, 117, 117, 0.318);
     /* --on-click-color-dark: rgba(147, 146, 146, 0.418); */
 }
 

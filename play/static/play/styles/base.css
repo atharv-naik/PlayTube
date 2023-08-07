@@ -10,16 +10,19 @@
 body {
   position: relative;
   margin: 0;
+  background-color: black;
+  color: white;
   /* background-color: #101010; */
   /* color: white; */
   /* background-color: #1d1d1d; */
   font-family: "Montserrat", sans-serif;
   font-family: "Poppins", sans-serif;
   /* declare a variable  */
-  --theme-color: black;
-  --theme-bc: white;
-  --box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.5);
-  --box-shadow-hover: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
+  --theme-color: white;
+  --theme-bc: black;
+  --box-shadow: 0 0 2px 0px rgba(255, 255, 255, 0.5);
+  --box-shadow-hover: 0 0 4px 0px rgba(255, 255, 255, 0.5);
+  transition: all 0.5s ease-in-out;
 }
 
 a {
@@ -52,26 +55,6 @@ a {
   justify-content: space-between;
   align-items: center;
   /* transition: all 0.5 ease-in-out; */
-}
-
-.dark-icon,
-.light-icon {
-  cursor: pointer;
-  scale: 1;
-}
-
-.theme-switcher {
-  border-radius: 50%;
-  aspect-ratio: 1/1;
-  padding: 0.2rem 0.5rem;
-}
-
-.theme-switcher[data-theme="light"] .dark-icon {
-  display: none;
-}
-
-.theme-switcher[data-theme="dark"] .light-icon {
-  display: none;
 }
 
 .search-bar-form {
@@ -120,7 +103,6 @@ a {
 
 .voice-search:hover,
 .upload-video:hover,
-.theme-switcher:hover,
 .yt-hamburger-menu:hover {
   background-color: rgb(34, 34, 34);
 }
