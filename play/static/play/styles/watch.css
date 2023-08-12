@@ -18,8 +18,9 @@
 
 .video-container{
   position: relative;
-  width: 90%;
+  width: 1044px;
   max-width: 1200px;
+  aspect-ratio: 16/9;
   display: flex;
   justify-content: center;
   margin-inline: auto;
@@ -102,11 +103,8 @@
 
 .video-container.theater,
 .video-container.full-screen {
-  max-width: initial;
-  width: 100%;
-}
-
-.video-container.theater{
+  max-width: unset;
+  width: 100vw;
   max-height: 80vh;
 }
 
@@ -115,7 +113,8 @@
 }
 
 video {
-  width: 100%;
+  width: inherit;
+  height: inherit;
 }
 
 .video-controls-container {
@@ -163,8 +162,8 @@ video {
 
 .video-controls-container .controls {
   display: flex;
-  gap: .5rem;
-  padding: .5rem 1rem;
+  gap: .9rem;
+  padding: 1rem 1.5rem 1rem 1.5rem;
   align-items: center;
   justify-content: space-around;
 }
@@ -275,7 +274,8 @@ video {
 
 .timeline {
   background-color: rgba(100, 100, 100, .5);
-  height: 3px;
+  height: 4px;
+  margin: 0 6px;
   width: 100%;
   position: relative
 }
