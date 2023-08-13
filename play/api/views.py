@@ -1,23 +1,25 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
 from play.models import Video, History
 from django.http import FileResponse
-from .serializers import HistorySerializer, VideoSerializer, UserSerializer
+from .serializers import HistorySerializer
 from django.contrib.auth.models import User
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 import os
 
 # Create your views here.
 
+
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
-        'List': '/video-list/',
-        'Detail View': '/video-detail/<str:pk>/',
-        'Create': '/video-create/',
-        'Update': '/video-update/<str:pk>/',
-        'Delete': '/video-delete/<str:pk>/',
+        'Video Stream': '/api/video/<str:video_id>/<str:file>',
+        'Preview Thumbnails': '/api/video/<str:video_id>/preview/<int:number>',
+        'Watch History': '/api/history/<str:user>',
+        'Update Watch History': '/api/history/<str:user>/<str:video_id>',
     }
     return Response(api_urls)
+
 
 @api_view(['GET'])
 def getVideoStream(request, video_id, file):
@@ -28,47 +30,40 @@ def getVideoStream(request, video_id, file):
     response = FileResponse(file)
     return response
 
+
 @api_view(['GET'])
 def getPreviewThumbnails(request, video_id, number):
     video = Video.objects.get(video_id=video_id)
     video_path = video.video_file.path
-    stream_path = os.path.join(os.path.dirname(video_path), 'preview_images', f'preview{number}.jpg')
+    stream_path = os.path.join(os.path.dirname(
+        video_path), 'preview_images', f'preview{number}.jpg')
     file = open(stream_path, 'rb')
     response = FileResponse(file)
     return response
 
+
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
 def getWatchHistory(request, user):
     user = User.objects.get(username=user)
     history = History.objects.filter(user=user)
     serializer = HistorySerializer(history, many=True)
     return Response(serializer.data)
-    # from django.contrib.auth.models import User
-    # user = User.objects.get(username=user)
-    # history = History.objects.filter(user=user)
-    # history = history.order_by('-last_viewed')
-    # history = history.values('video__video_id', 'video__title', 'video__description', 'video__thumbnail', 'timestamp')
-    # return Response(history)
+
 
 @api_view(['POST'])
 def updateHistory(request):
+    # check if anonymous user
+    if request.user.is_anonymous:
+        return Response('User is not logged in')
+
     video_id = request.POST.get('video_id')
     video = Video.objects.get(video_id=video_id)
     t = int(eval(request.data['timestamp']))
-    # try to get user; skip if user is anonymous
-    try:
-        user = request.user
-    except:
-        return
-    # try to get history object for current video and user; create if it doesn't exist
-    try:
-        history = History.objects.get(user=user, video=video)
-        # update timestamp
-        history.timestamp = t
-        history.save()
-        return Response('History updated')
-    except:
-        history = History.objects.create(user=user, video=video, timestamp=t)
-        history.save()
-        return Response('History created')
-    
+
+    user = request.user
+    # try to update history object for current video and user; create if it doesn't exist
+    history, created = History.objects.update_or_create(
+        user=user, video=video, timestamp=t)
+    history.save()
+    return Response('History updated')

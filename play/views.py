@@ -1,19 +1,14 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.db.models import Q
-from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-from .models import Video, Channel
-from .forms import SignInForm, VideoUploadForm
+from django.contrib.auth import login, logout
+from .models import Video, Channel, History
+from .forms import VideoUploadForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .tasks import handle_video_post_upload
 import os
 
-
 # Create your views here.
-
-# movies_data = open("../../youtube-video-player-clone/movie_data.json", "r").read()
-# movies_data_object = json.loads(movies_data)
 
 
 def loginPage(request):
@@ -26,25 +21,27 @@ def loginPage(request):
         else:
             return redirect('play:login')
 
-    
     form = AuthenticationForm(request)
     context = {'form': form}
     return render(request, 'play/login_register.html', context)
 
+
 def logoutPage(request):
     logout(request)
     return redirect('play:home')
+
 
 def home(request):
     movies = Video.objects.all()
     movies = {'movies': movies}
     return render(request, 'play/landing.html', movies)
 
+
 def results(request):
     query = request.GET.get('search_query')
     if query is None:
         return redirect('play:home')
-    
+
     movies = Video.objects.filter(
         Q(title__icontains=query) |
         Q(description__icontains=query) |
@@ -62,6 +59,7 @@ def results(request):
     movies = {'movies': movies, 'search_query': query}
     return render(request, 'play/results.html', movies)
 
+
 @login_required
 def videoUpload(request):
     if request.method == 'POST':
@@ -70,10 +68,12 @@ def videoUpload(request):
             video = form.save(commit=False)
             video.channel = request.user.channel
             video.save()
-            handle_video_post_upload.delay(video.video_file.path, video.video_id, request.user.email, request.user.first_name)
+            handle_video_post_upload.delay(
+                video.video_file.path, video.video_id, request.user.email, request.user.first_name)
             return redirect('play:home')
     form = VideoUploadForm()
     return render(request, 'play/upload.html', {'form': form})
+
 
 def watch(request):
     video_id = request.GET.get('v')
@@ -86,26 +86,21 @@ def watch(request):
     try:
         video = Video.objects.get(video_id=video_id)
         channel_id = video.channel.channel_id if channel_id is None else channel_id
-        channel = Channel.objects.get(channel_id=channel_id) if channel_id is not None else None
-        
+        channel = Channel.objects.get(
+            channel_id=channel_id) if channel_id is not None else None
+
         # initialize history object
-        try:
-            user = request.user
-            from .models import History
-            # create history object if it doesn't exist
-            try:
-                history = History.objects.get(user=user, video=video)
-                t = history.timestamp if request.GET.get('t') is None else t
-            except History.DoesNotExist:
-                history = History.objects.create(user=user, video=video, timestamp=t)
-                history.save()
-        except:
-            pass
+        # check if user is logged in
+        if request.user.is_authenticated:
+            history, created = History.objects.get_or_create(
+                user=request.user, video=video)
+            # if t is None, then set t to the last viewed timestamp if user watched the video before
+            t = history.timestamp if t is 0 else t
+            history.save()
 
-        stream_path = os.path.join(os.path.dirname(video.video_file.path), 'playlist.m3u8')
+        stream_path = os.path.join(os.path.dirname(
+            video.video_file.path), 'playlist.m3u8')
         return render(request, 'play/watch.html', {'video_id': video_id, 'channel_id': channel_id, 't': t, 'movie': video, 'channel': channel, 'stream_path': stream_path})
-
-
 
     except Channel.DoesNotExist:
         info = {'info': 'This video isn\'t available anymore'}
@@ -113,7 +108,6 @@ def watch(request):
     except Video.DoesNotExist:
         info = {'info': 'This video isn\'t available anymore'}
         return render(request, 'play/404.html', info, status=404)
-    # return render(request, 'play/watch.html', {'video_id': video_id, 'channel_id': channel_id, 't': t, 'movie': video})
 
 
 def channel_via_handle(request, handle):
@@ -126,7 +120,7 @@ def channel_via_handle(request, handle):
         info = {'info': 'Channel does not exist'}
         return render(request, 'play/404.html', info, status=404)
     return HttpResponse(f"Hello, world. You're watching {user}'s channel {channel_name}")
-    
+
 
 def channel_via_id(request, channel_id):
     # search the channel id in the database, else return 404
@@ -139,17 +133,14 @@ def channel_via_id(request, channel_id):
         return render(request, 'play/404.html', info, status=404)
     return HttpResponse(f"Hello, world. You're watching {user}'s channel {channel_name}")
 
+
+@login_required(login_url='play:login')
 def history(request):
     # get user's watch history
-    try:
-        user = request.user
-        from .models import History
-        history = History.objects.filter(user=user)
-        history = history.order_by('-last_viewed')
-        # history = history.values('video__video_id', 'video__title', 'video__description', 'video__thumbnail', 'timestamp')
-        return render(request, 'play/history.html', {'history': history})
-    except:
-        return redirect('play:login')
+    user = request.user
+    history = History.objects.filter(user=user)
+    history = history.order_by('-last_viewed')
+    return render(request, 'play/history.html', {'history': history})
 
 
 # custom error pages
