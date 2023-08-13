@@ -1,16 +1,13 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.db.models import Q
-import json
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import Video, Channel
-from django.http import FileResponse, Http404
-import os
-import mimetypes
 from .forms import SignInForm, VideoUploadForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .tasks import handle_video_post_upload
+import os
 
 
 # Create your views here.
@@ -73,7 +70,7 @@ def videoUpload(request):
             video = form.save(commit=False)
             video.channel = request.user.channel
             video.save()
-            handle_video_post_upload.delay(video.video_file.path, video.video_id, request.user.email)
+            handle_video_post_upload.delay(video.video_file.path, video.video_id, request.user.email, request.user.first_name)
             return redirect('play:home')
     form = VideoUploadForm()
     return render(request, 'play/upload.html', {'form': form})
