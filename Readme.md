@@ -1,6 +1,9 @@
-# YouTube-like Video-on-Demand Platform in Django
+# Video-on-Demand Platform Service in Django
 
-This project is a Video-on-Demand (VOD) platform developed using Django, providing features similar to those found on YouTube. It allows users to upload videos, which are then transcoded and streamed using HLS (HTTP Live Streaming). The project also includes user authentication, social logins, video playback tracking, and more.
+<!-- insert product logo image -->
+![PlayTube](http://139.59.29.80/api/logo/)
+
+This project is a Video-on-Demand (VOD) platform service developed using Django, providing features similar to those found on YouTube. It allows users to upload videos, which are then transcoded and streamed using HLS (HTTP Live Streaming) with Adaptive Bitrate Streaming (ABS). The project also includes user authentication, social logins, video playback tracking, and more.
 
 ## Table of Contents
 
@@ -57,45 +60,37 @@ This project is a Video-on-Demand (VOD) platform developed using Django, providi
     pip install -r requirements.txt
 
     ```
-4. Configure your Amazon S3 credentials and other settings in `settings.py`.
+4. Install Ffmpeg, Redis, and Celery:
 
-5. Run the migrations:
+   ```bash
+    sudo apt install ffmpeg redis-server celery
+
+    ```
+5. Configure your Amazon S3 credentials and other settings in `settings.py`.
+
+6. Run the migrations:
 
    ```bash
     python manage.py migrate
 
     ```
-6. Create a superuser:
+7. Create a superuser:
 
    ```bash
     python manage.py createsuperuser
 
     ```
-7. Run the development server:
-
-   ```bash
-    python manage.py runserver
-
-    ```
-8. Run the Celery worker:
-
-   ```bash
-    celery -A YouTube worker -l info
-
-    ```
-9. Run the Celery beat scheduler:
-
-   ```bash
-    celery -A YouTube beat -l info
-
-    ```
-10. Run the Redis server:
-
-    ```bash
-    redis-server
-
-    ```
-11. Navigate to `http://localhost:8000/` in your browser.
+8. Run the below commands in seperate shell environment to start the Celery worker and the Redis server and the Django development server:
+   
+      ```bash
+      celery -A youtube worker -l info
+   
+      redis-server
+   
+      python manage.py runserver
+   
+      ```
+9. Navigate to `http://localhost:8000/` in your browser.
 
 ## Usage
 
