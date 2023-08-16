@@ -32,9 +32,13 @@ def logoutPage(request):
 
 
 def home(request):
-    movies = Video.objects.all()
-    movies = {'movies': movies}
-    return render(request, 'play/landing.html', movies)
+    # check if play_video table is empty without using count()
+    if Video.objects.exists():
+        movies = Video.objects.all()
+        movies = {'movies': movies}
+        return render(request, 'play/landing.html', movies)
+    else:
+        return render(request, 'play/404.html', {'info': 'No videos found'}, status=404)
 
 
 def results(request):
@@ -93,7 +97,8 @@ def watch(request):
         # check if user is logged in
         if request.user.is_authenticated:
             history, created = History.objects.get_or_create(
-                user=request.user, video=video)
+                user=request.user, video=video,
+                defaults={'timestamp': 0})
             # if t is None, then set t to the last viewed timestamp if user watched the video before
             t = history.timestamp if t is 0 else t
             history.save()
