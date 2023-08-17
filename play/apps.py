@@ -1,5 +1,4 @@
 from django.apps import AppConfig
-from django.db.models.signals import post_save
 
 
 class PlayConfig(AppConfig):
@@ -7,5 +6,4 @@ class PlayConfig(AppConfig):
     name = 'play'
 
     def ready(self):
-        # create channel after user created
         import play.signals
