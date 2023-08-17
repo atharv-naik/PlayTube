@@ -15,7 +15,7 @@ class Channel(models.Model):
     description = models.TextField(null=True, blank=True)
     channel_id = ShortUUIDField(
         length=22, default=shortuuid.uuid, primary_key=True, editable=False, unique=True)
-    handle = models.CharField(max_length=100, unique=True)
+    handle = models.CharField(max_length=100, unique=True, blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_picture = models.ImageField(
         upload_to='profile_pictures', blank=True, null=True)
@@ -145,7 +145,7 @@ class Video(models.Model):
 
 
 class History(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE, null=True)
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     # get the video timestamp upto which the user has watched the video from the frontend
     timestamp = models.IntegerField(default=0)
@@ -161,6 +161,8 @@ class History(models.Model):
 
     class Meta:
         ordering = ['-last_viewed']
+        # make sure that a user can only have one history object for a video
+        unique_together = ['channel', 'video']
 
     def __str__(self):
         return f'{self.user.username} watched {self.video.title}'

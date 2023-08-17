@@ -97,7 +97,8 @@ def watch(request):
         # check if user is logged in
         if request.user.is_authenticated:
             history, created = History.objects.get_or_create(
-                user=request.user, video=video,
+                channel=request.user.channel,
+                video=video,
                 defaults={'timestamp': 0})
             # if t is None, then set t to the last viewed timestamp if user watched the video before
             t = history.timestamp if t is 0 else t

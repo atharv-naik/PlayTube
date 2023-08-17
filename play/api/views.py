@@ -46,7 +46,7 @@ def getPreviewThumbnails(request, video_id, number):
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def getWatchHistory(request, user):
     user = User.objects.get(username=user)
-    history = History.objects.filter(user=user)
+    history = History.objects.filter(channel=user.channel)
     serializer = HistorySerializer(history, many=True)
     return Response(serializer.data)
 
@@ -63,8 +63,9 @@ def updateHistory(request):
 
     user = request.user
     # try to update history object for current video and user; create if it doesn't exist
-    history = History.objects.aupdate_or_create(
-        user=user, video=video,
+    history = History.objects.update_or_create(
+        channel=user.channel,
+        video=video,
         defaults={'timestamp': t})
     history.save()
     return Response('History updated')
