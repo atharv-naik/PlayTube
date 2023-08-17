@@ -7,5 +7,5 @@ class PlayConfig(AppConfig):
     name = 'play'
 
     def ready(self):
-        from . import signals
-        # post_save.connect(signals.process_video_task, sender='play.Video')
+        # create channel after user created
+        import play.signals
