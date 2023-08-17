@@ -73,8 +73,14 @@ def videoUpload(request):
             video.channel = request.user.channel
             video.save()
             handle_video_post_upload.delay(
-                video.video_file.path, video.video_id, request.user.email, request.user.first_name)
+                video.video_file.path,
+                video.video_id,
+                request.user.email,
+                request.user.first_name
+            )
             return redirect('play:home')
+        else:
+            return redirect('play:upload')
     form = VideoUploadForm()
     return render(request, 'play/upload.html', {'form': form})
 
