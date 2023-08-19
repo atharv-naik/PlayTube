@@ -1,7 +1,7 @@
 {% extends "play/base.html" %}
 {% load custom_filters %}
 {% load static %} 
-{% block title %} Player - playing {{ movie.title }} {% endblock %} 
+{% block title %} {{ movie.title }} {% endblock %} 
 {% block css %}
 <link rel="stylesheet" href="{% static 'play/styles/watch.css' %}" />
 <link rel="stylesheet" href="{% static 'play/styles/slider.css' %}" />
@@ -184,7 +184,7 @@
   function updateWatchHistory(currentTime) {
     $.ajax({
       type: "POST",
-      url: "http://0.0.0.0:8001/api/update-watch-history/",
+      url: `http://${ip}/api/update-watch-history/`,
       data: {
         video_id: video_id,
         channel_id: channel_id,
