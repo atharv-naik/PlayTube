@@ -6,6 +6,7 @@ from .forms import VideoUploadForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .tasks import handle_video_post_upload
+from django.conf import settings
 import os
 
 # Create your views here.
@@ -112,7 +113,7 @@ def watch(request):
 
         stream_path = os.path.join(os.path.dirname(
             video.video_file.path), 'playlist.m3u8')
-        return render(request, 'play/watch.html', {'video_id': video_id, 'channel_id': channel_id, 't': t, 'movie': video, 'channel': channel, 'stream_path': stream_path})
+        return render(request, 'play/watch.html', {'video_id': video_id, 'channel_id': channel_id, 't': t, 'movie': video, 'channel': channel, 'stream_path': stream_path, 'ip': settings.IP_ADDRESS})
 
     except Channel.DoesNotExist:
         info = {'info': 'This video isn\'t available anymore'}

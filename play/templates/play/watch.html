@@ -132,7 +132,7 @@
 
     <video
       id="video"
-      src="http://0.0.0.0:8001/api/get-video-stream/{{ video_id }}/playlist.m3u8"
+      src="http://{{ ip }}/api/get-video-stream/{{ video_id }}/playlist.m3u8"
       autoplay
     >
       <track
@@ -157,6 +157,7 @@
   let video_id = "{{ video_id }}";
   let channel_id = "{{ channel_id }}";
   let t = "{{ t }}";
+  const ip = "{{ ip }}";
 
   if (Hls.isSupported()) {
     const hls = new Hls();

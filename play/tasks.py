@@ -5,6 +5,7 @@ from django.conf import settings
 from django.utils.html import strip_tags
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
+from django.conf import settings
 import subprocess
 import os
 
@@ -37,8 +38,11 @@ def transcode(video_path, video_id, uploader_email, uploader_name):
     video_dir = os.path.dirname(video_path)
     video_title = os.path.basename(video_path).split(".")[0].replace('_', ' ')
 
+    # get ip address of the server
+    ip = settings.IP_ADDRESS
+
     # subprocess.run(['ffmpeg', '-i', video_path, '-c:v', 'libx264', '-crf', '23', '-c:a', 'aac', '-b:a', '128k', '-ac', '2', '-strict', '-2', '-y', 'output.mp4'])
-    api_endpoint = f'http://0.0.0.0:8001/api/get-video-stream/{video_id}'
+    api_endpoint = f'http://{ip}/api/get-video-stream/{video_id}'
     subprocess.run(['./create-hls-vod.sh', video_dir,
                    video_path, api_endpoint])
 
@@ -55,7 +59,8 @@ def transcode(video_path, video_id, uploader_email, uploader_name):
         'uploader_name': uploader_name,
         'video_title': video_title,
         'message': body,
-        'video_url': f'http://0.0.0.0:8001/watch/?v={video_id}',
+        'video_url': f'http://{ip}/watch/?v={video_id}',
+        'ip': ip,
     })
     plain_message = strip_tags(html_message)
     subject = f'Hey {uploader_name}, your video has been processed. Watch it now!'

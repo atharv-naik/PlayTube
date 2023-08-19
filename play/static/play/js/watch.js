@@ -163,7 +163,7 @@ function handleTimelineUpdate(e) {
     1,
     Math.floor((percent * video.duration) / 10)
   );
-  const previewImgSrc = `http://0.0.0.0:8001/api/get-preview-thumbnails/${video_id}/${previewImgNumber}`;
+  const previewImgSrc = `http://${ip}/api/get-preview-thumbnails/${video_id}/${previewImgNumber}`;
   previewImg.src = previewImgSrc;
   timelineContainer.style.setProperty("--preview-position", percent);
 
