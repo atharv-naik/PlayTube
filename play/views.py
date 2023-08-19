@@ -149,8 +149,8 @@ def channel_via_id(request, channel_id):
 @login_required(login_url='play:login')
 def history(request):
     # get user's watch history
-    user = request.user
-    history = History.objects.filter(user=user)
+    channel = request.user.channel
+    history = History.objects.filter(channel=channel)
     history = history.order_by('-last_viewed')
     return render(request, 'play/history.html', {'history': history})
 

@@ -63,7 +63,7 @@ def updateHistory(request):
 
     user = request.user
     # try to update history object for current video and user; create if it doesn't exist
-    history = History.objects.update_or_create(
+    history, created = History.objects.update_or_create(
         channel=user.channel,
         video=video,
         defaults={'timestamp': t})
