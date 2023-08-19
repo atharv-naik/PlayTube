@@ -68,7 +68,7 @@ def transcode(video_path, video_id, uploader_email, uploader_name):
     send_mail(
         subject=subject,
         message=plain_message,
-        from_email=settings.EMAIL_HOST_USER,
+        from_email=settings.DEFAULT_FROM_EMAIL,
         recipient_list=[uploader_email],
         fail_silently=False,
         html_message=html_message
