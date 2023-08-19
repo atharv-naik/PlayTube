@@ -76,7 +76,7 @@ def videoUpload(request):
                 video.video_file.path,
                 video.video_id,
                 request.user.email,
-                request.user.first_name
+                request.user.username
             )
             return redirect('play:home')
         else:
