@@ -1,7 +1,7 @@
-# Video-on-Demand Platform Service in Django
 
 <!-- insert product logo image -->
 ![PlayTube](http://139.59.29.80/api/logo/)
+# PlayTube: A Video-on-Demand Platform built in Django
 
 This project is a Video-on-Demand (VOD) platform service developed using Django, providing features similar to those found on YouTube. It allows users to upload videos, which are then transcoded and streamed using HLS (HTTP Live Streaming) with Adaptive Bitrate Streaming (ABS). The project also includes user authentication, social logins, video playback tracking, and more.
 
@@ -52,34 +52,40 @@ This project is a Video-on-Demand (VOD) platform service developed using Django,
     python3 -m venv venv
 
     source venv/bin/activate
-
     ```
+
 3. Install the dependencies:
 
    ```bash
     pip install -r requirements.txt
-
     ```
+
 4. Install Ffmpeg, Redis, and Celery:
 
    ```bash
     sudo apt install ffmpeg redis-server celery
-
     ```
-5. Configure your Amazon S3 credentials and other settings in `settings.py`.
 
-6. Run the migrations:
+5. Create a .env file and add your AWS credentials and other environment variables required in the `settings.py` file:
 
    ```bash
-    python manage.py migrate
-
+    touch .env
     ```
+
+6. Make migrations and migrate:
+
+   ```bash
+    python manage.py makemigrations
+
+    python manage.py migrate
+    ```
+
 7. Create a superuser:
 
    ```bash
     python manage.py createsuperuser
-
     ```
+
 8. Run the below commands in seperate shell environment to start the Celery worker and the Redis server and the Django development server:
    
       ```bash
@@ -88,9 +94,9 @@ This project is a Video-on-Demand (VOD) platform service developed using Django,
       redis-server
    
       python manage.py runserver
-   
       ```
-9. Navigate to `http://localhost:8000/` in your browser.
+
+9. Navigate to `http://localhost:8000/` in your browser or to the IP:PORT you specified in the .env file (step 5)
 
 ## Usage
 
