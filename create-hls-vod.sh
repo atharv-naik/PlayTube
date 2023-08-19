@@ -23,9 +23,10 @@ rate_monitor_buffer_ratio=1.5   # maximum buffer size between bitrate conformanc
 #########################################################################
 
 # first argument is the base path to the video file
-# second argument is the file name
-# example: create-hls-vod.sh /path/to/video.mp4 my-video
-source="${1}/${2}" # absolute path to the source video file
+# second argument is the path to the source video file
+# third argument is the endpoint for the master playlist
+# example: create-hls-vod.sh /path/to/video/dir path/to/video/file.mp4 endpoint
+source="${2}" # absolute path to the source video file
 
 target="${1}" # absolute path to the target directory
 if [[ ! "${target}" ]]; then

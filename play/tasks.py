@@ -40,7 +40,7 @@ def transcode(video_path, video_id, uploader_email, uploader_name):
     # subprocess.run(['ffmpeg', '-i', video_path, '-c:v', 'libx264', '-crf', '23', '-c:a', 'aac', '-b:a', '128k', '-ac', '2', '-strict', '-2', '-y', 'output.mp4'])
     api_endpoint = f'http://0.0.0.0:8001/api/get-video-stream/{video_id}'
     subprocess.run(['./create-hls-vod.sh', video_dir,
-                   video_title, api_endpoint])
+                   video_path, api_endpoint])
 
     os.makedirs(f'{video_dir}/preview_images', exist_ok=True)
 
