@@ -2,9 +2,9 @@ import os
 from celery import Celery
 from django.conf import settings
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'youtube.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'playtube.settings')
 
-app = Celery('youtube')
+app = Celery('playtube')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.Task.track_started = True
 
