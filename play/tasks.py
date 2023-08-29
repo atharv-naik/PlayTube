@@ -49,7 +49,7 @@ def transcode(video_path, video_id, uploader_email, uploader_name):
     os.makedirs(f'{video_dir}/preview_images', exist_ok=True)
 
     subprocess.run([
-        'ffmpeg', '-i', video_path, '-vf', 'fps=1/10,scale=120:-1', f'{video_dir}/preview_images/preview%d.jpg', '-hide_banner', '-y'
+        'ffmpeg', '-i', video_path, '-vf', 'fps=1/10,scale=120:-1', f'{video_dir}/preview_images/preview%d.jpg', '-hide_banner', '-loglevel', 'warning', '-y'
     ])
 
     # notify user

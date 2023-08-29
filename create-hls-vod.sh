@@ -47,7 +47,7 @@ static_params+=" -g ${key_frames_interval} -keyint_min ${key_frames_interval} -h
 static_params+=" -hls_playlist_type vod"
 
 # misc params
-misc_params="-hide_banner -y"
+misc_params="-hide_banner -loglevel warning -y"
 
 master_playlist="#EXTM3U
 #EXT-X-VERSION:3
