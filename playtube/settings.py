@@ -28,10 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.getenv('DEBUG')))
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = str(os.getenv('ALLOWED_HOSTS')).split(',') if not DEBUG else ['*']
 
 # Application definition
 
@@ -139,6 +138,89 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = f'PlayTube <{EMAIL_HOST_USER}>'
 
+# Server email
+SERVER_EMAIL = f'PlayTube <{EMAIL_HOST_USER}>'
+ADMINS = [('Admin', os.getenv('ADMIN_EMAIL'))]
+MANAGERS = ADMINS
+
+# Broken link email ignore list
+IGNORABLE_404_URLS = [
+    r'^/apple-touch-icon.*\.png$',
+    r'^/favicon\.ico$',
+    r'^/robots\.txt$',
+    r'^/sitemap\.xml$',
+    r'^/ads\.txt$',
+    r'^/google.*\.html$',
+    r'^/BingSiteAuth\.xml$',
+    r'^/yandex_.*\.html$',
+    r'^/.*\.txt$',
+    r'^/.*\.xml$',
+    r'^/.*\.json$',
+    r'^/.*\.css$',
+    r'^/.*\.js$',
+    r'^/.*\.jpg$',
+    r'^/.*\.jpeg$',
+    r'^/.*\.png$',
+    r'^/.*\.gif$',
+    # in one line
+    # r'^/(apple-touch-icon.*\.png|favicon\.ico|robots\.txt|sitemap\.xml|ads\.txt|google.*\.html|BingSiteAuth\.xml|yandex_.*\.html|.*\.txt|.*\.xml|.*\.json|.*\.css|.*\.js|.*\.jpg|.*\.jpeg|.*\.png|.*\.gif)$',
+    '/HNAP1/',
+    '/onvif/device_service',
+    'PSIA/index',
+] if DEBUG else []
+
+# Logging settings
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "filters": {
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
+        },
+    },
+    "handlers": {
+        "file": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": "logs/error.log",
+            "formatter": "verbose",
+        },
+        "console": {
+            "level": "INFO",
+            "filters": ["require_debug_true"],
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
+            "include_html": True,
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file"],
+            "propagate": True,
+        },
+        "django.request": {
+            "handlers": ["mail_admins", "file"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+    },
+}
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -150,7 +232,7 @@ STATICFILES_DIR = [
 ]
 
 MEDIA_ROOT = BASE_DIR / 'static/uploads'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
