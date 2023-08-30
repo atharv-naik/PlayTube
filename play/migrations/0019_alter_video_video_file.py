@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='video',
             name='video_file',
-            field=models.FileField(blank=True, null=True, upload_to=play.models.getFileUploadPath, validators=[play.validators.validate_video_file]),
+            field=models.FileField(blank=True, null=True, upload_to=play.models.getVideoUploadPath, validators=[play.validators.validate_video_file]),
         ),
     ]
