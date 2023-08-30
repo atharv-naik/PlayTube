@@ -1,10 +1,9 @@
 from django.core.exceptions import ValidationError
 
 def validate_video_file(value):
-    print('validate_video_file called')
     allowed_formats = ['mp4', 'avi', 'mkv']  # List of allowed video formats
-    # set max file size to 2GB
-    max_size = 1024 * 1024 * 1024 * 2 # 2GB
+    # set max file size to 30MB
+    max_size = 1024 * 1024 * 30 # 30MB
 
     if value:
         file_extension = value.name.split('.')[-1].lower()
@@ -12,4 +11,28 @@ def validate_video_file(value):
             raise ValidationError("Invalid file format. Only {} formats are allowed.".format(', '.join(allowed_formats)))
 
         if value.size > max_size:
-            raise ValidationError("File size exceeds the maximum limit of 2GB.")
+            raise ValidationError("File size exceeds the maximum limit of 30MB.")
+
+def validate_subtitle_file(value):
+    allowed_formats = ['srt', 'vtt']
+    max_size = 1024 * 1024 * 1 # 1MB
+
+    if value:
+        file_extension = value.name.split('.')[-1].lower()
+        if file_extension not in allowed_formats:
+            raise ValidationError("Invalid file format. Only {} formats are allowed.".format(', '.join(allowed_formats)))
+        
+        if value.size > max_size:
+            raise ValidationError("File size exceeds the maximum limit of 1MB.")
+
+def validate_upload_image_file(value):
+    allowed_formats = ['jpg', 'jpeg', 'png']
+    max_size = 1024 * 1024 * 2 # 2MB
+
+    if value:
+        file_extension = value.name.split('.')[-1].lower()
+        if file_extension not in allowed_formats:
+            raise ValidationError("Invalid file format. Only {} formats are allowed.".format(', '.join(allowed_formats)))
+        
+        if value.size > max_size:
+            raise ValidationError("File size exceeds the maximum limit of 2MB.")
