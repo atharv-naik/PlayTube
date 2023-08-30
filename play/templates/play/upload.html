@@ -1,6 +1,12 @@
 {% extends 'play/base.html' %}
 {% load static %}
 
+{% block html_head %}
+    <link rel="stylesheet" href="{% static 'play/styles/upload.css' %}">
+{% endblock %}
+
+{% block title %}Upload Video{% endblock %}
+
 {% block content %}
 
 <div class="video-upload-form">
