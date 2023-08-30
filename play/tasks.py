@@ -10,11 +10,6 @@ import subprocess
 import os
 
 
-# run below command in terminal to start celery worker
-# celery -A youtube worker -l info
-
-# ffmpeg -i video.mp4 -vf fps=1/10,scale=120:-1 thumb%d.jpg -hide_banner
-
 @shared_task
 def handle_video_post_upload(video_path, video_id, uploader_email, uploader_name):
     '''
@@ -41,7 +36,6 @@ def transcode(video_path, video_id, uploader_email, uploader_name):
     # get ip address of the server
     ip = settings.IP_ADDRESS
 
-    # subprocess.run(['ffmpeg', '-i', video_path, '-c:v', 'libx264', '-crf', '23', '-c:a', 'aac', '-b:a', '128k', '-ac', '2', '-strict', '-2', '-y', 'output.mp4'])
     api_endpoint = f'http://{ip}/api/get-video-stream/{video_id}'
     subprocess.run(['./create-hls-vod.sh', video_dir,
                    video_path, api_endpoint])
