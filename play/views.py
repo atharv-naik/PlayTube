@@ -5,7 +5,6 @@ from .models import Video, Channel, History
 from .forms import VideoUploadForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from .tasks import handle_video_post_upload
 from django.conf import settings
 import os
 
