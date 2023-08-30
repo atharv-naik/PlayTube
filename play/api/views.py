@@ -20,6 +20,11 @@ def apiOverview(request):
     }
     return Response(api_urls)
 
+@api_view(['GET'])
+def logo(request):
+    file = open('play/static/play/images/PlayTube.png', 'rb')
+    response = FileResponse(file)
+    return response
 
 @api_view(['GET'])
 def getVideoStream(request, video_id, file):
