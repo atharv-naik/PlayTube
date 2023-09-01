@@ -11,7 +11,7 @@ import os
 @receiver(post_save, sender=User)
 def create_channel(sender, instance, created, **kwargs):
     if created:
-        Channel.objects.create(user=instance, name=instance.username)
+        Channel.objects.create(user=instance, name=instance.username, handle=instance.username)
 
 # Delete original video file as well as all media files associated with it when a video is deleted
 @receiver(post_delete, sender=Video)
