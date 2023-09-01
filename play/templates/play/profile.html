@@ -1,0 +1,90 @@
+{% extends "play/base.html" %}
+{% load static %}
+
+{% block title %}{{ channel.user.first_name }} {{ channel.user.last_name }} - PlayTube{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'play/styles/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="wrapper">
+        <div class="channel-info">
+          <img class="channel-info__img" src="{{ channel.avatar.url }}" alt="" />
+          <div class="channel-info__details">
+            <h2 id="channel-name">{{ channel.user.first_name }} {{ channel.user.last_name }}</h2>
+            <div class=channel-info__meta>
+              <span>@{{ channel.user.username }}</span>
+              <span>740K subscribers</span>
+              <span>
+                {% if videos.count == 0 %}
+                    No videos
+                {% elif videos.count == 1 %}
+                    1 video
+                {% else %}
+                    {{ videos.count }} videos
+                {% endif %}
+              </span>
+            </div>
+            <p id="more-about-channel">More about this channel ></p>
+          </div>
+        </div>
+      
+        <div role="tablist" aria-labelledby="channel-name">
+          <button id="tab-1" role="tab" aria-controls="tabPanel-1" aria-selected="true" tabindex="0">Home
+          </button>
+          <button id="tab-2" role="tab" aria-controls="tabPanel-2" aria-selected="false" tabindex="-1">Videos
+          </button>
+          <button id="tab-3" role="tab" aria-controls="tabPanel-3" aria-selected="false" tabindex="-1">Shorts
+          </button>
+          <button id="tab-4" role="tab" aria-controls="tabPanel-4" aria-selected="false" tabindex="-1">Playlists
+          </button>
+          <button id="tab-5" role="tab" aria-controls="tabPanel-5" aria-selected="false" tabindex="-1">Community
+          </button>
+          <button id="tab-6" role="tab" aria-controls="tabPanel-6" aria-selected="false" tabindex="-1">Channels
+          </button>
+          <button id="tab-7" role="tab" aria-controls="tabPanel-7" aria-selected="false" tabindex="-1">About
+          </button>
+        </div>
+        <div class="tab-panels">
+          <div id="tabPanel-1" role="tabpanel" tabindex="0" aria-labelledby="tab-1">
+            <p>This channel doesn't have any content</p>
+          </div>
+      
+          <div id="tabPanel-2" hidden role="tabpanel" tabindex="0" aria-labelledby="tab-2">
+            <p>This channel has no videos.</p>
+          </div>
+      
+          <div id="tabPanel-3" hidden role="tabpanel" tabindex="0" aria-labelledby="tab-3">
+            <p>A lot of content, all under 60 seconds</p>
+          </div>
+      
+          <div id="tabPanel-4" hidden role="tabpanel" tabindex="0" aria-labelledby="tab-4">
+            <p>This channel has no playlists.</p>
+          </div>
+      
+          <div id="tabPanel-5" hidden role="tabpanel" tabindex="0" aria-labelledby="tab-5">
+            <p>This channel hasn't posted yet</p>
+          </div>
+      
+          <div id="tabPanel-6" hidden role="tabpanel" tabindex="0" aria-labelledby="tab-6">
+            <p>This channel doesn't feature any other channels.</p>
+          </div>
+      
+          <div id="tabPanel-7" hidden role="tabpanel" tabindex="0" aria-labelledby="tab-7">
+            <p>About me</p>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        const homeURL = "{% url 'play:home' %}";
+    </script>
+    <script src="{% static 'play/js/profile.js' %}"></script>
+{% endblock %}
+```

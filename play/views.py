@@ -40,6 +40,11 @@ def home(request):
     else:
         return render(request, 'play/404.html', {'info': 'No videos found'}, status=404)
 
+@login_required
+def profile(request):
+    channel = request.user.channel
+    videos = Video.objects.filter(channel=channel)
+    return render(request, 'play/profile.html', {'channel': channel, 'videos': videos})
 
 def results(request):
     query = request.GET.get('search_query')
@@ -120,24 +125,22 @@ def channel_via_handle(request, handle):
     # search the channel handle in the database, else return 404
     try:
         channel = Channel.objects.get(handle=handle)
-        channel_name = channel.name
-        user = channel.user.username
     except Channel.DoesNotExist:
         info = {'info': 'Channel does not exist'}
         return render(request, 'play/404.html', info, status=404)
-    return HttpResponse(f"Hello, world. You're watching {user}'s channel {channel_name}")
+    videos = Video.objects.filter(channel=channel)
+    return render(request, 'play/profile.html', {'channel': channel, 'videos': videos})
 
 
 def channel_via_id(request, channel_id):
     # search the channel id in the database, else return 404
     try:
         channel = Channel.objects.get(channel_id=channel_id)
-        channel_name = channel.name
-        user = channel.user.username
     except Channel.DoesNotExist:
         info = {'info': 'Channel does not exist'}
         return render(request, 'play/404.html', info, status=404)
-    return HttpResponse(f"Hello, world. You're watching {user}'s channel {channel_name}")
+    videos = Video.objects.filter(channel=channel)
+    return render(request, 'play/profile.html', {'channel': channel, 'videos': videos})
 
 
 @login_required(login_url='play:login')
