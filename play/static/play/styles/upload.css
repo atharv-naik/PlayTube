@@ -4,7 +4,7 @@
     border: 1px solid #6a6969;
     border-radius: 5px;
 }
-.video-upload-form input[type="submit"] {
+.upload-btn {
     border: none;
     outline: none;
     background: none;
@@ -23,13 +23,13 @@ label.required::before {
     content: " * ";
     color: red;
 }
-.video-upload-form input[type="submit"]:hover {
+.upload-btn:hover {
     background-color: rgb(66, 162, 282, 0.8);
 }
-.video-upload-form input[type="submit"]:active {
+.upload-btn:active {
     background-color: rgb(66, 162, 282, 0.6);
 }
-.video-upload-form input[type="submit"]:focus {
+.upload-btn:focus {
     background-color: rgb(66, 162, 282, 0.6);
 }
 label {

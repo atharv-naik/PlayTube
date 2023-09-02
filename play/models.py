@@ -5,6 +5,7 @@ from django.utils import timezone
 from .validators import validate_video_file, validate_subtitle_file, validate_upload_image_file
 from .uploadpathsetters import getVideoUploadPath, getSubtitleUploadPath, getThumbnailUploadPath, getChannelAvatarUploadPath, getChannelBannerUploadPath
 import moviepy.editor as mp
+from .randomdefaultpic import getRandomDefaultPic
 import shortuuid
 
 # Create your models here.
@@ -27,6 +28,13 @@ class Channel(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.avatar:
+            self.avatar = getRandomDefaultPic(self.user.first_name, self.user.last_name)
+        super().save(*args, **kwargs)
+
+
 
 
 class Subscription(models.Model):

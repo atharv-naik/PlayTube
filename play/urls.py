@@ -8,6 +8,7 @@ from django.conf.urls.static import static
 app_name = 'play'
 urlpatterns = [
     path('', views.home, name='home'),
+    path('profile/', views.profile, name='profile'),
     path('login/', views.loginPage, name='login'),
     path('logout/', views.logoutPage, name='logout'),
     path('results/', views.results, name='results'),

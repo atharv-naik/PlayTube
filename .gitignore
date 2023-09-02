@@ -1,4 +1,5 @@
 static/uploads/*
+!static/uploads/defaults
 streams*
 env
 video
@@ -12,13 +13,7 @@ __pycache__
 *2.html
 *2.css
 *2.js
-static
-*.swp
-*.swo
-*.out
-*.log
-*.pid
-commands.txt
+staticfiles
 
 # Django #
 *.log

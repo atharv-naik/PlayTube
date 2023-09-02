@@ -104,9 +104,9 @@
           {% endif %} 
           {% if user.is_authenticated %}
           <div class="user-profile" title="Profile">
-            <a href="#">
+            <a href="{% url 'play:channel-via-handle' handle=user.channel.handle %}">
               <img
-                src="https://source.unsplash.com/featured/1"
+                src="{{ user.channel.avatar.url }}"
                 alt="profile pic"
                 class="profile-pic"
               />
