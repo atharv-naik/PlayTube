@@ -29,7 +29,7 @@ def set_video_duration(sender, instance, created, **kwargs):
 # Trigger celery process to generate thumbnails and HLS playlist for a video
 @receiver(post_save, sender=Video)
 def start_celery_preprocess_task(sender, instance, created, **kwargs):
-    if instance.video_file:
+    if instance.video_file and created:
 
         handle_video_post_upload.delay(
             instance.video_file.path,
