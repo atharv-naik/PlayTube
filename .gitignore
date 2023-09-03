@@ -1,5 +1,9 @@
-static/uploads/*
+# Project specific files #
+static/admin
+static/play
+static/rest_framework
 !static/uploads/defaults
+static/uploads
 streams*
 env
 video
@@ -14,9 +18,12 @@ __pycache__
 *2.css
 *2.js
 staticfiles
+COMMANDS.txt
 
 # Django #
 *.log
+*.out
+*.pid
 *.pot
 *.pyc
 __pycache__
