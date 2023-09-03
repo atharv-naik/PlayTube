@@ -5,7 +5,7 @@ from django.utils import timezone
 from .validators import validate_video_file, validate_subtitle_file, validate_upload_image_file
 from .uploadpathsetters import getVideoUploadPath, getSubtitleUploadPath, getThumbnailUploadPath, getChannelAvatarUploadPath, getChannelBannerUploadPath
 import moviepy.editor as mp
-from .randomdefaultpic import getRandomDefaultPic
+from .defaultpicsetters import getRandomDefaultPic
 import shortuuid
 
 # Create your models here.
@@ -23,6 +23,9 @@ class Channel(models.Model):
         upload_to=getChannelAvatarUploadPath, validators=[validate_upload_image_file], null=True, blank=True)
     banner = models.ImageField(
         upload_to=getChannelBannerUploadPath, validators=[validate_upload_image_file], null=True, blank=True)
+    
+    
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
