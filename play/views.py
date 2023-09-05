@@ -6,6 +6,8 @@ from .forms import VideoUploadForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.http import JsonResponse
+from django.urls import reverse
 import os
 
 # Create your views here.
@@ -82,9 +84,9 @@ def videoUpload(request):
             video = form.save(commit=False)
             video.channel = request.user.channel
             video.save()
-            return redirect('play:home')
+            return JsonResponse({'success': True, 'redirect_url': reverse('play:home')})
         else:
-            return redirect('play:upload-video')
+            return JsonResponse({'success': False})
     form = VideoUploadForm()
     return render(request, 'play/upload.html', {'form': form})
 
