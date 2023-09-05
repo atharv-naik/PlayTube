@@ -17,7 +17,9 @@ def loginPage(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('play:home')
+            # redirect to the page user was trying to access before logging in
+            next = request.POST.get('next')
+            return redirect(next or 'play:home')
         else:
             return redirect('play:login')
 
