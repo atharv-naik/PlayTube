@@ -1,0 +1,118 @@
+.container {
+    --video-card-width: 360px;
+    --video-card-height: calc(340/360 * var(--video-card-width));
+}
+
+.videos {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, var(--video-card-width));
+    grid-auto-rows: var(--video-card-height);
+    gap: 0.5vw;
+    row-gap: 1vw;
+    justify-content: center;
+    --on-click-color: rgba(118, 117, 117, 0.318);
+}
+
+.thumbnail {
+    position: relative;
+}
+
+.thumbnail::before {
+    content: attr(data-duration);
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    width: fit-content;
+    padding: 0.2em 0.35em;
+    border-radius: 10%;
+    font-size: 0.7em;
+}
+
+.thumbnail-img-wrapper {
+    width: 100%;
+    height: 65%;
+    background-color: #aaa;
+    border-radius: 3%;
+}
+
+.thumbnail-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    border-radius: 3%;
+}
+
+.video-card-bottom-section {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 1rem;
+    gap: .75rem;
+}
+
+.video-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.video-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: .5rem;
+    text-decoration: none;
+    color: white;
+}
+
+.channel-name {
+    color: #aaa;
+    margin-bottom: .2rem;
+    font-size: 0.9rem;
+}
+
+.channel-name:hover {
+    color: white;
+}
+
+.video-metadata {
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+.channel-icon-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #aaa;
+}
+
+/* Media Querries */
+/* three columns on small enough display */
+@media screen and (max-width: 1600px) {
+    .videos {
+        grid-template-columns: repeat(3, var(--video-card-width));
+        grid-auto-rows: var(--video-card-height);
+    }
+}
+
+/* two columns on small enough display */
+@media screen and (max-width: 1160px) {
+    .videos {
+        grid-template-columns: repeat(2, var(--video-card-width));
+        grid-auto-rows: var(--video-card-height);
+        gap: 1vw;
+    }
+}
+
+/* one column on small enough display */
+@media screen and (max-width: 790px) {
+    .videos {
+        grid-template-columns: repeat(1, var(--video-card-width));
+        grid-auto-rows: var(--video-card-height);
+    }
+}

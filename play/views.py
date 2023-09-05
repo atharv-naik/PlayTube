@@ -34,9 +34,12 @@ def logoutPage(request):
 def home(request):
     # check if play_video table is empty without using count()
     if Video.objects.exists():
-        movies = Video.objects.all()
-        movies = {'movies': movies}
-        return render(request, 'play/landing.html', movies)
+        videos = Video.objects.all()
+        # shuffle the videos and display upto 100
+        videos = videos.order_by('?')[:100]
+
+        videos = {'videos': videos}
+        return render(request, 'play/home.html', videos)
     else:
         return render(request, 'play/404.html', {'info': 'No videos found'}, status=404)
 
