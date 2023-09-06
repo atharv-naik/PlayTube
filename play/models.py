@@ -87,7 +87,7 @@ class View(models.Model):
 
 class Video(models.Model):
     title = models.CharField(max_length=100)
-    description = models.TextField(null=True, blank=True)
+    description = models.TextField(max_length=5000, null=True, blank=True)
     video_id = ShortUUIDField(
         length=11, default=shortuuid.uuid, primary_key=True, editable=False, unique=True)
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)

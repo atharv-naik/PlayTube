@@ -1,0 +1,63 @@
+{% extends 'play/base.html' %}
+{% load custom_filters %}
+{% load static %} 
+
+{% block title %}
+    PlayTube - Home
+{% endblock %}
+
+{% block html_head %}
+    <link rel="stylesheet" href="{% static 'play/styles/home.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="videos">
+            {% for video in videos %}
+            <!-- video card -->
+            <div class="video-card">
+                <a class="thumbnail" target="_blank" href="{% url 'play:watch' %}?v={{ video.video_id }}&ab_channel={{ video.channel.channel_id }}" title="{{ video.title }}" data-duration="{{ video|calculate_duration|get_duration_stamp }}">
+                    <div class="thumbnail-img-wrapper">
+                        <img src="https://source.unsplash.com/featured/{{ forloop.counter }}" alt="" class="thumbnail-img">
+                    </div>
+                </a>
+                <div class="video-card-bottom-section">
+                    <a href="{% url 'play:channel-via-handle' handle=video.channel.handle %}" class="channel-icon" title="{{ video.channel.name }}">
+                        <img src="{{ video.channel.avatar.url }}" alt="" class="channel-icon-img">
+                    </a>
+                    <div class="video-details">
+                        <a href="{% url 'play:watch' %}?v={{ video.video_id }}&ab_channel={{ video.channel.channel_id }}" class="video-title" title="{{ video.title }}">
+                            {{ video.title }}
+                        </a>
+                        <a href="{% url 'play:channel-via-handle' handle=video.channel.handle %}" class="channel-name" title="{{ video.channel.name }}">
+                            {{ video.channel.name }}
+                            {% if video.channel.user.is_staff %}
+                                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="15px" viewBox="0 0 24 24" width="15px" fill="#ccc"><g><rect fill="none" height="24" width="24"/></g><g><path d="M23,12l-2.44-2.79l0.34-3.69l-3.61-0.82L15.4,1.5L12,2.96L8.6,1.5L6.71,4.69L3.1,5.5L3.44,9.2L1,12l2.44,2.79l-0.34,3.7 l3.61,0.82L8.6,22.5l3.4-1.47l3.4,1.46l1.89-3.19l3.61-0.82l-0.34-3.69L23,12z M10.09,16.72l-3.8-3.81l1.48-1.48l2.32,2.33 l5.85-5.87l1.48,1.48L10.09,16.72z"/></g></svg>
+                            {% endif %}
+                        </a>
+                        <div class="video-metadata">
+                            <span>12K views</span>
+                            <span>•</span>
+                            <span>{{ video.created_at|timesince|truncatetimesince }} ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        // show thumbnail only after image is loaded
+        const thumbnails = document.querySelectorAll(".thumbnail-img");
+            thumbnails.forEach((thumbnail) => {
+            thumbnail.addEventListener("load", () => {
+                thumbnail.style.opacity = 1;
+            });
+        });
+    </script>
+{% endblock %}

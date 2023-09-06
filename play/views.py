@@ -6,6 +6,8 @@ from .forms import VideoUploadForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.http import JsonResponse
+from django.urls import reverse
 import os
 
 # Create your views here.
@@ -17,7 +19,9 @@ def loginPage(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('play:home')
+            # redirect to the page user was trying to access before logging in
+            next = request.POST.get('next')
+            return redirect(next or 'play:home')
         else:
             return redirect('play:login')
 
@@ -34,9 +38,12 @@ def logoutPage(request):
 def home(request):
     # check if play_video table is empty without using count()
     if Video.objects.exists():
-        movies = Video.objects.all()
-        movies = {'movies': movies}
-        return render(request, 'play/landing.html', movies)
+        videos = Video.objects.all()
+        # shuffle the videos and display upto 100
+        videos = videos.order_by('?')[:100]
+
+        videos = {'videos': videos}
+        return render(request, 'play/home.html', videos)
     else:
         return render(request, 'play/404.html', {'info': 'No videos found'}, status=404)
 
@@ -77,9 +84,9 @@ def videoUpload(request):
             video = form.save(commit=False)
             video.channel = request.user.channel
             video.save()
-            return redirect('play:home')
+            return JsonResponse({'success': True, 'redirect_url': reverse('play:home')})
         else:
-            return redirect('play:upload-video')
+            return JsonResponse({'success': False})
     form = VideoUploadForm()
     return render(request, 'play/upload.html', {'form': form})
 
