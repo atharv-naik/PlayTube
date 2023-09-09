@@ -30,6 +30,7 @@ document.addEventListener("keydown", (e) => {
 
   switch (e.key.toLowerCase()) {
     case " ":
+      e.preventDefault();
       if (tagName === "button") return;
     case "k":
       togglePlay();
@@ -158,7 +159,7 @@ function toggleScrubbing(e) {
 
 function handleTimelineUpdate(e) {
   const rect = timelineContainer.getBoundingClientRect();
-  const percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width;
+  var percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width;
   previewTimeStamp.textContent = formatDuration(percent * video.duration);
   const previewImgNumber = Math.max(
     1,
@@ -166,13 +167,14 @@ function handleTimelineUpdate(e) {
   );
   const previewImgSrc = `http://${ip}/api/get-preview-thumbnails/${video_id}/${previewImgNumber}`;
   previewImg.src = previewImgSrc;
-  timelineContainer.style.setProperty("--preview-position", percent);
-
   if (isScrubbing) {
     e.preventDefault();
     thumbnailImg.src = previewImgSrc;
     timelineContainer.style.setProperty("--progress-position", percent);
   }
+  percent = Math.max(0.06, Math.min(0.94, percent));
+  timelineContainer.style.setProperty("--preview-position", percent);
+
 }
 
 // Show Loading Spinner while video is buffering

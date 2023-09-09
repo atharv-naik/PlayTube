@@ -23,6 +23,7 @@ body {
   --box-shadow: 0 0 2px 0px rgba(255, 255, 255, 0.5);
   --box-shadow-hover: 0 0 4px 0px rgba(255, 255, 255, 0.5);
   transition: all 0.5s ease-in-out;
+  overflow-x: hidden;
 }
 
 a {
@@ -42,7 +43,7 @@ a {
 }
 
 .website-header {
-  z-index: 1;
+  z-index: 100;
   position: fixed;
   background-color: var(--theme-bc);
   color: var(--theme-color);
@@ -146,7 +147,7 @@ a {
 
 .content {
   margin: 0 auto;
-  margin-top: 8vh;
+  margin-top: 3rem;
 }
 
 .upload-video {
@@ -185,4 +186,23 @@ a {
   margin: 0 0.5rem;
   cursor: pointer;
   margin-top: 5px;
+}
+
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #6d6d6d;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5d5d5d; 
 }

@@ -88,7 +88,7 @@
   right: 0;
   left: 0;
   color: white;
-  z-index: 100;
+  z-index: 1;
   opacity: 1;
   transition: opacity 150ms ease-in-out;
   display: flex;
@@ -99,10 +99,16 @@
 .video-title {
   position: absolute;
   display: flex;
+  align-items: center;
   gap: .5rem;
   top: 1rem;
   left: 1rem;
   text-shadow: 1px 1px 8px black;
+
+  color: #ccc;
+  font-size: 1.4rem;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
 }
 
 .center-animations-circle {
@@ -176,8 +182,8 @@ video {
   bottom: 0;
   left: 0;
   right: 0;
-  color: white;
-  z-index: 100;
+  color: #ccc;
+  z-index: 1;
   opacity: 0;
   transition: opacity 150ms ease-in-out;
 }
@@ -410,7 +416,7 @@ video {
   aspect-ratio: 16 / 9;
   top: -2rem;
   transform: translate(-50%, -100%);
-  left: calc(var(--preview-position) * 100%);
+  left: calc((var(--preview-position) * 100%));
   border-radius: .25rem;
   border: 2px solid white;
   display: none;
@@ -490,6 +496,77 @@ video {
   font-weight: 600; */
   text-align: center;
 }
+
+
+.video-title-main {
+  color: #ccc;
+  font-size: 2.5rem;
+  font-weight: 700;
+  padding: 2rem 2rem 1rem 2rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+.channel-meta-data-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  color: #ccc;
+  font-family: 'Roboto', sans-serif;
+  padding: 0 2rem;
+}
+
+.channel-pic-container {
+  /* background-color: #343434; */
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+}
+
+.channel-pic-container img {
+  /* width: 100%;
+  height: 100%; */
+  margin: auto;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+}
+
+.channel-name {
+  font-size: 1.4rem;
+  flex-grow: 1;
+}
+
+.subscribe {
+  color: #000;
+  background-color: #fff;
+  font-size: 0.9rem;
+  padding: 0.8rem 1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.subscribe:hover, .subscribe:focus, .subscribe:active {
+  background-color: #ffffffe3;
+}
+
+.video-desc {
+  color: #ccc;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 1rem;
+  margin: 1rem 2rem;
+  padding: 2rem;
+  border-radius: 20px;
+  background-color: #343434;
+  line-height: 1.4rem;
+}
+
 
 /* video takes full width on smaller screens */
 @media screen and (max-width: 900px) {

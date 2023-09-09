@@ -15,7 +15,10 @@
     </div>
     <div class="video-title-container">
       <div class="video-title">
-        <div class="material-icons">movie</div>
+        <!-- <div class="material-icons">movie</div> -->
+        <div class="channel-pic-container">
+          <img src="{{ movie.channel.avatar.url }}" alt="Channel Pic" class="channel-img" width="35px" height="35px">
+        </div>
         <div class="video-name">{{ movie.title }} ></div>
       </div>
     </div>
@@ -147,6 +150,20 @@
         default
       />
     </video>
+  </div>
+
+  <div class="video-meta-data-container">
+    <div class="video-title-main"> {{ movie.title }}</div>
+    <div class="channel-meta-data-container">
+      <div class="channel-pic-container">
+        <img src="{{ movie.channel.avatar.url }}" alt="Channel Pic" class="channel-img" width="50px" height="50px">
+      </div>
+      <div class="channel-name">{{ movie.channel.name }}</div>
+      <div class="subscribe">Subscribe</div>
+    </div>
+    <div class="video-desc">
+      {{ movie.description }}
+    </div>
   </div>
 </div>
 
