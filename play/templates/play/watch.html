@@ -129,7 +129,11 @@
         </button>
       </div>
     </div>
-
+    <div class="loading-spinner loading">
+      <svg class="spinner" width="5rem" height="5rem" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+     </svg>
+    </div>
     <video
       id="video"
       src="http://{{ ip }}/api/get-video-stream/{{ video_id }}/playlist.m3u8"
@@ -190,9 +194,6 @@
         channel_id: channel_id,
         timestamp: currentTime,
         csrfmiddlewaretoken: "{{ csrf_token }}",
-      },
-      success: function (response) {
-        console.log(response);
       },
     });
   }

@@ -27,6 +27,60 @@
   background-color: black;
 }
 
+.loading-spinner {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* border: 1px solid red; */
+  /* background-color: red; */
+}
+
+.spinner {
+  animation: rotator 1.4s linear infinite;
+  filter: drop-shadow(0rem 0rem 0.25rem #7d7d7d41);
+}
+
+.loading-spinner .path {
+  stroke-dasharray: 187;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  stroke: #299ce4;
+  stroke: #fff;
+  animation:
+    dash 1.4s ease-in-out infinite;
+    animation: dash 1.4s ease-in-out infinite,
+    /* colors 4.2s ease-in-out infinite; */
+}
+
+@keyframes rotator {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(270deg); }
+}
+
+@keyframes colors {
+	0% { stroke: #4285F4; }
+	25% { stroke: #DE3E35; }
+	50% { stroke: #F7C223; }
+	75% { stroke: #1B9A59; }
+  100% { stroke: #4285F4; }
+}
+
+@keyframes dash {
+ 0% { 
+  stroke-dashoffset: 187; 
+}
+ 50% {
+   stroke-dashoffset: 46.75;
+   transform:rotate(135deg);
+ }
+ 100% {
+   stroke-dashoffset: 187;
+   transform:rotate(450deg);
+ }
+}
+
 .video-title-container {
   position: absolute;
   cursor: default;

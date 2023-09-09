@@ -21,6 +21,7 @@ const subtitlesBtn = document.querySelector(".subtitle-toggle-animation-btn");
 const playBtn = document.querySelector(".play-animation-btn");
 const pauseBtn = document.querySelector(".pause-animation-btn");
 const circle = document.querySelector(".center-animations-circle");
+const loadingSpinner = document.querySelector(".loading-spinner");
 
 document.addEventListener("keydown", (e) => {
   const tagName = document.activeElement.tagName.toLowerCase();
@@ -173,6 +174,16 @@ function handleTimelineUpdate(e) {
     timelineContainer.style.setProperty("--progress-position", percent);
   }
 }
+
+// Show Loading Spinner while video is buffering
+video.addEventListener("waiting", () => {
+  loadingSpinner.style.display = "block";
+});
+
+video.addEventListener("canplay", () => {
+  loadingSpinner.style.display = "none";
+});
+
 
 // Show amount of video loaded on seek bar
 video.addEventListener("progress", () => {
