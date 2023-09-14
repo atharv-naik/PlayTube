@@ -204,7 +204,6 @@ video.addEventListener("progress", () => {
       }
     }
     timelineContainer.style.setProperty("--buffer-position", percent);
-    console.log(percent);
   }
 });
 

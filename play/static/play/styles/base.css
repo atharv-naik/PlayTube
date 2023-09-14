@@ -50,7 +50,7 @@ a {
   font-family: "Montserrat", sans-serif;
   font-family: "Oswald", sans-serif;
   font-size: 1.5rem;
-  height: 6vh;
+  height: 4rem;
   width: 100%;
   padding: 1.2rem 0 1.2rem 1rem;
   display: flex;
@@ -58,6 +58,12 @@ a {
   justify-content: space-between;
   align-items: center;
   /* transition: all 0.5 ease-in-out; */
+}
+
+.yt-logo-img {
+  width: 140px;
+  margin-top: 5px;
+  filter: brightness(2);
 }
 
 .search-bar-form {
@@ -147,7 +153,7 @@ a {
 
 .content {
   margin: 0 auto;
-  margin-top: 3rem;
+  margin-top: 4rem;
 }
 
 .upload-video {
