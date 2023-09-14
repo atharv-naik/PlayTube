@@ -57,7 +57,7 @@ def getWatchHistory(request, user):
 
 
 @api_view(['POST'])
-def updateHistory(request):
+def updateWatchTime(request):
     # check if anonymous user
     if request.user.is_anonymous:
         return Response('User is not logged in')
@@ -73,4 +73,4 @@ def updateHistory(request):
         video=video,
         defaults={'timestamp': t})
     history.save()
-    return Response('History updated')
+    return Response()

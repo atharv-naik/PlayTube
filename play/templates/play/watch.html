@@ -201,11 +201,11 @@
       video.currentTime = t;
     });
   }
-  // update watch history after every 10 seconds; send post request to update watch history
-  function updateWatchHistory(currentTime) {
+  // send post request to update watch history
+  function updateWatchTime(currentTime) {
     $.ajax({
       type: "POST",
-      url: `http://${ip}/api/update-watch-history/`,
+      url: `http://${ip}/api/update-watch-time/`,
       data: {
         video_id: video_id,
         channel_id: channel_id,
@@ -214,14 +214,17 @@
       },
     });
   }
-  let timestamp = 0;
-  setInterval(() => {
-    let currentTime = video.currentTime;
-    if (currentTime !== timestamp) {
-      timestamp = currentTime;
-      updateWatchHistory(currentTime);
-    }
-  }, 5000);
+  {% if user.is_authenticated %}
+    // update watch history after every 5 seconds; send post request to update watch history
+    let timestamp = 0;
+    setInterval(() => {
+      let currentTime = video.currentTime;
+      if (currentTime !== timestamp) {
+        timestamp = currentTime;
+        updateWatchTime(currentTime);
+      }
+    }, 5000);
+  {% endif %}
 </script>
 <script src="{% static 'play/js/watch.js' %}"></script>
 {% endblock %}
