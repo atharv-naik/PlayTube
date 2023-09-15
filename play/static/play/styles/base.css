@@ -212,3 +212,57 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: #5d5d5d; 
 }
+
+@media screen and (max-width: 1100px) {
+  .search-bar {
+    display: none;
+  }
+  .voice-search {
+    padding: 0.3rem 0.5rem;
+  }
+  .website-header {
+    padding-inline: 0;
+  }
+  .videos {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  #video-upload-form, #video-upload-form .upload-section {
+    margin: 1rem 0.5rem;
+  }
+  #video-upload-form .form-section {
+    flex-direction:column-reverse;
+  }
+  .video-upload-form {
+    max-height: unset !important;
+  }
+
+}
+
+@media screen and (max-width: 900px) {
+  body {
+    font-size: 0.8rem;
+  }
+  .yt-logo-img {
+    width: 100px;
+    margin-left: 0;
+    padding-left: 0;
+  }
+  .yt-left-section-header {
+    margin: 0 1rem;
+  }
+  .yt-hamburger-menu {
+    margin: 0 0.5rem 0 0.5rem;
+    display: none;
+  }
+  .user-profile img {
+    height: 25px;
+    width: 25px;
+  }
+  .auth-btn {
+    padding: 10px 12px;
+    margin: 0.5rem;
+    font-size: 0.7rem;
+  }
+
+}
