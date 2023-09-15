@@ -162,7 +162,7 @@
       <div class="subscribe">Subscribe</div>
     </div>
     <div class="video-desc">
-      {{ movie.description }}
+      {{ movie.description| linebreaks | urlizetrunc:100 | safe }}
     </div>
   </div>
 </div>

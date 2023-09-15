@@ -567,6 +567,10 @@ video {
   line-height: 1.4rem;
 }
 
+.video-desc a {
+  color: #0073ff !important;
+}
+
 
 /* video takes full width on smaller screens */
 @media screen and (max-width: 900px) {
