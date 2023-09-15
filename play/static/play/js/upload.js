@@ -66,7 +66,7 @@ videoInput.addEventListener('change', () => {
         video.style.height = '100%';    
         video.style.borderRadius = '5px';
         video.style.boxShadow = '0 0 5px 0 rgba(0, 0, 0, 0.5)';
-        video.style.zIndex = '100';
+        video.style.zIndex = '2';
 
 
         // append video to label
