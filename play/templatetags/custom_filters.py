@@ -3,14 +3,6 @@ from moviepy.editor import VideoFileClip
 
 register = template.Library()
 
-@register.filter
-def calculate_duration(video):
-    try:
-        video_clip = VideoFileClip(video.video_file.path)
-        return video_clip.duration
-    except:
-        return 0
-
 def leadingZeroFormatter(value):
     if value < 10:
         return f'0{value}'

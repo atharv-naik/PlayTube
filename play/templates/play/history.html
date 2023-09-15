@@ -20,7 +20,7 @@
                         <a target="_blank" href="{% url 'play:watch' %}?v={{ history.video.video_id }}&ab_channel={{ history.video.channel.channel_id }}">
                             <img class="movie-img movie-img-{{ history.video.video_id }}" src="https://source.unsplash.com/featured/{{ forloop.counter }}" alt="">
                             <div class="movie-duration-container">
-                                <div class="movie-duration" data-duration="{{ history.video|calculate_duration }}">
+                                <div class="movie-duration" data-duration="{{ history.video.duration }}">
                                     00:00
                                 </div>
                             </div>

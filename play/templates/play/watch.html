@@ -174,7 +174,7 @@
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script>
   const videoSrc = video.src;
-  let movie_duration = "{{ movie|calculate_duration }}";
+  let movie_duration = "{{ movie.duration }}";
   let video_id = "{{ video_id }}";
   let channel_id = "{{ channel_id }}";
   let t = "{{ t }}";
