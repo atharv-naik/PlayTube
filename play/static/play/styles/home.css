@@ -3,6 +3,40 @@
     --video-card-height: calc(340/360 * var(--video-card-width));
 }
 
+.banner {
+    position: relative;
+    margin: 1rem auto;
+}
+
+.banner-img-wrapper {
+    height: 40vmin;
+    background-color: #ccc;
+    border-radius: 10px;
+    background-image: url("https://source.unsplash.com/featured/1500x500");
+    background-size: cover;
+    background-position: center;
+}
+
+.banner-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.banner .banner-text {
+    position: absolute;
+    bottom: 0;
+    left: 1rem;
+}
+
+.banner-title, .banner-description {
+    text-shadow: 1px 1px 3px #4444;
+}
+
+.banner-img {
+    border-radius: inherit;
+}
+
 .videos {
     font-family: Roboto, Arial, Helvetica, sans-serif;
     width: 100%;
