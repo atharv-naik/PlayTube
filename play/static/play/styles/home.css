@@ -93,20 +93,25 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 80%;
 }
 
 .video-title {
-    font-size: 1.1rem;
+    font-size: 1.1em;
     font-weight: 600;
     margin-bottom: .5rem;
     text-decoration: none;
     color: white;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .channel-name {
     color: #aaa;
     margin-bottom: .2rem;
-    font-size: 0.9rem;
+    font-size: 0.9em;
 }
 
 .channel-name:hover {
@@ -115,7 +120,7 @@
 
 .video-metadata {
     color: #aaa;
-    font-size: 0.9rem;
+    font-size: 0.9em;
 }
 
 .channel-icon-img {
@@ -143,10 +148,28 @@
     }
 }
 
-/* one column on small enough display */
+/* smaller video cards to maintain two columns on smaller display */
 @media screen and (max-width: 790px) {
     .videos {
-        grid-template-columns: repeat(1, var(--video-card-width));
-        grid-auto-rows: var(--video-card-height);
+        grid-template-columns: repeat(2, calc(0.8*var(--video-card-width)));
+        grid-auto-rows: calc(0.8*var(--video-card-height));
+    }
+}
+
+/* smaller video cards to maintain two columns on smaller display */
+@media screen and (max-width: 614px) {
+    .videos {
+        grid-template-columns: repeat(2, calc(0.7*var(--video-card-width)));
+        grid-auto-rows: calc(0.7*var(--video-card-height));
+        gap: 2vmin;
+    }
+}
+
+/* one column on small enough display */
+@media screen and (max-width: 570px) {
+    .videos {
+        grid-template-columns: repeat(1, calc(var(--video-card-width)));
+        grid-auto-rows: calc(var(--video-card-height));
+        gap: 2vmin;
     }
 }
