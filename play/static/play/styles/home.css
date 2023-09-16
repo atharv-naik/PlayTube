@@ -130,6 +130,64 @@
     background-color: #aaa;
 }
 
+
+/* PAGINATION */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    gap: 1em;
+}
+
+.pagination .step-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.pagination .page-number {
+    width: 38px;
+    height: 38px;
+    text-decoration: none;
+    color: #ccc;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0.5rem;
+    border-radius: 50%;
+    background-color: #222222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: black;
+}
+
+.pagination .current-page-number {
+    width: 38px;
+    height: 38px;
+    text-decoration: none;
+    color: black;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0.5rem;
+    border-radius: 50%;
+    background-color: #d33e2a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination .page-number:hover {
+    color: #d33e2a;
+}
+
+
 /* Media Querries */
 /* three columns on small enough display */
 @media screen and (max-width: 1600px) {
@@ -171,5 +229,9 @@
         grid-template-columns: repeat(1, calc(var(--video-card-width)));
         grid-auto-rows: calc(var(--video-card-height));
         gap: 2vmin;
+    }
+
+    .pagination .prev-page-2, .pagination .next-page-2 {
+        display: none;
     }
 }
