@@ -47,6 +47,73 @@
             </div>
             {% endfor %}
         </div>
+
+        <!-- pagination -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if videos.has_previous %}
+                    <a href="?page=1" class="prev-page-numbers page-number">
+                        <span>
+                            &laquo;
+                        </span>
+                    </a>
+                    <a href="?page={{ videos.previous_page_number }}" class="prev-page-numbers page-number">
+                        <span>
+                             &lsaquo;
+                        </span>
+                    </a>
+                {% endif %}
+
+                {% if videos.number|add:"-2" > 0 %}
+                    <a href="?page={{ videos.number|add:'-2' }}" class="prev-page-2 page-number">
+                        <span>
+                            {{ videos.number|add:"-2" }}
+                        </span>
+                    </a>
+                {% endif %}
+
+                {% if videos.number|add:"-1" > 0 %}
+                    <a href="?page={{ videos.number|add:'-1' }}" class="prev-page-1 page-number">
+                        <span>
+                            {{ videos.number|add:"-1" }}
+                        </span>
+                    </a>
+                {% endif %}
+        
+                <span class="current-page-number">
+                    {{ videos.number }}
+                </span>
+
+                {% if videos.number|add:"1" <= videos.paginator.num_pages %}
+                    <a href="?page={{ videos.number|add:'1' }}" class="next-page-1 page-number">
+                        <span>
+                            {{ videos.number|add:"1" }}
+                        </span>
+                    </a>
+                {% endif %}
+
+                {% if videos.number|add:"2" <= videos.paginator.num_pages %}
+                    <a href="?page={{ videos.number|add:'1' }}" class="next-page-2 page-number">
+                        <span>
+                        {{ videos.number|add:"2" }}
+                        </span>
+                    </a>
+                {% endif %}
+        
+                {% if videos.has_next %}
+                    <a href="?page={{ videos.next_page_number }}" class="next-page-numbers page-number">
+                        <span>
+                             &rsaquo; 
+                        </span>
+                    </a>
+                    <a href="?page={{ videos.paginator.num_pages }}" class="next-page-numbers page-number">
+                        <span>
+                            &raquo;
+                        </span>
+                    </a>
+                {% endif %}
+            </span>
+        </div>
     </div>
 {% endblock %}
 
