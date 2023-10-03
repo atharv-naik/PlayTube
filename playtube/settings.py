@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-load_dotenv(override=True) # Load environment variables from .env file
+load_dotenv(override=True)  # Load environment variables from .env file
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,7 +30,8 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.getenv('DEBUG')))
 
-ALLOWED_HOSTS = str(os.getenv('ALLOWED_HOSTS')).split(',') if not DEBUG else ['*']
+ALLOWED_HOSTS = str(os.getenv('ALLOWED_HOSTS')).split(
+    ',') if not DEBUG else ['*']
 
 # Application definition
 
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'play.apps.PlayConfig',
     'play.templatetags',
     'rest_framework',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -55,6 +57,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -142,6 +145,11 @@ DEFAULT_FROM_EMAIL = f'PlayTube <{EMAIL_HOST_USER}>'
 SERVER_EMAIL = f'PlayTube <{EMAIL_HOST_USER}>'
 ADMINS = [('Admin', os.getenv('ADMIN_EMAIL'))]
 MANAGERS = ADMINS
+
+# CORS settings
+CORS_ALLOW_ALL_ORIGINS = bool(int(os.getenv('CORS_ALLOW_ALL_ORIGINS', 0)))
+CORS_ALLOWED_ORIGINS = str(os.getenv(
+    'CORS_ALLOWED_ORIGINS', '*')).split(',') if not CORS_ALLOW_ALL_ORIGINS else ['*']
 
 # Broken link email ignore list
 IGNORABLE_404_URLS = [
