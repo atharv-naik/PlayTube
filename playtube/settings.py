@@ -149,7 +149,7 @@ MANAGERS = ADMINS
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = bool(int(os.getenv('CORS_ALLOW_ALL_ORIGINS', 0)))
 CORS_ALLOWED_ORIGINS = str(os.getenv(
-    'CORS_ALLOWED_ORIGINS', '*')).split(',') if not CORS_ALLOW_ALL_ORIGINS else ['*']
+    'CORS_ALLOWED_ORIGINS')).split(',') if not CORS_ALLOW_ALL_ORIGINS else []
 
 # Broken link email ignore list
 IGNORABLE_404_URLS = [
