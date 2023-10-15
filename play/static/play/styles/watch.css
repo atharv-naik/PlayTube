@@ -614,8 +614,4 @@ video {
     line-height: 1.4em;
   }
 
-  * {
-    -webkit-tap-highlight-color: transparent;
-  }
-
 }
