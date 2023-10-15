@@ -105,7 +105,6 @@
   left: 1rem;
   text-shadow: 1px 1px 8px black;
 
-  color: #ccc;
   font-size: 1.4rem;
   font-weight: 500;
   font-family: 'Roboto', sans-serif;
@@ -182,7 +181,6 @@ video {
   bottom: 0;
   left: 0;
   right: 0;
-  color: #ccc;
   z-index: 1;
   opacity: 0;
   transition: opacity 150ms ease-in-out;
@@ -412,6 +410,7 @@ video {
 
 .timeline .preview-img {
   position: absolute;
+  background-color: #fff;
   height: 80px;
   aspect-ratio: 16 / 9;
   top: -2rem;
@@ -497,12 +496,15 @@ video {
   text-align: center;
 }
 
+.video-meta-data-container {
+  padding: 2em 1.5em;
+}
 
 .video-title-main {
   color: #ccc;
-  font-size: 2.5rem;
+  font-size: 2.5em;
   font-weight: 700;
-  padding: 2rem 2rem 1rem 2rem;
+  padding-bottom: 1em;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -511,10 +513,10 @@ video {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  gap: 20px;
+  gap: 1em;
   color: #ccc;
   font-family: 'Roboto', sans-serif;
-  padding: 0 2rem;
+  padding-bottom: 1em;
 }
 
 .channel-pic-container {
@@ -536,15 +538,17 @@ video {
 }
 
 .channel-name {
-  font-size: 1.4rem;
+  font-size: 1.4em;
   flex-grow: 1;
+  font-weight: 600;
 }
 
 .subscribe {
   color: #000;
   background-color: #fff;
-  font-size: 0.9rem;
-  padding: 0.8rem 1rem;
+  font-size: 0.9em;
+  font-weight: bold;
+  padding: 1em 1.2em;
   border-radius: 50px;
   cursor: pointer;
   -webkit-user-select: none;
@@ -559,12 +563,11 @@ video {
 .video-desc {
   color: #ccc;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 1rem;
-  margin: 1rem 2rem;
-  padding: 2rem;
-  border-radius: 20px;
+  font-size: 1em;
+  padding: 1em;
+  border-radius: 10px;
   background-color: #343434;
-  line-height: 1.4rem;
+  line-height: 1em;
 }
 
 .video-desc a {
@@ -576,13 +579,43 @@ video {
 @media screen and (max-width: 900px) {
   .video-container {
     max-width: initial;
-    width: 100%;
+    width: 100vw;
     aspect-ratio: 16 / 9;
     max-height: 100vh;
   }
 
+  .video-meta-data-container {
+    width: 100%;
+    font-size: 0.5rem;
+  }
+
   .theater-btn, .mini-player-btn, .volume-container {
     display: none;
+  }
+
+  .video-title-container {
+    display: none;
+  }
+
+  .subscribe {
+    font-size: 1.4em;
+  }
+
+  .channel-name {
+    font-size: 2em;
+  }
+
+  .channel-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .video-desc {
+    line-height: 1.4em;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 
 }

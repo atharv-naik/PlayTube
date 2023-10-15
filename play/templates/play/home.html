@@ -8,7 +8,6 @@
 
 {% block html_head %}
     <link rel="stylesheet" href="{% static 'play/styles/home.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 {% endblock %}
 
 
@@ -124,6 +123,10 @@
             </span>
         </div>
     </div>
+{% endblock %}
+
+{% block footer %}
+    {% include 'play/components/footer.html' %}
 {% endblock %}
 
 {% block scripts %}
