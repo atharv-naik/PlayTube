@@ -293,6 +293,10 @@ footer .copyright {
     max-height: unset !important;
   }
 
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
 }
 
 @media screen and (max-width: 900px) {
