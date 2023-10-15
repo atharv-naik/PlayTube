@@ -80,7 +80,7 @@
         <div class="duration-container">
           <div class="current-time">0:00</div>
           /
-          <div class="total-time"></div>
+          <div class="total-time">{{ movie.duration|get_duration_stamp }}</div>
         </div>
         <button class="captions-btn-container">
           <!-- <svg viewBox="0 0 24 24">
@@ -174,7 +174,7 @@
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script>
   const videoSrc = video.src;
-  let movie_duration = "{{ movie.duration }}";
+  let video_duration = "{{ movie.duration }}";
   let video_id = "{{ video_id }}";
   let channel_id = "{{ channel_id }}";
   let t = "{{ t }}";

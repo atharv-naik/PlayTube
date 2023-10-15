@@ -47,37 +47,32 @@ thumbnailInput.addEventListener('change', () => {
 
 videoInput.addEventListener('change', () => {
     const file = videoInput.files[0];
-    const reader = new FileReader();
+    // create a video element and preview uploaded video in it; append to label element
+    const video = document.createElement('video');
+    const obj_url = URL.createObjectURL(file);
+    video.src = obj_url;
+    video.controls = true;
+    video.autoplay = true;
+    video.disablePictureInPicture = true;
+    video.disableRemotePlayback = true;
+    video.muted = true;
+    // full screen, download, picture-in-picture disbaled
+    // set 'nodownload', 'nofullscreen' attributes
+    video.setAttribute('controlsList', 'nodownload nofullscreen');
 
-    reader.onload = () => {
-        // create a video element and preview uploaded video in it; append to label element
-        const video = document.createElement('video');
-        video.src = reader.result;
-        video.controls = true;
-        video.autoplay = true;
-        video.disablePictureInPicture = true;
-        video.disableRemotePlayback = true;
-        video.muted = true;
-        // full screen, download, picture-in-picture disbaled
-        // set 'nodownload', 'nofullscreen' attributes
-        video.setAttribute('controlsList', 'nodownload nofullscreen');
-
-        video.style.width = '100%';
-        video.style.height = '100%';    
-        video.style.borderRadius = '5px';
-        video.style.boxShadow = '0 0 5px 0 rgba(0, 0, 0, 0.5)';
-        video.style.zIndex = '2';
+    video.style.width = '100%';
+    video.style.height = '100%';    
+    video.style.borderRadius = '5px';
+    video.style.boxShadow = '0 0 5px 0 rgba(0, 0, 0, 0.5)';
+    video.style.zIndex = '2';
 
 
-        // append video to label
-        videoLabel.appendChild(video);
+    // append video to label
+    videoLabel.appendChild(video);
 
-        // hide the upload animation box
-        const uploadAnimationBox = document.querySelector('.video-upload-animation-box');
-        uploadAnimationBox.style.display = 'none';
-    }
-
-    reader.readAsDataURL(file);
+    // hide the upload animation box
+    const uploadAnimationBox = document.querySelector('.video-upload-animation-box');
+    uploadAnimationBox.style.display = 'none';
 });
 
 const subtitleInput = document.querySelector('#id_subtitle');

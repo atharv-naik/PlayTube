@@ -95,7 +95,7 @@ document.addEventListener("keydown", (e) => {
     case "7":
     case "8":
     case "9": {
-      const percent = (video.duration * Number(e.key)) / 10;
+      const percent = (video_duration * Number(e.key)) / 10;
       skipTo(percent);
       showControls();
       break;
@@ -105,7 +105,7 @@ document.addEventListener("keydown", (e) => {
       showControls();
       break;
     case "end":
-      skipTo(video.duration);
+      skipTo(video_duration);
       showControls();
       break;
     case ">":
@@ -143,14 +143,14 @@ function toggleScrubbing(e) {
   video.currentTime;
   const rect = timelineContainer.getBoundingClientRect();
   const percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width;
-  previewTimeStamp.textContent = formatDuration(percent * video.duration);
+  previewTimeStamp.textContent = formatDuration(percent * video_duration);
   isScrubbing = (e.buttons & 1) === 1;
   videoContainer.classList.toggle("scrubbing", isScrubbing);
   if (isScrubbing) {
     wasPaused = video.paused;
     video.pause();
   } else {
-    video.currentTime = percent * video.duration;
+    video.currentTime = percent * video_duration;
     if (!wasPaused) video.play();
   }
 
@@ -160,10 +160,10 @@ function toggleScrubbing(e) {
 function handleTimelineUpdate(e) {
   const rect = timelineContainer.getBoundingClientRect();
   var percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width;
-  previewTimeStamp.textContent = formatDuration(percent * video.duration);
+  previewTimeStamp.textContent = formatDuration(percent * video_duration);
   const previewImgNumber = Math.max(
     1,
-    Math.floor((percent * video.duration) / 10)
+    Math.floor((percent * video_duration) / 10)
   );
   const previewImgSrc = `http://${ip}/api/get-preview-thumbnails/${video_id}/${previewImgNumber}`;
   previewImg.src = previewImgSrc;
@@ -189,7 +189,7 @@ video.addEventListener("canplay", () => {
 
 // Show amount of video loaded on seek bar
 video.addEventListener("progress", () => {
-  const duration = video.duration;
+  const duration = video_duration;
   if (duration > 0) {
     let percent = 0;
     for (let i = 0; i < video.buffered.length; i++) {
@@ -310,7 +310,7 @@ function showSubtitleAnimation() {
 
 video.addEventListener("timeupdate", () => {
   currentTimeElem.textContent = formatDuration(video.currentTime);
-  const percent = video.currentTime / video.duration;
+  const percent = video.currentTime / video_duration;
   timelineContainer.style.setProperty("--progress-position", percent);
 });
 
@@ -328,10 +328,6 @@ function formatDuration(time) {
       minutes
     )}:${leadingZeroFormatter.format(seconds)}`;
   }
-}
-
-if (totalTimeElem.textContent === "") {
-  totalTimeElem.textContent = formatDuration(movie_duration);
 }
 
 function skip(duration) {
@@ -453,14 +449,36 @@ function toggleTheaterMode() {
 function toggleFullScreenMode() {
   if (document.fullscreenElement == null) {
     videoContainer.requestFullscreen();
+    
+    // try switching orientation to landscape on mobile
+    try {
+      screen.orientation.lock("landscape");
+    } catch (err) {
+      // pass
+    }
+
     // hide mini player and theater buttons
     miniPlayerBtn.style.display = "none";
     theaterBtn.style.display = "none";
   } else {
     document.exitFullscreen();
-    // show mini player and theater buttons
-    miniPlayerBtn.style.display = "block";
-    theaterBtn.style.display = "block";
+
+    // try switching orientation to portrait on mobile
+    try {
+      screen.orientation.lock("portrait");
+    } catch (err) {
+      // pass
+    }
+
+    // show mini player and theater buttons only if device is not mobile
+    // check if device is mobile
+    if (window.innerWidth < 900) {
+      miniPlayerBtn.style.display = "none";
+      theaterBtn.style.display = "none";
+    } else {
+      miniPlayerBtn.style.display = "block";
+      theaterBtn.style.display = "block";
+    }
   }
 }
 

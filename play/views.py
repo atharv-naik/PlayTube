@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import JsonResponse
 from django.urls import reverse
+from django.core.paginator import Paginator
 import os
 
 # Create your views here.
@@ -39,10 +40,15 @@ def home(request):
     # check if play_video table is empty without using count()
     if Video.objects.exists():
         videos = Video.objects.all()
-        # shuffle the videos and display upto 100
-        videos = videos.order_by('?')[:100]
+        # shuffle the videos
+        videos = videos.order_by('?')
 
-        videos = {'videos': videos}
+        paginator = Paginator(videos, per_page=15)  # Show 15 videos per page.
+
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        videos = {'videos': page_obj}
         return render(request, 'play/home.html', videos)
     else:
         return render(request, 'play/404.html', {'info': 'No videos found'}, status=404)

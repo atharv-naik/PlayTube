@@ -196,7 +196,7 @@ a {
 
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 0.5em;
 }
 
 ::-webkit-scrollbar-track {
@@ -211,6 +211,63 @@ a {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #5d5d5d; 
+}
+
+
+/* FOOTER */
+footer {
+  background-color: #d33e2a;
+  color: black;
+  padding: 1rem 1rem 0 1rem;
+  font-size: 0.8rem;
+  margin-top: 1rem;
+}
+
+footer .footer-main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+footer .logo-text {
+  font-family: "Montserrat", sans-serif;
+  font-family: "Oswald", sans-serif;
+  font-size: 3rem;
+  font-weight: 600;
+  color: black;
+  letter-spacing: -1.5px;
+  scale: 1 1.2;
+  margin: 1rem 0;
+}
+
+footer .footer-description {
+  margin: 2em 0;
+  width: 75%;
+  font-size: 1.1rem;
+}
+
+footer .socials {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 50px;
+  color: black;
+  margin: 0rem 1rem;
+}
+
+footer .socials a {
+  color: black;
+  scale: 2.5;
+}
+
+footer .footer-bottom-section {
+  border-top: 1px solid black;
+  padding: 0.5rem 0;
+  text-align: center;
+}
+
+footer .copyright {
+  font-weight: 600;
 }
 
 @media screen and (max-width: 1100px) {
@@ -264,4 +321,19 @@ a {
     font-size: 0.7rem;
   }
 
+}
+
+@media screen and (max-width: 600px) {
+  footer .footer-main {
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  footer .socials {
+    margin-bottom: 2rem;
+  }
+
+  footer .copyright {
+    display: block;
+  }
 }
