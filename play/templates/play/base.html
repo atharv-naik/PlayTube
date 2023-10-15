@@ -30,95 +30,23 @@
 
     <link rel="stylesheet" href="{% static 'play/styles/base.css' %}" />
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+
     <title>{% block title %}{% endblock %}</title>
 
     {% block html_head %}{% endblock %} {% block css %}{% endblock %}
   </head>
   <body>
     <div class="main">
-      <div class="website-header">
-        <div class="yt-left-section-header">
-          <div class="yt-hamburger-menu sub-color" title="Menu">
-            <span class="material-icons"> menu </span>
-          </div>
-          <div class="website-name yt-logo">
-            <a href="{% url 'play:home' %}">
-              <img
-                src="{% static 'play/images/PlayTube.png' %}"
-                class="yt-logo-img"
-                alt="PlayTube logo"
-                title="PlayTube Home"
-              />
-            </a>
-          </div>
-        </div>
-        <div class="search-bar">
-          <form class="search-bar-form" action="{% url 'play:results' %}">
-            <input
-              type="text"
-              name="search_query"
-              placeholder="Search"
-              aria-label="search"
-              class="search-input"
-            />
-            <button
-              class="search-btn sub-color"
-              aria-label="submit search"
-              title="Search"
-            >
-              <i class="fas fa-search"></i>
-            </button>
-            <!-- voice input -->
-            <button
-              class="voice-search"
-              title="Search with your voice"
-              disabled
-            >
-              <i class="fa-solid fa-microphone"></i>
-            </button>
-          </form>
-        </div>
-        <div class="side-section">
-          {% if not user.is_authenticated %}
-          <div class="login-btn">
-            <a href="{% url 'play:login' %}">
-              <button class="auth-btn">Sign in</button>
-            </a>
-          </div>
-          {% else %}
-          <div class="logout-btn">
-            <a href="{% url 'play:logout' %}">
-              <button class="auth-btn">Log out</button>
-            </a>
-          </div>
-          <a
-            href="{% url 'play:upload-video' %}"
-            class="upload-video-link"
-            title="Upload"
-          >
-            <button class="upload-video">
-              <!-- <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960" width="30" FILL="#fff"><path d="M390.578-331.731h43.845v-128.308h127.923v-43.845H434.423v-127.923h-43.845v127.923H262.271v43.845h128.307v128.308Zm-277.076 148.96v-594.458h594.459v264.922L847.19-651.536v342.688l-139.229-139.23v265.307H113.502Zm43.845-43.845h506.769v-506.768H157.347v506.768Zm0 0v-506.768 506.768Z"/></svg> -->
-              <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 0 24 24" width="30px" fill="#fff"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M15 8v8H5V8h10m1-2H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4V7c0-.55-.45-1-1-1z"/></svg>
-            </button>
-          </a>
-          {% endif %} 
-          {% if user.is_authenticated %}
-          <div class="user-profile" title="Profile">
-            <a href="{% url 'play:channel-via-handle' handle=user.channel.handle %}">
-              <img
-                src="{{ user.channel.avatar.url }}"
-                alt="profile pic"
-                class="profile-pic"
-                width="48px"
-                height="48px"
-              />
-            </a>
-          </div>
-          {% endif %}
-        </div>
-      </div>
+      <!-- navbar -->
+      {% block navbar %}
+      {% include 'play/components/navbar.html' %}
+      {% endblock %}
       <div class="content">{% block content %} {% endblock %}</div>
     </div>
+    <!-- footer -->
+    {% block footer %}
+    {% endblock %}
   </body>
 
   <script src="{% static 'play/js/base.js' %}"></script>
