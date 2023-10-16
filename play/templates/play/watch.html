@@ -139,7 +139,7 @@
     </div>
     <video
       id="video"
-      src="http://{{ ip }}/api/get-video-stream/{{ video_id }}/playlist.m3u8"
+      src="{{ http_protocol }}://{{ domain_name }}/api/get-video-stream/{{ video_id }}/playlist.m3u8"
       autoplay
     >
       <track
@@ -178,7 +178,8 @@
   let video_id = "{{ video_id }}";
   let channel_id = "{{ channel_id }}";
   let t = "{{ t }}";
-  const ip = "{{ ip }}";
+  const domain_name = "{{ domain_name }}";
+  const http_protocol = "{{ http_protocol }}";
 
   if (Hls.isSupported()) {
     const hls = new Hls();
@@ -205,7 +206,7 @@
   function updateWatchTime(currentTime) {
     $.ajax({
       type: "POST",
-      url: `http://${ip}/api/update-watch-time/`,
+      url: `${http_protocol}://${domain_name}/api/update-watch-time/`,
       data: {
         video_id: video_id,
         channel_id: channel_id,

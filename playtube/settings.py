@@ -250,6 +250,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # IP address of the server
 IP_ADDRESS = str(os.getenv('IP_ADDRESS'))
 
+# Domain name of the server
+DOMAIN_NAME = str(os.getenv('DOMAIN_NAME', IP_ADDRESS))
+
+# Use HTTPS or not
+USE_HTTPS = bool(int(os.getenv('USE_HTTPS', 0)))
+
 # Celery settings
 CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
