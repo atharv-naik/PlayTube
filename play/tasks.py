@@ -33,10 +33,12 @@ def transcode(video_path, video_id, uploader_email, uploader_name):
     video_dir = os.path.dirname(video_path)
     video_title = os.path.basename(video_path).split(".")[0].replace('_', ' ')
 
-    # get ip address of the server
-    ip = settings.IP_ADDRESS
+    # get doamin name of the server
+    domain_name = settings.DOMAIN_NAME
+    # get http protocol to be used
+    http_protocol = 'https' if settings.USE_HTTPS else 'http'
 
-    api_endpoint = f'http://{ip}/api/get-video-stream/{video_id}'
+    api_endpoint = f'{http_protocol}://{domain_name}/api/get-video-stream/{video_id}'
     subprocess.run(['./create-hls-vod.sh', video_dir,
                    video_path, api_endpoint])
 
@@ -53,8 +55,8 @@ def transcode(video_path, video_id, uploader_email, uploader_name):
         'uploader_name': uploader_name,
         'video_title': video_title,
         'message': body,
-        'video_url': f'http://{ip}/watch/?v={video_id}',
-        'ip': ip,
+        'video_url': f'{http_protocol}://{domain_name}/watch/?v={video_id}',
+        'domain_name': domain_name,
     })
     plain_message = strip_tags(html_message)
     subject = f'Hey {uploader_name}, your video has been processed. Watch it now!'

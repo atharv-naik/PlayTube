@@ -165,7 +165,7 @@ function handleTimelineUpdate(e) {
     1,
     Math.floor((percent * video_duration) / 10)
   );
-  const previewImgSrc = `http://${ip}/api/get-preview-thumbnails/${video_id}/${previewImgNumber}`;
+  const previewImgSrc = `${http_protocol}://${domain_name}/api/get-preview-thumbnails/${video_id}/${previewImgNumber}`;
   previewImg.src = previewImgSrc;
   if (isScrubbing) {
     e.preventDefault();
