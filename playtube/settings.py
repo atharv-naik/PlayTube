@@ -255,6 +255,9 @@ DOMAIN_NAME = str(os.getenv('DOMAIN_NAME', IP_ADDRESS))
 
 # Use HTTPS or not
 USE_HTTPS = bool(int(os.getenv('USE_HTTPS', 0)))
+SECURE_SSL_REDIRECT = USE_HTTPS
+SESSION_COOKIE_SECURE = USE_HTTPS
+CSRF_COOKIE_SECURE = USE_HTTPS
 
 # Celery settings
 CELERY_BROKER_URL = "redis://localhost:6379"
