@@ -7,5 +7,6 @@ urlpatterns = [
     path('get-preview-thumbnails/<str:video_id>/<int:number>', views.getPreviewThumbnails, name='get-preview-thumbnails'),
     path('update-watch-time/', views.updateWatchTime, name='update-watch-time'),
     path('get-watch-history/<str:user>', views.getWatchHistory, name='get-watch-history'),
+    path('update-views/', views.updateViews, name='update-views'),
     path('logo/', views.logo, name='logo'),
 ]

@@ -5,6 +5,7 @@ from django.http import FileResponse
 from .serializers import HistorySerializer
 from django.contrib.auth.models import User
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from django.db.models import F
 import os
 
 # Create your views here.
@@ -20,11 +21,13 @@ def apiOverview(request):
     }
     return Response(api_urls)
 
+
 @api_view(['GET'])
 def logo(request):
     file = open('play/static/play/images/PlayTube.png', 'rb')
     response = FileResponse(file)
     return response
+
 
 @api_view(['GET'])
 def getVideoStream(request, video_id, file):
@@ -73,4 +76,13 @@ def updateWatchTime(request):
         video=video,
         defaults={'timestamp': t})
     history.save()
+    return Response()
+
+
+@api_view(['POST'])
+def updateViews(request):
+    video_id = request.POST.get('video_id')
+    video = Video.objects.get(video_id=video_id)
+    video.views = F('views') + 1
+    video.save()
     return Response()

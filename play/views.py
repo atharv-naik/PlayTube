@@ -122,9 +122,7 @@ def watch(request):
             t = history.timestamp if t is 0 else t
             history.save()
 
-        stream_path = os.path.join(os.path.dirname(
-            video.video_file.path), 'playlist.m3u8')
-        return render(request, 'play/watch.html', {'video_id': video_id, 'channel_id': channel_id, 't': t, 'movie': video, 'channel': channel, 'stream_path': stream_path, 'domain_name': settings.DOMAIN_NAME, 'http_protocol': 'https' if settings.USE_HTTPS else 'http'})
+        return render(request, 'play/watch.html', {'video_id': video_id, 'channel_id': channel_id, 't': t, 'movie': video, 'channel': channel, 'domain_name': settings.DOMAIN_NAME, 'http_protocol': 'https' if settings.USE_HTTPS else 'http'})
 
     except Channel.DoesNotExist:
         info = {'info': 'This video isn\'t available anymore'}

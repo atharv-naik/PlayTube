@@ -46,7 +46,7 @@
                             {% endif %}
                         </a>
                         <div class="video-metadata">
-                            <span>12K views</span>
+                            <span>{{ video.views|format_views }} views</span>
                             <span>•</span>
                             <span>{{ video.created_at|timesince|truncatetimesince }} ago</span>
                         </div>

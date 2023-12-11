@@ -21,3 +21,14 @@ def get_duration_stamp(duration):
 @register.filter
 def truncatetimesince(value):
     return value.split(',')[0]
+
+@register.filter
+def format_views(views):
+    if views < 1000:
+        return views
+    elif views < 1000000:
+        return f'{views // 1000}K'
+    elif views < 1000000000:
+        return f'{views // 1000000}M'
+    
+    return f'{views // 1000000000}B'
