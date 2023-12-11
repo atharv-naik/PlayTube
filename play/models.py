@@ -76,15 +76,6 @@ class Dislike(models.Model):
         return f'{self.user.username} dislikes {self.video.title}'
 
 
-class View(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    video = models.ForeignKey('Video', on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f'{self.user.username} viewed {self.video.title}'
-
-
 class Video(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=5000, null=True, blank=True)
@@ -147,6 +138,8 @@ class Video(models.Model):
         ('kor', 'Korean'),
         ('oth', 'Other'),
     ], default='eng')
+
+    views = models.PositiveBigIntegerField(default=0)
 
     class Meta:
         ordering = ['-created_at']

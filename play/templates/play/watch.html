@@ -215,6 +215,36 @@
       },
     });
   }
+
+  // update views
+  function updateViews() {
+    $.ajax({
+      type: "POST",
+      url: `${http_protocol}://${domain_name}/api/update-views/`,
+      data: {
+        video_id: video_id,
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+      },
+    });
+  }
+
+  // update views after video engagement of atleast 10 percent of the video duration
+  // i.e. if the sum of all segments of video.played is greater than 0.1
+  function handleVideoEngagement() {
+    let totalPlayed = 0;
+    for (let i = 0; i < video.played.length; i++) {
+      totalPlayed += video.played.end(i) - video.played.start(i);
+    }
+    if (totalPlayed > 0.1 * video.duration) {
+      console.log(totalPlayed);
+      updateViews();
+      // avoid updating views again
+      video.removeEventListener("timeupdate", handleVideoEngagement);
+    }
+  }
+  video.addEventListener("timeupdate", handleVideoEngagement);
+
+
   {% if user.is_authenticated %}
     // update watch history after every 5 seconds; send post request to update watch history
     let timestamp = 0;
