@@ -2,8 +2,8 @@
 static/admin
 static/play
 static/rest_framework
-!static/uploads/defaults
-static/uploads
+media/*
+!media/defaults
 streams*
 env
 video
@@ -28,7 +28,6 @@ COMMANDS.txt
 *.pyc
 __pycache__
 db.sqlite3
-media
 
 # Backup files # 
 *.bak 
