@@ -198,4 +198,4 @@ class History(models.Model):
         verbose_name_plural = 'Histories'
 
     def __str__(self):
-        return f'{self.user.username} watched {self.video.title}'
+        return f'{self.channel} watched {self.video.title}'
