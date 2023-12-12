@@ -18,7 +18,10 @@ def create_channel(sender, instance, created, **kwargs):
 def delete_video(sender, instance, **kwargs):
     if instance.video_file:
         meta_data_root_path = os.path.dirname(instance.video_file.path)
-        shutil.rmtree(meta_data_root_path)
+        try:
+            shutil.rmtree(meta_data_root_path)
+        except FileNotFoundError:
+            pass
 
 @receiver(post_save, sender=Video)
 def set_video_duration(sender, instance, created, **kwargs):

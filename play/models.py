@@ -179,7 +179,7 @@ class History(models.Model):
 
     # calculate the percentage of the video watched before saving the history object
     def save(self, *args, **kwargs):
-        video_duration = self.video.get_duration()
+        video_duration = self.video.duration
         # create a new field in the history model to store the percentage of the video watched
         self.percentage_watched = (self.timestamp / video_duration) * 100
         super().save(*args, **kwargs)
