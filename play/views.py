@@ -48,8 +48,12 @@ def home(request):
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
 
-        videos = {'videos': page_obj}
-        return render(request, 'play/home.html', videos)
+        info = {
+            'videos': page_obj,
+            'domain_name': settings.DOMAIN_NAME,
+            'http_protocol': 'https' if settings.USE_HTTPS else 'http'
+        }
+        return render(request, 'play/home.html', info)
     else:
         return render(request, 'play/404.html', {'info': 'No videos found'}, status=404)
 
@@ -122,7 +126,16 @@ def watch(request):
             t = history.timestamp if t is 0 else t
             history.save()
 
-        return render(request, 'play/watch.html', {'video_id': video_id, 'channel_id': channel_id, 't': t, 'movie': video, 'channel': channel, 'domain_name': settings.DOMAIN_NAME, 'http_protocol': 'https' if settings.USE_HTTPS else 'http'})
+        info = {
+            'video_id': video_id,
+            'channel_id': channel_id,
+            't': t,
+            'movie': video,
+            'channel': channel,
+            'domain_name': settings.DOMAIN_NAME,
+            'http_protocol': 'https' if settings.USE_HTTPS else 'http'
+        }
+        return render(request, 'play/watch.html', info)
 
     except Channel.DoesNotExist:
         info = {'info': 'This video isn\'t available anymore'}

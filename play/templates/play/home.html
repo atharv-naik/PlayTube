@@ -26,9 +26,11 @@
             {% for video in videos %}
             <!-- video card -->
             <div class="video-card">
-                <a class="thumbnail" target="_blank" href="{% url 'play:watch' %}?v={{ video.video_id }}&ab_channel={{ video.channel.channel_id }}" title="{{ video.title }}" data-duration="{{ video.duration|get_duration_stamp }}">
-                    <div class="thumbnail-img-wrapper">
+                <a class="thumbnail" target="_blank" href="{% url 'play:watch' %}?v={{ video.video_id }}&ab_channel={{ video.channel.channel_id }}" data-duration="{{ video.duration|get_duration_stamp }}">
+                    <div class="thumbnail-img-wrapper" onmouseenter="playVideo(this, '{{ video.video_id }}')" onmouseleave="stopVideo(this)">
                         <img src="https://source.unsplash.com/featured/{{ forloop.counter }}" alt="" class="thumbnail-img">
+                        
+                        <video class="thumbnail-hover-play-video" loop muted></video>
                     </div>
                 </a>
                 <div class="video-card-bottom-section">
@@ -130,7 +132,13 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
     <script>
+        const domain_name = "{{ domain_name }}";
+        const http_protocol = "{{ http_protocol }}";
+
+
         // show thumbnail only after image is loaded
         const thumbnails = document.querySelectorAll(".thumbnail-img");
             thumbnails.forEach((thumbnail) => {
@@ -138,5 +146,32 @@
                 thumbnail.style.opacity = 1;
             });
         });
+
+        // play video on hover
+        function playVideo(container, video_id) {
+            const video = container.querySelector('.thumbnail-hover-play-video');
+            const image = container.querySelector('.thumbnail-img');
+            const source = `${http_protocol}://${domain_name}/api/get-video-stream/${video_id}/playlist.m3u8`;
+        
+            video.style.display = 'block';
+            image.style.display = 'none';
+        
+            const hls = new Hls();
+            hls.loadSource(source);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function () {
+              video.play();
+            });
+        }
+        
+        // stop video on hover
+        function stopVideo(container) {
+            const video = container.querySelector('.thumbnail-hover-play-video');
+            const image = container.querySelector('.thumbnail-img');
+        
+            video.pause();
+            video.style.display = 'none';
+            image.style.display = 'block';
+        }
     </script>
 {% endblock %}

@@ -34,7 +34,10 @@ def getVideoStream(request, video_id, file):
     video = Video.objects.get(video_id=video_id)
     video_path = video.video_file.path
     stream_path = os.path.join(os.path.dirname(video_path), file)
-    file = open(stream_path, 'rb')
+    try:
+        file = open(stream_path, 'rb')
+    except FileNotFoundError:
+        return Response(status=404)
     response = FileResponse(file)
     return response
 
@@ -45,7 +48,10 @@ def getPreviewThumbnails(request, video_id, number):
     video_path = video.video_file.path
     stream_path = os.path.join(os.path.dirname(
         video_path), 'preview_images', f'preview{number}.jpg')
-    file = open(stream_path, 'rb')
+    try:
+        file = open(stream_path, 'rb')
+    except FileNotFoundError:
+        return Response(status=404)
     response = FileResponse(file)
     return response
 
