@@ -96,6 +96,7 @@
     bottom: 0.25em;
     background-color: black;
     color: white;
+    width: -moz-fit-content;
     width: fit-content;
     padding: 0 0.2vw;
     margin-bottom: 0.4rem;
