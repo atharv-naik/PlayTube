@@ -18,7 +18,8 @@ __pycache__
 *2.css
 *2.js
 staticfiles
-COMMANDS.txt
+Commands.txt
+Deploy.sh
 
 # Django #
 *.log
