@@ -2,6 +2,27 @@
 {% load custom_filters %}
 {% load static %} 
 {% block title %} {{ movie.title }} {% endblock %} 
+
+{% block open_graph %} 
+<meta property="og:site_name" content="PlayTube" />
+<meta property="og:url" content="{{ http_protocol }}://{{ domain_name }}{{ request.path }}?v={{ video_id }}" />
+<meta property="og:title" content="{{ movie.title }}" />
+<meta property="og:description" content="{{ movie.description|linebreaks|truncatechars:50|safe }}" />
+<meta property="og:image" content="{{ http_protocol }}://{{ domain_name }}/api/get-video-thumbnail/{{ video_id }}" />
+<meta property="og:image:width" content="1920" />
+<meta property="og:image:height" content="1080" />
+<meta property="og:image:alt" content="{{ movie.title }}" />
+<meta property="og:type" content="video.other" />
+{% endblock %}
+
+{% block twitter_card %}
+<meta name="twitter:card" content="player" />
+<meta name="twitter:site" content="@playtube" />
+<meta name="twitter:title" content="{{ movie.title }}" />
+<meta name="twitter:description" content="{{ movie.description|linebreaks|truncatechars:50|safe }}" />
+<meta name="twitter:image" content="{{ http_protocol }}://{{ domain_name }}/api/get-video-thumbnail/{{ video_id }}" />
+{% endblock %}
+
 {% block css %}
 <link rel="stylesheet" href="{% static 'play/styles/watch.css' %}" />
 <link rel="stylesheet" href="{% static 'play/styles/slider.css' %}" />

@@ -3,6 +3,20 @@
 
 {% block title %}{{ channel.user.first_name }} {{ channel.user.last_name }} - PlayTube{% endblock %}
 
+{% block open_graph %}
+    <meta property="og:title" content="{{ channel.user.first_name }} {{ channel.user.last_name }} - PlayTube">
+    <meta property="og:description" content="PlayTube channel of {{ channel.user.first_name }} {{ channel.user.last_name }}">
+    <meta property="og:image" content="{{ http_protocol }}://{{ domain_name }}/api/get-channel-banner/{{ channel.channel_id }}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% endblock %}
+
+{% block twitter_card %}
+    <meta name="twitter:title" content="{{ channel.user.first_name }} {{ channel.user.last_name }} - PlayTube">
+    <meta name="twitter:description" content="PlayTube channel of {{ channel.user.first_name }} {{ channel.user.last_name }}">
+    <meta name="twitter:image" content="{{ http_protocol }}://{{ domain_name }}/api/get-channel-banner/{{ channel.channel_id }}">
+    <meta name="twitter:card" content="summary_large_image">
+{% endblock %}
+
 {% block css %}
     <link rel="stylesheet" href="{% static 'play/styles/profile.css' %}">
 {% endblock %}

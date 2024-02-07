@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
-from play.models import Video, History
+from play.models import Video, History, Channel
 from django.http import FileResponse
 from .serializers import HistorySerializer
 from django.contrib.auth.models import User
@@ -43,6 +43,17 @@ def getVideoStream(request, video_id, file):
 
 
 @api_view(['GET'])
+def getVideoThumbnail(request, video_id):
+    video = Video.objects.get(video_id=video_id)
+    try:
+        file = open(video.thumbnail.path, 'rb')
+    except:
+        file = open('play/static/play/images/PlayTube.png', 'rb')
+    response = FileResponse(file)
+    return response
+
+
+@api_view(['GET'])
 def getPreviewThumbnails(request, video_id, number):
     video = Video.objects.get(video_id=video_id)
     video_path = video.video_file.path
@@ -52,6 +63,17 @@ def getPreviewThumbnails(request, video_id, number):
         file = open(stream_path, 'rb')
     except FileNotFoundError:
         return Response(status=404)
+    response = FileResponse(file)
+    return response
+
+
+@api_view(['GET'])
+def getChannelBanner(request, channel_id):
+    channel = Channel.objects.get(channel_id=channel_id)
+    try:
+        file = open(channel.banner.path, 'rb')
+    except:
+        file = open('play/static/play/images/PlayTube.png', 'rb')
     response = FileResponse(file)
     return response
 

@@ -1,7 +1,21 @@
 {% extends 'play/base.html' %}
 {% load static %}
 
-{% block content %}
+{% block title %} Login - PlayTube {% endblock %}
+
+{% block open_graph %}
+    <meta property="og:title" content="Login - PlayTube" />
+    <meta property="og:description" content="Login to PlayTube to access your account." />
+    <meta property="og:image" content="{{ http_protocol }}://{{ domain_name }}/api/logo" />
+{% endblock %}
+
+{% block twitter_card %}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@playtube" />
+    <meta name="twitter:title" content="Login - PlayTube" />
+    <meta name="twitter:description" content="Login to PlayTube to access your account." />
+    <meta name="twitter:image" content="{{ http_protocol }}://{{ domain_name }}/api/logo" />
+{% endblock %}
 
 {% block css %}
 <style>
@@ -11,6 +25,8 @@
     }
 </style>
 {% endblock %}
+
+{% block content %}
 
 <div class="login-form">
     <form method="POST" action="{% url 'play:login' %}">
