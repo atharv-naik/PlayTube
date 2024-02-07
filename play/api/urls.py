@@ -9,4 +9,6 @@ urlpatterns = [
     path('get-watch-history/<str:user>', views.getWatchHistory, name='get-watch-history'),
     path('update-views/', views.updateViews, name='update-views'),
     path('logo/', views.logo, name='logo'),
+    path('get-video-thumbnail/<str:video_id>', views.getVideoThumbnail, name='get-video-thumbnail'),
+    path('get-channel-banner/<str:channel_id>', views.getChannelBanner, name='get-channel-banner'),
 ]

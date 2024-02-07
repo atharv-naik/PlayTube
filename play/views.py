@@ -27,7 +27,11 @@ def loginPage(request):
             return redirect('play:login')
 
     form = AuthenticationForm(request)
-    context = {'form': form}
+    context = {
+        'form': form,
+        'domain_name': settings.DOMAIN_NAME,
+        'http_protocol': 'https' if settings.USE_HTTPS else 'http'
+    }
     return render(request, 'play/login_register.html', context)
 
 
@@ -57,11 +61,19 @@ def home(request):
     else:
         return render(request, 'play/404.html', {'info': 'No videos found'}, status=404)
 
+
 @login_required
 def profile(request):
     channel = request.user.channel
     videos = Video.objects.filter(channel=channel)
-    return render(request, 'play/profile.html', {'channel': channel, 'videos': videos})
+    info = {
+        'channel': channel,
+        'videos': videos,
+        'domain_name': settings.DOMAIN_NAME,
+        'http_protocol': 'https' if settings.USE_HTTPS else 'http'
+    }
+    return render(request, 'play/profile.html', info)
+
 
 def results(request):
     query = request.GET.get('search_query')
@@ -98,7 +110,12 @@ def videoUpload(request):
         else:
             return JsonResponse({'success': False})
     form = VideoUploadForm()
-    return render(request, 'play/upload.html', {'form': form})
+    info = {
+        'form': form,
+        'domain_name': settings.DOMAIN_NAME,
+        'http_protocol': 'https' if settings.USE_HTTPS else 'http'
+    }
+    return render(request, 'play/upload.html', info)
 
 
 def watch(request):
@@ -153,7 +170,13 @@ def channel_via_handle(request, handle):
         info = {'info': 'Channel does not exist'}
         return render(request, 'play/404.html', info, status=404)
     videos = Video.objects.filter(channel=channel)
-    return render(request, 'play/profile.html', {'channel': channel, 'videos': videos})
+    info = {
+        'channel': channel,
+        'videos': videos,
+        'domain_name': settings.DOMAIN_NAME,
+        'http_protocol': 'https' if settings.USE_HTTPS else 'http'
+    }
+    return render(request, 'play/profile.html', info)
 
 
 def channel_via_id(request, channel_id):
@@ -164,7 +187,13 @@ def channel_via_id(request, channel_id):
         info = {'info': 'Channel does not exist'}
         return render(request, 'play/404.html', info, status=404)
     videos = Video.objects.filter(channel=channel)
-    return render(request, 'play/profile.html', {'channel': channel, 'videos': videos})
+    info = {
+        'channel': channel,
+        'videos': videos,
+        'domain_name': settings.DOMAIN_NAME,
+        'http_protocol': 'https' if settings.USE_HTTPS else 'http'
+    }
+    return render(request, 'play/profile.html', info)
 
 
 @login_required(login_url='play:login')
