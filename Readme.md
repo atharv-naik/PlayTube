@@ -18,11 +18,10 @@ This project is a Video-on-Demand (VOD) platform service developed using Django,
 1. **Video Upload, Transcoding, and Streaming:**
    - Users can upload videos which are automatically transcoded into HLS format for efficient streaming.
    - Transcoding tasks are handled asynchronously using Celery workers and a Redis queue.
-   - Transcoded videos are stored on Amazon S3 for optimized content delivery.
 
 2. **User Authentication and Social Logins:**
    - User registration, login, and logout functionalities are implemented.
-   - Google social login is integrated using `django-allauth` for a seamless experience.
+   - Google social login is integrated using `django-allauth` for a seamless experience. (dev)
 
 3. **Video Playback Tracking and Resume:**
    - User engagement is tracked by recording watch history.
@@ -37,7 +36,6 @@ This project is a Video-on-Demand (VOD) platform service developed using Django,
 - Django REST Framework
 - Celery
 - Redis
-- Amazon S3
 - Ffmpeg
 - `django-allauth` (for social logins)
 
@@ -48,12 +46,12 @@ This project is a Video-on-Demand (VOD) platform service developed using Django,
 2. Create a virtual environment and activate it:
 
    ```bash
-    python3 -m venv venv
+    virtualenv env
 
-    source venv/bin/activate
+    source env/bin/activate
     ```
 
-3. Install the dependencies:
+3. Install dependencies:
 
    ```bash
     pip install -r requirements.txt
@@ -65,43 +63,61 @@ This project is a Video-on-Demand (VOD) platform service developed using Django,
     sudo apt install ffmpeg redis-server celery
     ```
 
-5. Create a .env file and add your AWS credentials and other environment variables required in the `settings.py` file:
+5. Create a .env file in the root directory and add the following environment variables to it. Replace the values with your own credentials and settings. Here's an example of the .env file content:
 
    ```bash
-    touch .env
+      SECRET_KEY='django-insecure-+ouf2xazl$-#nk!qjzh05k=%m68%jcmu-5z_+7m5^u70@+)v9@'
+      DEBUG=0
+      USE_HTTPS=0
+      IP_ADDRESS='127.0.0.1:8000'
+      ALLOWED_HOSTS='localhost,127.0.0.1'
+      CORS_ALLOW_ALL_ORIGINS=1
+      CORS_ALLOWED_ORIGINS='http:127.0.0.1:8000,yoursite1.com,yoursite2.com'
     ```
 
-6. Make migrations and migrate:
+   Optional settings:
 
    ```bash
-    python manage.py makemigrations
+      DOMAIN_NAME='yoursite.com'
+      CSRF_TRUSTED_ORIGINS='yoursite1.com,yoursite2.com'
+      EMAIL_HOST_PASSWORD='your_gamil_app_password'
+      EMAIL_HOST_USER='your_email_id'
+      ADMIN_EMAIL='some_other_email_id'
+   ```
 
-    python manage.py migrate
-    ```
-
-7. Create a superuser:
-
-   ```bash
-    python manage.py createsuperuser
-    ```
-
-8. Create a log folder for error logs:
+6. Create a log folder for error logs in the root directory:
 
    ```bash
-    mkdir logs
+      mkdir logs
+   ```
+
+7. Make migrations and migrate:
+
+   ```bash
+      python manage.py makemigrations
+
+      python manage.py migrate
     ```
 
-9. Run the below commands in seperate shell environment to start the Celery worker and the Redis server and the Django development server:
+8. Create a superuser:
 
-      ```bash
-      celery -A playtube worker -l info
+   ```bash
+      python manage.py createsuperuser
+   ```
+
+9. Run the below commands in *seperate shell environments* to start the Celery worker and the Redis server and the Django development server:
+
+   ```bash
+      python manage.py runserver
    
       redis-server
    
-      python manage.py runserver
-      ```
+      celery -A playtube worker -l info
+   ```
 
-10. Navigate to `http://localhost:8000/` in your browser or to the IP:PORT you specified in the .env file (step 5)
+   Make sure to activate the virtual environment before running the celery worker instance.
+
+10. Navigate to `http://127.0.0.1:8000/` in your browser or to the IP:PORT you specified in the .env file (step 5)
 
 ## Usage
 
@@ -113,7 +129,7 @@ This project is a Video-on-Demand (VOD) platform service developed using Django,
 
 ## Contributing
 
-Contributions are welcome! Feel free to open an issue or submit a pull request if you have any improvements to offer.
+Contributions are welcome! Feel free to open an issue or submit a pull request if you have any improvements to offer. Frontend implementation is not yet complete, so any help in that area would be greatly appreciated.
 
 ## License
 
