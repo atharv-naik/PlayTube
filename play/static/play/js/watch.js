@@ -172,9 +172,8 @@ function handleTimelineUpdate(e) {
     thumbnailImg.src = previewImgSrc;
     timelineContainer.style.setProperty("--progress-position", percent);
   }
-  percent = Math.max(0.06, Math.min(0.94, percent));
-  timelineContainer.style.setProperty("--preview-position", percent);
 
+  timelineContainer.style.setProperty("--preview-position", percent);
 }
 
 // Show Loading Spinner while video is buffering
@@ -185,7 +184,6 @@ video.addEventListener("waiting", () => {
 video.addEventListener("canplay", () => {
   loadingSpinner.style.display = "none";
 });
-
 
 // Show amount of video loaded on seek bar
 video.addEventListener("progress", () => {
@@ -449,7 +447,7 @@ function toggleTheaterMode() {
 function toggleFullScreenMode() {
   if (document.fullscreenElement == null) {
     videoContainer.requestFullscreen();
-    
+
     // try switching orientation to landscape on mobile
     try {
       screen.orientation.lock("landscape");
