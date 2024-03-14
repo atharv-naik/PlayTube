@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Poppins:wght@400;500;600&display=swap");
 
+.content {
+  margin-inline: unset;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -14,6 +18,7 @@
   color: var(--theme-color);
   /* border: 1px solid black; */
   /* background-color: red; */
+  /* padding: 0 1rem; */
 }
 
 body::-webkit-scrollbar {
@@ -27,8 +32,10 @@ body::-webkit-scrollbar {
   aspect-ratio: 16/9;
   display: flex;
   justify-content: center;
-  margin-inline: auto;
+  /* margin-inline: auto; */
   background-color: black;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .loading-spinner {
@@ -490,7 +497,7 @@ video {
 
 .video-title-main {
   color: #ccc;
-  font-size: 2.5em;
+  font-size: 2rem;
   font-weight: 700;
   padding-bottom: 1em;
   font-family: "Roboto", sans-serif;
@@ -564,11 +571,109 @@ video {
   color: #0073ff !important;
 }
 
+/* ptp settings css */
+
+.show {
+  display: block !important;
+}
+
+.ptp-settings {
+  display: none;
+  position: absolute;
+  bottom: 72px;
+  right: 1em;
+  background-color: rgb(23, 23, 23);
+  padding: 1em 0;
+  border-radius: 10px;
+  z-index: 1;
+  color: #ccc;
+
+  min-width: 8em;
+}
+
+.ptp-panel-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.ptp-menuitem {
+  display: flex;
+  gap: 2.5em;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  transition: background-color 150ms ease-in-out;
+}
+
+.ptp-menuitem-left {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.ptp-menuitem:hover {
+  background-color: #2a2a2a;
+}
+
+.ptp-menuitem-icon {
+  width: 20px;
+  height: 20px;
+  fill: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ptp-menuitem-content::after {
+  content: " >";
+}
+
+.ptp-submenu {
+  display: none;
+  border-radius: 10px;
+  color: #ccc;
+
+  flex-direction: column;
+}
+
+.ptp-submenu-item {
+  padding: 0.8em 4em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background-color 150ms ease-in-out;
+}
+
+.ptp-submenu-item:hover {
+  background-color: #2a2a2a;
+}
+
+.ptp-submenu-back {
+  padding: 0.8em 4em 0.8em 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5em;
+  cursor: pointer;
+  transition: background-color 150ms ease-in-out;
+
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.ptp-submenu-item.selected {
+  background-color: red;
+  color: black;
+}
+
 /* video takes full width on smaller screens */
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1080px) {
   .video-container {
     max-width: initial;
-    width: 100vw;
+    width: 100%;
     aspect-ratio: 16 / 9;
     max-height: 100vh;
   }

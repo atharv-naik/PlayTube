@@ -206,26 +206,27 @@ video.addEventListener("progress", () => {
 });
 
 // Playback Speed
-speedBtn.addEventListener("click", changePlaybackSpeed);
 
 function changePlaybackSpeed(forward = true) {
   if (forward) {
     let newPlaybackRate = video.playbackRate + 0.25;
-    if (newPlaybackRate > 2) newPlaybackRate = 0.25;
+    if (newPlaybackRate > 2) return;
     video.playbackRate = newPlaybackRate;
-    speedBtn.textContent = `${newPlaybackRate}x`;
+
+    showCurrentPlaybackSpeed(newPlaybackRate);
   } else {
     let newPlaybackRate = video.playbackRate - 0.25;
-    if (newPlaybackRate < 0.25) newPlaybackRate = 2;
+    if (newPlaybackRate < 0.25) return;
     video.playbackRate = newPlaybackRate;
-    speedBtn.textContent = `${newPlaybackRate}x`;
+
+    showCurrentPlaybackSpeed(newPlaybackRate);
   }
 }
 
 // Captions
 // check if captions are available
 function toggleCaptions() {
-  showSubtitleAnimation();
+  // showSubtitleAnimation();
   const captions = video.textTracks[0];
   const isHidden = captions.mode === "hidden";
   captions.mode = isHidden ? "showing" : "hidden";
@@ -590,3 +591,131 @@ video.addEventListener("pause", () => {
 // video.addEventListener("canplay", () => {
 //   loading.style.display = "none";
 // });
+
+// toggle control buttons panel
+function toggleSettingsMenu() {
+  const settingsMenu = document.querySelector(".ptp-settings");
+  settingsMenu.classList.toggle("show");
+
+  closeSubmenu();
+}
+
+function closeSubmenu() {
+  const ptpSubmenu = document.querySelector(".ptp-panel-submenu");
+  ptpSubmenu.style.display = "none";
+  const mainmenu = document.querySelector(".ptp-panel-menu");
+  mainmenu.style.display = "flex";
+
+  // close all submenus
+  const submenus = document.querySelectorAll(".ptp-submenu");
+  submenus.forEach((submenu) => {
+    submenu.style.display = "none";
+  });
+}
+
+function hideMainMenu() {
+  const manMenu = document.querySelector(".ptp-panel-menu");
+  manMenu.style.display = "none";
+}
+
+function showSubMenu(obj) {
+  const ptpSubmenu = document.querySelector(".ptp-panel-submenu");
+  ptpSubmenu.style.display = "flex";
+
+  const classname = obj.id;
+  const submenu = document.querySelector(`.${classname}`);
+  hideMainMenu();
+  submenu.style.display = "flex";
+}
+
+function getBackToMainMenu() {
+  closeSubmenu();
+  const mainmenu = document.querySelector(".ptp-panel-menu");
+  mainmenu.style.display = "flex";
+}
+
+function changeVideoQuality(quality) {
+  const video = document.querySelector("video");
+  const timestamp = video.currentTime;
+  const is_playing = !video.paused;
+
+  if (quality === "auto") {
+    video.src = `${http_protocol}://${domain_name}/api/get-video-stream/${video_id}/playlist.m3u8`;
+  } else {
+    video.src = `${http_protocol}://${domain_name}/api/get-video-stream/${video_id}/${quality}.m3u8`;
+  }
+  // hls js
+  if (Hls.isSupported()) {
+    const hls = new Hls();
+    hls.loadSource(video.src);
+    hls.attachMedia(video);
+
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      video.currentTime = timestamp;
+
+      if (is_playing) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    });
+  }
+  showCurrentVideoQuality(quality);
+}
+
+function showCurrentVideoQuality(quality) {
+  const currentQuality = document.querySelector(".ptp-current-quality");
+  currentQuality.textContent = quality;
+
+  // remove current-quality-tick from all qualities
+  const qualities = document.querySelectorAll(".ptp-quality .ptp-submenu-item");
+  qualities.forEach((quality) => {
+    quality.classList.remove("selected");
+  });
+
+  // add current-quality-tick to the selected quality
+  const selectedQuality = document.querySelector(`.quality-${quality}`);
+  selectedQuality.classList.add("selected");
+
+  // close the submenu
+  // toggleSettingsMenu();
+}
+
+function setPlaybackSpeed(speed) {
+  const video = document.querySelector("video");
+  if (speed === "normal" || speed === 1) {
+    video.playbackRate = 1;
+  } else {
+    video.playbackRate = speed;
+  }
+  showCurrentPlaybackSpeed(speed);
+}
+
+function showCurrentPlaybackSpeed(speed) {
+  speed = speed.toString();
+  if (speed === '1') {
+    speed = "normal";
+  }
+  
+  const currentSpeed = document.querySelector(".ptp-current-playback-speed");
+  currentSpeed.textContent = speed;
+
+  // format speed to match the class name
+  speed = speed.replace(".", "-");
+
+  // remove current-speed-tick from all speeds
+  const speeds = document.querySelectorAll(
+    ".ptp-playback-speed .ptp-submenu-item"
+  );
+  speeds.forEach((item) => {
+    item.classList.remove("selected");
+  });
+
+  // add current-speed-tick to the selected speed
+  console.log(speed);
+  const selectedSpeed = document.querySelector(`.pb_${speed}`);
+  selectedSpeed.classList.add("selected");
+
+  // close the submenu
+  // toggleSettingsMenu();
+}
