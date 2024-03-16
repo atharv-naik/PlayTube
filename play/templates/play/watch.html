@@ -177,21 +177,39 @@
                 Auto
               </div>
             </div>
-            <div class="ptp-menuitem" id="ptp-subtitles" onclick="showSubMenu(this)">
-              <div class="ptp-menuitem-left">     
-                <div class="ptp-menuitem-icon">
-                  <span class="material-symbols-outlined">
-                    subtitles
+            {% if not movie.subtitle %}
+              <div class="ptp-menuitem ptp-unavailable" id="ptp-subtitles">
+                <div class="ptp-menuitem-left">     
+                  <div class="ptp-menuitem-icon">
+                    <span class="material-symbols-outlined">
+                      subtitles
+                      </span>
+                  </div>
+                  <div class="ptp-menuitem-label">
+                    Subtitles/CC (1)
+                  </div>
+                </div>
+                <div class="ptp-menuitem-content ptp-current-subtitle">
+                  Unavailable
+                </div>
+              </div>
+            {% else %}
+              <div class="ptp-menuitem" id="ptp-subtitles" onclick="showSubMenu(this)">
+                <div class="ptp-menuitem-left">     
+                  <div class="ptp-menuitem-icon">
+                    <span class="material-symbols-outlined">
+                      subtitles
                     </span>
+                  </div>
+                  <div class="ptp-menuitem-label">
+                    Subtitles/CC (1)
+                  </div>
                 </div>
-                <div class="ptp-menuitem-label">
-                  Subtitles/CC (1)
+                <div class="ptp-menuitem-content ptp-current-subtitle">
+                  Off
                 </div>
               </div>
-              <div class="ptp-menuitem-content">
-                English
-              </div>
-            </div>
+            {% endif %}
             <div class="ptp-menuitem" id="ptp-playback-speed" onclick="showSubMenu(this)">
               <div class="ptp-menuitem-left">
                 <div class="ptp-menuitem-icon">
@@ -219,9 +237,6 @@
               <div class="ptp-submenu-item quality-auto selected" onclick="changeVideoQuality('auto')">
                 <span>Auto</span>
               </div>
-              <!-- <div class="ptp-submenu-item quality-1080p onclick="chageVideoQuality('1080p')">
-                <span>1080p</span>
-              </div> -->
               <div class="ptp-submenu-item quality-720p" onclick="changeVideoQuality('720p')">
                 <span>720p</span>
               </div>
@@ -239,10 +254,10 @@
                   </span>
                 <span>Subtitles/CC</span>
               </div>
-              <div class="ptp-submenu-item selected">
+              <div class="ptp-submenu-item subtitle-off selected" onclick="subtitlesHandler('Off')">
                 <span>Off</span>
               </div>
-              <div class="ptp-submenu-item">
+              <div class="ptp-submenu-item subtitle-english" onclick="subtitlesHandler('English')">
                 <span>English</span>
               </div>
             </div>
@@ -286,13 +301,6 @@
         src="{{ http_protocol }}://{{ domain_name }}/api/get-video-stream/{{ video_id }}/playlist.m3u8"
         autoplay
       >
-        <track
-          kind="captions"
-          label="English captions"
-          src="#"
-          srclang="en"
-          default
-        />
       </video>
   </div>
 
@@ -324,9 +332,9 @@
   let t = "{{ t }}";
   const domain_name = "{{ domain_name }}";
   const http_protocol = "{{ http_protocol }}";
+  var hls = new Hls();
 
   if (Hls.isSupported()) {
-    const hls = new Hls();
 
     hls.loadSource(videoSrc);
     hls.attachMedia(video);

@@ -227,20 +227,23 @@ function changePlaybackSpeed(forward = true) {
 // check if captions are available
 function toggleCaptions() {
   // showSubtitleAnimation();
-  const captions = video.textTracks[0];
-  const isHidden = captions.mode === "hidden";
-  captions.mode = isHidden ? "showing" : "hidden";
-  videoContainer.classList.toggle("captions", isHidden);
+
+  if (hls.subtitleDisplay) {
+    hls.subtitleDisplay = false;
+    showCurrentSubtitle("Off");
+  } else {
+    hls.subtitleDisplay = true;
+    showCurrentSubtitle("English");
+  }
 }
 
 video.addEventListener("loadedmetadata", () => {
-  if (video.textTracks.length > 0) {
-    const captions = video.textTracks[0];
-    captions.mode = "hidden";
-
+  if (hls.subtitleTracks.length > 0) {
+    hls.subtitleTrack = 0;
+    hls.subtitleDisplay = false;
     captionsBtn.addEventListener("click", toggleCaptions);
   } else {
-    captionsBtn.style.display = "none";
+    captionsBtn.style.opacity = "0.65";
   }
 });
 
@@ -635,37 +638,44 @@ function getBackToMainMenu() {
 }
 
 function changeVideoQuality(quality) {
-  const video = document.querySelector("video");
-  const timestamp = video.currentTime;
-  const is_playing = !video.paused;
-
-  if (quality === "auto") {
-    video.src = `${http_protocol}://${domain_name}/api/get-video-stream/${video_id}/playlist.m3u8`;
+  console.log(quality);
+  let level;
+  if (quality === "720p") {
+    level = 2;
+  } else if (quality === "480p") {
+    level = 1;
+  } else if (quality === "240p") {
+    level = 0;
   } else {
-    video.src = `${http_protocol}://${domain_name}/api/get-video-stream/${video_id}/${quality}.m3u8`;
-  }
-  // hls js
-  if (Hls.isSupported()) {
-    const hls = new Hls();
-    hls.loadSource(video.src);
+    level = -1;
+
+    currentTime = video.currentTime;
+
+    hls.destroy();
+
+    hls = new Hls();
+    hls.loadSource(videoSrc);
     hls.attachMedia(video);
 
-    hls.on(Hls.Events.MANIFEST_PARSED, () => {
-      video.currentTime = timestamp;
-
-      if (is_playing) {
-        video.play();
-      } else {
-        video.pause();
-      }
+    hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+      skipTo(currentTime);
     });
+
+    showCurrentVideoQuality(quality);
+    return;
   }
+
+  hls.autoLevelEnabled = "false";
+
+  hls.currentLevel = level;
+  console.log(hls.currentLevel);
+
   showCurrentVideoQuality(quality);
 }
 
 function showCurrentVideoQuality(quality) {
   const currentQuality = document.querySelector(".ptp-current-quality");
-  currentQuality.textContent = quality;
+  currentQuality.textContent = capitalize(quality);
 
   // remove current-quality-tick from all qualities
   const qualities = document.querySelectorAll(".ptp-quality .ptp-submenu-item");
@@ -675,10 +685,8 @@ function showCurrentVideoQuality(quality) {
 
   // add current-quality-tick to the selected quality
   const selectedQuality = document.querySelector(`.quality-${quality}`);
-  selectedQuality.classList.add("selected");
 
-  // close the submenu
-  // toggleSettingsMenu();
+  selectedQuality.classList.add("selected");
 }
 
 function setPlaybackSpeed(speed) {
@@ -693,12 +701,12 @@ function setPlaybackSpeed(speed) {
 
 function showCurrentPlaybackSpeed(speed) {
   speed = speed.toString();
-  if (speed === '1') {
+  if (speed === "1") {
     speed = "normal";
   }
-  
+
   const currentSpeed = document.querySelector(".ptp-current-playback-speed");
-  currentSpeed.textContent = speed;
+  currentSpeed.textContent = capitalize(speed);
 
   // format speed to match the class name
   speed = speed.replace(".", "-");
@@ -714,8 +722,39 @@ function showCurrentPlaybackSpeed(speed) {
   // add current-speed-tick to the selected speed
   console.log(speed);
   const selectedSpeed = document.querySelector(`.pb_${speed}`);
-  selectedSpeed.classList.add("selected");
 
-  // close the submenu
-  // toggleSettingsMenu();
+  selectedSpeed.classList.add("selected");
+}
+
+function subtitlesHandler(state) {
+  if (state.toLowerCase() === "off") {
+    hls.subtitleDisplay = false;
+  } else {
+    hls.subtitleDisplay = true;
+  }
+
+  showCurrentSubtitle(state);
+}
+
+function showCurrentSubtitle(state) {
+  const currentSubtitle = document.querySelector(".ptp-current-subtitle");
+  currentSubtitle.textContent = capitalize(state);
+
+  // remove current-subtitle-tick from all states
+  const states = document.querySelectorAll(".ptp-subtitles .ptp-submenu-item");
+  states.forEach((item) => {
+    item.classList.remove("selected");
+  });
+
+  // add current-subtitle-tick to the selected state
+  const selectedState = document.querySelector(
+    `.subtitle-${state.toLowerCase()}`
+  );
+
+  selectedState.classList.add("selected");
+}
+
+// helper function
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }

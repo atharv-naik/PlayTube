@@ -602,7 +602,7 @@ video {
   gap: 2.5em;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5em 1em;
+  padding: 0.5em 1.1rem;
   cursor: pointer;
   transition: background-color 150ms ease-in-out;
 }
@@ -667,6 +667,12 @@ video {
 .ptp-submenu-item.selected {
   background-color: red;
   color: black;
+}
+
+.ptp-unavailable {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: default;
 }
 
 /* video takes full width on smaller screens */
