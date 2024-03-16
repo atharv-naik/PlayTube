@@ -11,12 +11,12 @@ import os
 
 
 @shared_task
-def handle_video_post_upload(video_path, video_id, uploader_email, uploader_name):
+def handle_video_post_upload(video_path, video_id, subtitle_path, uploader_email, uploader_name):
     '''
     This function will be called when a video is uploaded
     '''
     transcoding = transcode.apply_async(
-        args=[video_path, video_id, uploader_email, uploader_name],
+        args=[video_path, video_id, subtitle_path, uploader_email, uploader_name],
         retry=True,
         retry_policy={
             'max_retries': 3,  # max retries before giving up
@@ -28,7 +28,7 @@ def handle_video_post_upload(video_path, video_id, uploader_email, uploader_name
 
 
 @shared_task
-def transcode(video_path, video_id, uploader_email, uploader_name):
+def transcode(video_path, video_id, subtitle_path, uploader_email, uploader_name):
     # output_path
     video_dir = os.path.dirname(video_path)
     video_title = os.path.basename(video_path).split(".")[0].replace('_', ' ')
@@ -40,7 +40,7 @@ def transcode(video_path, video_id, uploader_email, uploader_name):
 
     api_endpoint = f'{http_protocol}://{domain_name}/api/get-video-stream/{video_id}'
     subprocess.run(['./create-hls-vod.sh', video_dir,
-                   video_path, api_endpoint])
+                   video_path, api_endpoint, subtitle_path])
 
     os.makedirs(f'{video_dir}/preview_images', exist_ok=True)
 
