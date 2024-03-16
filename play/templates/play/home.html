@@ -27,7 +27,7 @@
             <!-- video card -->
             <div class="video-card">
                 <a class="thumbnail" target="_blank" href="{% url 'play:watch' %}?v={{ video.video_id }}&ab_channel={{ video.channel.channel_id }}" data-duration="{{ video.duration|get_duration_stamp }}">
-                    <div class="thumbnail-img-wrapper" onmouseenter="playVideo(this, '{{ video.video_id }}')" onmouseleave="stopVideo(this)">
+                    <div class="thumbnail-img-wrapper" onmouseenter="playVideo(this, '{{ video.video_id }}')">
                         <img src="https://source.unsplash.com/featured/{{ forloop.counter }}" alt="" class="thumbnail-img">
                         
                         <video class="thumbnail-hover-play-video" loop muted></video>
@@ -162,14 +162,19 @@
             hls.on(Hls.Events.MANIFEST_PARSED, function () {
               video.play();
             });
+
+            container.addEventListener('mouseleave', () => {
+                stopVideo(container, hls);
+            });
         }
         
         // stop video on hover
-        function stopVideo(container) {
+        function stopVideo(container, hls) {
             const video = container.querySelector('.thumbnail-hover-play-video');
             const image = container.querySelector('.thumbnail-img');
-        
-            video.pause();
+
+            hls.destroy();
+
             video.style.display = 'none';
             image.style.display = 'block';
         }
