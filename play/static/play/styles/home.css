@@ -29,6 +29,15 @@
     left: 1rem;
 }
 
+.banner-title {
+    font-family: "Oswald", sans-serif;
+    font-size: 3rem;
+    font-weight: 600;
+    letter-spacing: -1.5px;
+    scale: 1 1.2;
+    margin: 1rem 0;
+}
+
 .banner-title, .banner-description {
     text-shadow: 1px 1px 3px #4444;
 }

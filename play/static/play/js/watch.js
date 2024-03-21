@@ -23,6 +23,7 @@ const pauseBtn = document.querySelector(".pause-animation-btn");
 const circle = document.querySelector(".center-animations-circle");
 const loadingSpinner = document.querySelector(".loading-spinner");
 
+
 document.addEventListener("keydown", (e) => {
   const tagName = document.activeElement.tagName.toLowerCase();
 
@@ -225,7 +226,10 @@ function changePlaybackSpeed(forward = true) {
 
 // Captions
 // check if captions are available
+let captionsUnavailable = false;
 function toggleCaptions() {
+  if (captionsUnavailable) return;
+
   // showSubtitleAnimation();
 
   if (hls.subtitleDisplay) {
@@ -244,6 +248,7 @@ video.addEventListener("loadedmetadata", () => {
     captionsBtn.addEventListener("click", toggleCaptions);
   } else {
     captionsBtn.style.opacity = "0.65";
+    captionsUnavailble = true;
   }
 });
 
@@ -650,6 +655,7 @@ function changeVideoQuality(quality) {
     level = -1;
 
     currentTime = video.currentTime;
+    paused = video.paused;
 
     hls.destroy();
 
@@ -659,6 +665,8 @@ function changeVideoQuality(quality) {
 
     hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
       skipTo(currentTime);
+      if (paused) video.pause();
+      else video.play();
     });
 
     showCurrentVideoQuality(quality);
@@ -752,6 +760,14 @@ function showCurrentSubtitle(state) {
   );
 
   selectedState.classList.add("selected");
+
+  // show captions underlining when captions are on
+  const captions = document.querySelector(".captions-btn");
+  if (state.toLowerCase() === "off") {
+    captions.style.borderBottom = "none";
+  } else {
+    captions.style.borderBottom = "2px solid red";
+  }
 }
 
 // helper function

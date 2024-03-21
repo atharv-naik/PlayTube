@@ -1,0 +1,56 @@
+<div class="pt-sidebar-wrapper">
+  <div class="pt-sidebar-entries pt-sidebar-section">
+    <div class="pt-sidebar-entry-wrapper">
+      <a href="{% url 'play:home' %}" class="pt-sidebar-entry">
+        <span class="material-icons">home</span>
+        Home
+      </a>
+    </div>
+    <div class="pt-sidebar-entry-wrapper">
+      <a href="{% url 'play:upload-video' %}" class="pt-sidebar-entry">
+        <span class="material-icons">video_call</span>
+        Upload Video
+      </a>
+    </div>
+  </div>
+
+  <div class="pt-sidebar-entries pt-sidebar-section">
+    <div class="pt-sidebar-entry-wrapper">
+      <a href="#" class="pt-sidebar-entry">
+        <span class="material-icons">thumb_up</span>
+        Liked Videos
+      </a>
+    </div>
+    <div class="pt-sidebar-entry-wrapper">
+      <a href="{% url 'play:history' %}" class="pt-sidebar-entry">
+        <span class="material-icons">history</span>
+        History
+      </a>
+    </div>
+  </div>
+
+  {% if not user.is_authenticated %}
+  <div class="pt-sidebar-entries pt-sidebar-section">
+    <div class="pt-sidebar entry-wrapper">
+      <div class="sign-in-note" style="color: #ccc; padding-inline: 1rem">
+        Sign in to like videos, comment and subscribe.
+      </div>
+      <div class="login-btn">
+        <button class="auth-btn" onclick="redirectToSignInPage()">
+          <span class="material-icons"> account_circle </span>
+          Sign in
+        </button>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="pt-sidebar-entries pt-sidebar-section">
+    <div class="pt-sidebar entry-wrapper" style="color: #ccc">
+      This site is a demo project for educational purposes only. Use of images
+      and videos are for demo purposes only and are not intended to infringe the
+      ownership of the respective owners. <br /><br />
+      <span class="copyright" style="color: #cccccc9c">© 2023 PlayTube</span>
+    </div>
+  </div>
+</div>

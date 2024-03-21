@@ -6,19 +6,16 @@
 
 .container {
   display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  padding: 0 1em 1em;
+}
+
+.container-left {
+  display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* height: 100vh; */
-  /* width: 100vw; */
-  /* margin-top: 68px; */
-  /* font-family: 'Montserrat', sans-serif;
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.5rem; */
-  color: var(--theme-color);
-  /* border: 1px solid black; */
-  /* background-color: red; */
-  /* padding: 0 1rem; */
+  gap: 1em;
 }
 
 body::-webkit-scrollbar {
@@ -34,8 +31,7 @@ body::-webkit-scrollbar {
   justify-content: center;
   /* margin-inline: auto; */
   background-color: black;
-  border-radius: 10px;
-  overflow: hidden;
+  border-radius: 12px;
 }
 
 .loading-spinner {
@@ -188,6 +184,11 @@ body::-webkit-scrollbar {
   max-width: unset;
   width: 100vw;
   max-height: 80vh;
+  border-radius: unset;
+}
+
+.video-container.theater + .video-meta-data-container {
+  padding-inline: 1.5em;
 }
 
 .video-container.full-screen {
@@ -366,7 +367,7 @@ video {
   left: 0;
   top: 0;
   bottom: 0;
-  right: calc(100% - var(--preview-position) * 100%);
+  right: calc(100% - var(--preview-position) * 100% + 0.6%);
   background-color: rgba(179, 179, 179, 0.75);
 }
 
@@ -491,15 +492,11 @@ video {
   text-align: center;
 }
 
-.video-meta-data-container {
-  padding: 2em 1.5em;
-}
-
 .video-title-main {
   color: #ccc;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  padding-bottom: 1em;
+  padding-bottom: 0.5em;
   font-family: "Roboto", sans-serif;
 }
 
@@ -509,13 +506,11 @@ video {
   align-items: center;
   justify-content: flex-start;
   gap: 1em;
-  color: #ccc;
   font-family: "Roboto", sans-serif;
   padding-bottom: 1em;
 }
 
 .channel-pic-container {
-  /* background-color: #343434; */
   display: grid;
   place-items: center;
   width: 50px;
@@ -525,17 +520,30 @@ video {
 }
 
 .channel-pic-container img {
-  /* width: 100%;
-  height: 100%; */
   margin: auto;
   aspect-ratio: 1/1;
   border-radius: 50%;
 }
 
+.pt-uploader-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  color: #ccc;
+  font-family: "Roboto", sans-serif;
+  gap: 3px;
+}
+
 .channel-name {
-  font-size: 1.4em;
+  font-size: 1.1em;
   flex-grow: 1;
-  font-weight: 600;
+  font-weight: 500;
+}
+
+.channel-sub-count {
+  font-size: small;
+  opacity: 0.8;
 }
 
 .subscribe {
@@ -543,7 +551,7 @@ video {
   background-color: #fff;
   font-size: 0.9em;
   font-weight: bold;
-  padding: 1em 1.2em;
+  padding: 0.85em 1.2em;
   border-radius: 50px;
   cursor: pointer;
   -webkit-user-select: none;
@@ -558,13 +566,16 @@ video {
 }
 
 .video-desc {
-  color: #ccc;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 1em;
   padding: 1em;
   border-radius: 10px;
-  background-color: #343434;
+  background-color: #38383893;
   line-height: 1em;
+}
+
+.video-desc .pt-watch-meta-data {
+  color: #ccc;
 }
 
 .video-desc a {
@@ -589,6 +600,9 @@ video {
   color: #ccc;
 
   min-width: 8em;
+  max-height: 70%;
+  overflow-y: scroll;
+  scrollbar-width: none;
 }
 
 .ptp-panel-menu {
@@ -704,12 +718,7 @@ video {
   }
 
   .channel-name {
-    font-size: 2em;
-  }
-
-  .channel-img {
-    width: 40px;
-    height: 40px;
+    font-size: 1.2em;
   }
 
   .video-desc {
