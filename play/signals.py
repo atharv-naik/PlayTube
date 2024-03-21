@@ -37,6 +37,7 @@ def start_celery_preprocess_task(sender, instance, created, **kwargs):
         handle_video_post_upload.delay(
             instance.video_file.path,
             instance.video_id,
+            instance.subtitle.path if instance.subtitle else "",
             instance.channel.user.email,
             instance.channel.user.username
         )
