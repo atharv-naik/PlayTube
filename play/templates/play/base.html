@@ -8,32 +8,53 @@
 
     <!-- Open Graph meta tags for social media sharing -->
     {% block open_graph %}
-    <meta property="og:title" content="PlayTube - Home">
-    <meta property="og:description" content="PlayTube is a video sharing platform where users can upload their own videos and watch videos from other users.">
-    <meta property="og:image" content="{{ http_protocol }}://{{ domain_name }}/api/logo" />
-    <meta property="og:url" content="{{ http_protocol }}://{{ domain_name }}{% url 'play:home' %}">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="PlayTube">
-    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="PlayTube - Home" />
+    <meta
+      property="og:description"
+      content="PlayTube is a video sharing platform where users can upload their own videos and watch videos from other users."
+    />
+    <meta
+      property="og:image"
+      content="{{ http_protocol }}://{{ domain_name }}/api/logo"
+    />
+    <meta
+      property="og:url"
+      content="{{ http_protocol }}://{{ domain_name }}{% url 'play:home' %}"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="PlayTube" />
+    <meta property="og:locale" content="en_US" />
     {% endblock %}
 
     <!-- Twitter Card meta tags for social media sharing -->
     {% block twitter_card %}
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@atharvnaik">
-    <meta name="twitter:creator" content="@atharvnaik">
-    <meta name="twitter:title" content="PlayTube - Home">
-    <meta name="twitter:description" content="PlayTube is a video sharing platform where users can upload their own videos and watch videos from other users.">
-    <meta name="twitter:image" content="{{ http_protocol }}://{{ domain_name }}/api/logo">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@atharvnaik" />
+    <meta name="twitter:creator" content="@atharvnaik" />
+    <meta name="twitter:title" content="PlayTube - Home" />
+    <meta
+      name="twitter:description"
+      content="PlayTube is a video sharing platform where users can upload their own videos and watch videos from other users."
+    />
+    <meta
+      name="twitter:image"
+      content="{{ http_protocol }}://{{ domain_name }}/api/logo"
+    />
     {% endblock %}
-    
+
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="PlayTube is a video sharing platform where users can upload their own videos and watch videos from other users." />
-    <meta name="keywords" content="playtube, video sharing, video platform, youtube, vimeo, dailymotion, video, watch, upload, share" />
+    <meta
+      name="description"
+      content="PlayTube is a video sharing platform where users can upload their own videos and watch videos from other users."
+    />
+    <meta
+      name="keywords"
+      content="playtube, video sharing, video platform, youtube, vimeo, dailymotion, video, watch, upload, share"
+    />
     <meta name="author" content="Atharv Naik" />
 
     <title>{% block title %}{% endblock %}</title>
-    
+
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
@@ -59,25 +80,28 @@
 
     <link rel="stylesheet" href="{% static 'play/styles/base.css' %}" />
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    />
 
     {% block html_head %}{% endblock %} {% block css %}{% endblock %}
   </head>
   <body>
     <div class="main">
       <!-- navbar -->
-      {% block navbar %}
-      {% include 'play/components/navbar.html' %}
-      {% endblock %}
-      <div class="content">{% block content %} {% endblock %}</div>
+      {% block navbar %} {% include 'play/components/navbar.html' %} {% endblock %}
+      <div class="content">
+        {% include 'play/components/sidebar.html' %}
+
+        {% block content %} {% endblock %}
+      </div>
     </div>
     <!-- footer -->
-    {% block footer %}
-    {% endblock %}
+    {% block footer %} {% endblock %}
   </body>
 
-  <script src="{% static 'play/js/base.js' %}"></script>
+  <script src="{% static 'play/js/base.js' %}" defer></script>
   <script
     src="https://kit.fontawesome.com/ec5245fd47.js"
     crossorigin="anonymous"

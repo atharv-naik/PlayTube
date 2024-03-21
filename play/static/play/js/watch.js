@@ -23,6 +23,7 @@ const pauseBtn = document.querySelector(".pause-animation-btn");
 const circle = document.querySelector(".center-animations-circle");
 const loadingSpinner = document.querySelector(".loading-spinner");
 
+
 document.addEventListener("keydown", (e) => {
   const tagName = document.activeElement.tagName.toLowerCase();
 
@@ -206,40 +207,48 @@ video.addEventListener("progress", () => {
 });
 
 // Playback Speed
-speedBtn.addEventListener("click", changePlaybackSpeed);
 
 function changePlaybackSpeed(forward = true) {
   if (forward) {
     let newPlaybackRate = video.playbackRate + 0.25;
-    if (newPlaybackRate > 2) newPlaybackRate = 0.25;
+    if (newPlaybackRate > 2) return;
     video.playbackRate = newPlaybackRate;
-    speedBtn.textContent = `${newPlaybackRate}x`;
+
+    showCurrentPlaybackSpeed(newPlaybackRate);
   } else {
     let newPlaybackRate = video.playbackRate - 0.25;
-    if (newPlaybackRate < 0.25) newPlaybackRate = 2;
+    if (newPlaybackRate < 0.25) return;
     video.playbackRate = newPlaybackRate;
-    speedBtn.textContent = `${newPlaybackRate}x`;
+
+    showCurrentPlaybackSpeed(newPlaybackRate);
   }
 }
 
 // Captions
 // check if captions are available
+let captionsUnavailable = false;
 function toggleCaptions() {
-  showSubtitleAnimation();
-  const captions = video.textTracks[0];
-  const isHidden = captions.mode === "hidden";
-  captions.mode = isHidden ? "showing" : "hidden";
-  videoContainer.classList.toggle("captions", isHidden);
+  if (captionsUnavailable) return;
+
+  // showSubtitleAnimation();
+
+  if (hls.subtitleDisplay) {
+    hls.subtitleDisplay = false;
+    showCurrentSubtitle("Off");
+  } else {
+    hls.subtitleDisplay = true;
+    showCurrentSubtitle("English");
+  }
 }
 
 video.addEventListener("loadedmetadata", () => {
-  if (video.textTracks.length > 0) {
-    const captions = video.textTracks[0];
-    captions.mode = "hidden";
-
+  if (hls.subtitleTracks.length > 0) {
+    hls.subtitleTrack = 0;
+    hls.subtitleDisplay = false;
     captionsBtn.addEventListener("click", toggleCaptions);
   } else {
-    captionsBtn.style.display = "none";
+    captionsBtn.style.opacity = "0.65";
+    captionsUnavailble = true;
   }
 });
 
@@ -590,3 +599,178 @@ video.addEventListener("pause", () => {
 // video.addEventListener("canplay", () => {
 //   loading.style.display = "none";
 // });
+
+// toggle control buttons panel
+function toggleSettingsMenu() {
+  const settingsMenu = document.querySelector(".ptp-settings");
+  settingsMenu.classList.toggle("show");
+
+  closeSubmenu();
+}
+
+function closeSubmenu() {
+  const ptpSubmenu = document.querySelector(".ptp-panel-submenu");
+  ptpSubmenu.style.display = "none";
+  const mainmenu = document.querySelector(".ptp-panel-menu");
+  mainmenu.style.display = "flex";
+
+  // close all submenus
+  const submenus = document.querySelectorAll(".ptp-submenu");
+  submenus.forEach((submenu) => {
+    submenu.style.display = "none";
+  });
+}
+
+function hideMainMenu() {
+  const manMenu = document.querySelector(".ptp-panel-menu");
+  manMenu.style.display = "none";
+}
+
+function showSubMenu(obj) {
+  const ptpSubmenu = document.querySelector(".ptp-panel-submenu");
+  ptpSubmenu.style.display = "flex";
+
+  const classname = obj.id;
+  const submenu = document.querySelector(`.${classname}`);
+  hideMainMenu();
+  submenu.style.display = "flex";
+}
+
+function getBackToMainMenu() {
+  closeSubmenu();
+  const mainmenu = document.querySelector(".ptp-panel-menu");
+  mainmenu.style.display = "flex";
+}
+
+function changeVideoQuality(quality) {
+  console.log(quality);
+  let level;
+  if (quality === "720p") {
+    level = 2;
+  } else if (quality === "480p") {
+    level = 1;
+  } else if (quality === "240p") {
+    level = 0;
+  } else {
+    level = -1;
+
+    currentTime = video.currentTime;
+    paused = video.paused;
+
+    hls.destroy();
+
+    hls = new Hls();
+    hls.loadSource(videoSrc);
+    hls.attachMedia(video);
+
+    hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+      skipTo(currentTime);
+      if (paused) video.pause();
+      else video.play();
+    });
+
+    showCurrentVideoQuality(quality);
+    return;
+  }
+
+  hls.autoLevelEnabled = "false";
+
+  hls.currentLevel = level;
+  console.log(hls.currentLevel);
+
+  showCurrentVideoQuality(quality);
+}
+
+function showCurrentVideoQuality(quality) {
+  const currentQuality = document.querySelector(".ptp-current-quality");
+  currentQuality.textContent = capitalize(quality);
+
+  // remove current-quality-tick from all qualities
+  const qualities = document.querySelectorAll(".ptp-quality .ptp-submenu-item");
+  qualities.forEach((quality) => {
+    quality.classList.remove("selected");
+  });
+
+  // add current-quality-tick to the selected quality
+  const selectedQuality = document.querySelector(`.quality-${quality}`);
+
+  selectedQuality.classList.add("selected");
+}
+
+function setPlaybackSpeed(speed) {
+  const video = document.querySelector("video");
+  if (speed === "normal" || speed === 1) {
+    video.playbackRate = 1;
+  } else {
+    video.playbackRate = speed;
+  }
+  showCurrentPlaybackSpeed(speed);
+}
+
+function showCurrentPlaybackSpeed(speed) {
+  speed = speed.toString();
+  if (speed === "1") {
+    speed = "normal";
+  }
+
+  const currentSpeed = document.querySelector(".ptp-current-playback-speed");
+  currentSpeed.textContent = capitalize(speed);
+
+  // format speed to match the class name
+  speed = speed.replace(".", "-");
+
+  // remove current-speed-tick from all speeds
+  const speeds = document.querySelectorAll(
+    ".ptp-playback-speed .ptp-submenu-item"
+  );
+  speeds.forEach((item) => {
+    item.classList.remove("selected");
+  });
+
+  // add current-speed-tick to the selected speed
+  console.log(speed);
+  const selectedSpeed = document.querySelector(`.pb_${speed}`);
+
+  selectedSpeed.classList.add("selected");
+}
+
+function subtitlesHandler(state) {
+  if (state.toLowerCase() === "off") {
+    hls.subtitleDisplay = false;
+  } else {
+    hls.subtitleDisplay = true;
+  }
+
+  showCurrentSubtitle(state);
+}
+
+function showCurrentSubtitle(state) {
+  const currentSubtitle = document.querySelector(".ptp-current-subtitle");
+  currentSubtitle.textContent = capitalize(state);
+
+  // remove current-subtitle-tick from all states
+  const states = document.querySelectorAll(".ptp-subtitles .ptp-submenu-item");
+  states.forEach((item) => {
+    item.classList.remove("selected");
+  });
+
+  // add current-subtitle-tick to the selected state
+  const selectedState = document.querySelector(
+    `.subtitle-${state.toLowerCase()}`
+  );
+
+  selectedState.classList.add("selected");
+
+  // show captions underlining when captions are on
+  const captions = document.querySelector(".captions-btn");
+  if (state.toLowerCase() === "off") {
+    captions.style.borderBottom = "none";
+  } else {
+    captions.style.borderBottom = "2px solid red";
+  }
+}
+
+// helper function
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

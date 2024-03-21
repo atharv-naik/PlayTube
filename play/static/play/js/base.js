@@ -42,3 +42,27 @@ document.addEventListener("keydown", (e) => {
     searchBar.focus();
   }
 });
+
+function toggleSidebarMenu() {
+  const sidebar = document.querySelector(".pt-sidebar-wrapper");
+  // if showing; i.e. sidebar-showing class is present
+  if (sidebar.classList.contains("pt-sidebar-showing")) {
+    // hide overlay
+    const overlay = document.querySelector(".pt-sidebar-overlay");
+    overlay.style.display = "none";
+    // hide sidebar
+    // sidebar.style.width = "0rem";
+
+    sidebar.classList.remove("pt-sidebar-showing");
+    
+  }
+  // if not showing
+  else {
+    // show overlay
+    const overlay = document.querySelector(".pt-sidebar-overlay");
+    overlay.style.display = "block";
+    // show sidebar
+    // sidebar.style.width = "15rem";
+    sidebar.classList.add("pt-sidebar-showing");
+  }
+}
