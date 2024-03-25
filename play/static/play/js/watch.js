@@ -22,7 +22,9 @@ const playBtn = document.querySelector(".play-animation-btn");
 const pauseBtn = document.querySelector(".pause-animation-btn");
 const circle = document.querySelector(".center-animations-circle");
 const loadingSpinner = document.querySelector(".loading-spinner");
-
+const ptpPlayer = document.querySelector("#ptp-player");
+const ambientLight = document.querySelector(".ptp-ambient-light");
+const leftContainer = document.querySelector(".container-left");
 
 document.addEventListener("keydown", (e) => {
   const tagName = document.activeElement.tagName.toLowerCase();
@@ -73,8 +75,9 @@ document.addEventListener("keydown", (e) => {
       showControls();
       break;
     case "a":
-      enableNextAudioTrack();
-      showControls();
+      // enableNextAudioTrack();
+      toggleAmbientMode();
+      // showControls();
       break;
     case "arrowup":
       changeVolume(0.05);
@@ -450,6 +453,8 @@ videoContainer.addEventListener("dblclick", toggleFullScreenMode);
 
 function toggleTheaterMode() {
   videoContainer.classList.toggle("theater");
+  ptpPlayer.classList.toggle("theater");
+  leftContainer.classList.toggle("theater");
   // thumbnailImg.classList.toggle("theater")
 }
 
@@ -557,20 +562,48 @@ function showControls() {
   }
 }
 
-// video.addEventListener("pause", () => {
-//   clearTimeout(timeout);
-//   showControls();
-// });
+function toggleAmbientMode() {
+  ambientLight.classList.toggle("show");
+}
 
-// video.addEventListener("mousemove", () => {
-//   clearTimeout(timeout);
-//   showControls();
+// ambient light handler
+var ambientLightCanvas = document.createElement("canvas");
+var ambientLightCtx = ambientLightCanvas.getContext("2d");
+function ambientLightHandler() {
+  ambientLightCtx.drawImage(
+    video,
+    0,
+    0,
+    ambientLightCanvas.width,
+    ambientLightCanvas.height
+  );
+  var videoFrameImage = ambientLightCanvas.toDataURL("image/jpeg", 0.1);
+  // attach as background-image to ptp-ambient-light
+  ambientLight.style.backgroundImage = `url(${videoFrameImage})`;
+}
 
-//   if (!video.paused) {
-//     // showControls();
-//     timeout = setTimeout(hideControls, 5000);
-//   }
-// });
+video.addEventListener("play", function () {
+  const interval = 1000 / video.playbackRate; // Adjust frame capture rate
+
+  setInterval(ambientLightHandler, interval);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  var header = document.querySelector(".website-header");
+  var scrollPosition = window.scrollY;
+
+  function updateHeaderOpacity() {
+    var newOpacity = Math.min(1, scrollPosition / 30);
+    header.style.backgroundColor = "rgba(13, 13, 13, " + newOpacity + ")";
+  }
+
+  window.addEventListener("scroll", function () {
+    scrollPosition = window.scrollY;
+    updateHeaderOpacity();
+  });
+
+  updateHeaderOpacity(); // Call initially to set opacity based on initial scroll position
+});
 
 videoContainer.addEventListener("mousemove", () => {
   if (!video.paused) {
@@ -766,7 +799,7 @@ function showCurrentSubtitle(state) {
   if (state.toLowerCase() === "off") {
     captions.style.borderBottom = "none";
   } else {
-    captions.style.borderBottom = "2px solid red";
+    captions.style.borderBottom = "4px solid red";
   }
 }
 
