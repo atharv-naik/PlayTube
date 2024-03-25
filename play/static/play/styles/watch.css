@@ -9,17 +9,50 @@
   justify-content: space-around;
   align-items: center;
 
-  padding: 0 1em 1em;
+  margin-bottom: 50rem;
 }
 
 .container-left {
   display: flex;
   flex-direction: column;
   gap: 1em;
+
+  max-width: 1044px;
+}
+
+.container-left.theater {
+  max-width: unset !important;
 }
 
 body::-webkit-scrollbar {
   display: none;
+}
+
+.website-header {
+  /* transition: background-color 0.3s ease; */
+  background-color: rgba(13, 13, 13, 0);
+  backdrop-filter: unset;
+}
+
+#ptp-player {
+  position: relative;
+  width: 1044px;
+  max-width: 1200px;
+  aspect-ratio: 16/9;
+  display: flex;
+  justify-content: center;
+  background-color: black;
+  border-radius: 12px;
+  margin-top: 30px;
+}
+
+.ptp-ambient-light {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  filter: blur(100px);
+  transition: all 1s ease;
+  opacity: 0;
 }
 
 .video-container {
@@ -30,8 +63,17 @@ body::-webkit-scrollbar {
   display: flex;
   justify-content: center;
   /* margin-inline: auto; */
-  background-color: black;
+  /* background-color: black; */
   border-radius: 12px;
+  overflow: hidden;
+}
+
+#ptp-player.theater > .ptp-ambient-light.show {
+  display: none !important;
+}
+
+#ptp-player.theater + .video-meta-data-container {
+  margin-inline: 1.5em;
 }
 
 .loading-spinner {
@@ -179,12 +221,15 @@ body::-webkit-scrollbar {
   opacity: 1;
 } */
 
+#ptp-player.theater,
 .video-container.theater,
 .video-container.full-screen {
   max-width: unset;
   width: 100vw;
   max-height: 80vh;
   border-radius: unset;
+
+  margin-top: 0;
 }
 
 .video-container.theater + .video-meta-data-container {
@@ -450,6 +495,7 @@ video {
   display: none;
   object-fit: contain;
   object-position: center;
+  backdrop-filter: blur(15px);
 }
 
 .video-container.scrubbing .thumbnail-img {
@@ -586,6 +632,8 @@ video {
 
 .show {
   display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .ptp-settings {
@@ -691,16 +739,31 @@ video {
 
 /* video takes full width on smaller screens */
 @media screen and (max-width: 1080px) {
+  #ptp-player {
+    width: 100%;
+    max-width: unset;
+    margin-top: 0;
+  }
+
   .video-container {
     max-width: initial;
     width: 100%;
     aspect-ratio: 16 / 9;
     max-height: 100vh;
+    border-radius: unset;
   }
 
   .video-meta-data-container {
     width: 100%;
     font-size: 0.5rem;
+  }
+
+  .ptp-ambient-light {
+    display: none !important;
+  }
+
+  .video-meta-data-container {
+    padding-inline: 1.5em;
   }
 
   .theater-btn,
