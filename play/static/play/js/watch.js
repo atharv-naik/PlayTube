@@ -251,7 +251,7 @@ video.addEventListener("loadedmetadata", () => {
     captionsBtn.addEventListener("click", toggleCaptions);
   } else {
     captionsBtn.style.opacity = "0.65";
-    captionsUnavailble = true;
+    captionsUnavailable = true;
   }
 });
 
