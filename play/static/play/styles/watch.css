@@ -698,6 +698,55 @@ video {
   content: " >";
 }
 
+.ptp-menuitem-toggle-checkbox {
+  display: flex;
+}
+
+.ptp-menuitem-toggle-checkbox input[type="checkbox"] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+.ptp-menuitem-toggle-checkbox label {
+  height: 14px;
+  width: 36px;
+  float: right;
+  position: relative;
+  border-radius: 14px;
+  background-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.08s cubic-bezier(0.4, 0, 1, 1);
+  -webkit-transition: all 0.08s cubic-bezier(0.4, 0, 1, 1);
+  -moz-transition: all 0.08s cubic-bezier(0.4, 0, 1, 1);
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+}
+
+.ptp-menuitem-toggle-checkbox label::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  margin-top: -3px;
+  background-color: #bdbdbd;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.6);
+  transition: all 0.08s cubic-bezier(0.4, 0, 1, 1);
+}
+
+.ptp-menuitem-toggle-checkbox input[type="checkbox"]:checked + label::after {
+  background-color: #fff;
+  transform: translateX(16px);
+}
+
+.ptp-menuitem-toggle-checkbox input[type="checkbox"]:checked + label {
+  background-color: red;
+}
+
 .ptp-submenu {
   display: none;
   border-radius: 10px;

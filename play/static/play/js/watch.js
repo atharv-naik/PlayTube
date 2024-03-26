@@ -74,11 +74,6 @@ document.addEventListener("keydown", (e) => {
       toggleCaptions();
       showControls();
       break;
-    case "a":
-      // enableNextAudioTrack();
-      toggleAmbientMode();
-      // showControls();
-      break;
     case "arrowup":
       // prevent default scrolling
       e.preventDefault();
