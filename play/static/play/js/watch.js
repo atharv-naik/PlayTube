@@ -535,7 +535,7 @@ function togglePlay() {
 // first check if the video is playing
 const videoControls = document.querySelector(".video-controls-container");
 const videoTitle = document.querySelector(".video-title-container");
-let timeout;
+let timeout = undefined;
 
 function hideControls() {
   // hide only if not hovering over controls
@@ -562,6 +562,8 @@ function showControls() {
 
   // if the video is playing, hide controls after 3 seconds
   if (!video.paused) {
+    // clear previous timeout
+    if (timeout) clearTimeout(timeout);
     timeout = setTimeout(hideControls, 5000);
   }
 }
