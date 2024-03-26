@@ -156,6 +156,7 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: left;
+  display: none;
 }
 
 .video-title {
@@ -230,6 +231,10 @@ body::-webkit-scrollbar {
   border-radius: unset;
 
   margin-top: 0;
+}
+
+.video-container.full-screen .video-title-container {
+  display: block;
 }
 
 .video-container.theater + .video-meta-data-container {
