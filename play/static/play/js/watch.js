@@ -26,6 +26,23 @@ const ptpPlayer = document.querySelector("#ptp-player");
 const ambientLight = document.querySelector(".ptp-ambient-light");
 const leftContainer = document.querySelector(".container-left");
 
+let clickTimer;
+const delay = 200;
+
+function handleSingleClick(func) {
+  clearTimeout(clickTimer);
+
+  clickTimer = setTimeout(() => {
+    func();
+  }, delay);
+}
+
+function handleDoubleClick(func) {
+  clearTimeout(clickTimer);
+
+  func();
+}
+
 document.addEventListener("keydown", (e) => {
   const tagName = document.activeElement.tagName.toLowerCase();
 
@@ -74,20 +91,19 @@ document.addEventListener("keydown", (e) => {
       toggleCaptions();
       showControls();
       break;
-    case "a":
-      // enableNextAudioTrack();
-      toggleAmbientMode();
-      // showControls();
-      break;
     case "arrowup":
+      // prevent default scrolling
+      e.preventDefault();
       changeVolume(0.05);
       showControls();
-      showVolumeAnimation((increase = true));
+      // showVolumeAnimation((increase = true));
       break;
     case "arrowdown":
+      // prevent default scrolling
+      e.preventDefault();
       changeVolume(-0.05);
       showControls();
-      showVolumeAnimation((increase = false));
+      // showVolumeAnimation((increase = false));
       break;
     case "0":
     case "1":
@@ -251,7 +267,7 @@ video.addEventListener("loadedmetadata", () => {
     captionsBtn.addEventListener("click", toggleCaptions);
   } else {
     captionsBtn.style.opacity = "0.65";
-    captionsUnavailble = true;
+    captionsUnavailable = true;
   }
 });
 
@@ -449,7 +465,10 @@ miniPlayerBtn.addEventListener("click", toggleMiniPlayerMode);
 
 // double click to toggle fullscreen mode
 // liste for double click event
-videoContainer.addEventListener("dblclick", toggleFullScreenMode);
+video.addEventListener(
+  "dblclick",
+  handleDoubleClick.bind(null, toggleFullScreenMode)
+);
 
 function toggleTheaterMode() {
   videoContainer.classList.toggle("theater");
@@ -504,7 +523,6 @@ function toggleMiniPlayerMode() {
 
 document.addEventListener("fullscreenchange", () => {
   videoContainer.classList.toggle("full-screen", document.fullscreenElement);
-  // thumbnailImg.classList.toggle("full-screen", document.fullscreenElement)
 });
 
 video.addEventListener("enterpictureinpicture", () => {
@@ -517,7 +535,7 @@ video.addEventListener("leavepictureinpicture", () => {
 
 // Play/Pause
 playPauseBtn.addEventListener("click", togglePlay);
-video.addEventListener("click", togglePlay);
+video.addEventListener("click", handleSingleClick.bind(null, togglePlay));
 
 function togglePlay() {
   if (video.paused) {
@@ -531,7 +549,7 @@ function togglePlay() {
 // first check if the video is playing
 const videoControls = document.querySelector(".video-controls-container");
 const videoTitle = document.querySelector(".video-title-container");
-let timeout;
+let timeout = undefined;
 
 function hideControls() {
   // hide only if not hovering over controls
@@ -558,6 +576,8 @@ function showControls() {
 
   // if the video is playing, hide controls after 3 seconds
   if (!video.paused) {
+    // clear previous timeout
+    if (timeout) clearTimeout(timeout);
     timeout = setTimeout(hideControls, 5000);
   }
 }
