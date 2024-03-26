@@ -80,14 +80,18 @@ document.addEventListener("keydown", (e) => {
       // showControls();
       break;
     case "arrowup":
+      // prevent default scrolling
+      e.preventDefault();
       changeVolume(0.05);
       showControls();
-      showVolumeAnimation((increase = true));
+      // showVolumeAnimation((increase = true));
       break;
     case "arrowdown":
+      // prevent default scrolling
+      e.preventDefault();
       changeVolume(-0.05);
       showControls();
-      showVolumeAnimation((increase = false));
+      // showVolumeAnimation((increase = false));
       break;
     case "0":
     case "1":
