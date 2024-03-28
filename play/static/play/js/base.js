@@ -2,7 +2,7 @@ const body = document.querySelector("body");
 const movies = document.querySelectorAll(".movie");
 
 const btn = document.querySelector(".btn");
-const ytLogo = document.querySelector(".yt-logo-img");
+const ptLogo = document.querySelector(".pt-logo");
 
 function applyThemeStyles() {
   btn.style.border = "0.5px solid rgba(96, 96, 96, 0.562)";
@@ -15,6 +15,11 @@ function applyThemeStyles() {
     console.log("not found image not found");
   }
 }
+
+function setPTLogo() {
+  ptLogo.style.backgroundImage = `url(${ptLogo.dataset.url})`;
+}
+setPTLogo();
 
 // listen for '/' key press and focus the search bar if it does
 document.addEventListener("keydown", (e) => {

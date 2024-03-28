@@ -11,7 +11,7 @@
       <span class="material-icons"> menu </span>
     </div>
     <div
-      class="website-name yt-logo"
+      class="website-name"
       title="PlayTube Home"
       onclick="window.location.href = '{% url 'play:home' %}'"
       style="
@@ -21,7 +21,11 @@
         align-items: center;
       "
     >
-      <div class="pt-logo" style="width: 40px; height: 40px"></div>
+      <div
+        class="pt-logo"
+        style="width: 40px; height: 40px"
+        data-url="{% static 'play/images/v2/PlayTube-icon.png' %}"
+      ></div>
       <div id="playtube">PlayTube</div>
     </div>
   </div>

@@ -24,7 +24,7 @@ def apiOverview(request):
 
 @api_view(['GET'])
 def logo(request):
-    file = open('play/static/play/images/PlayTube.png', 'rb')
+    file = open('static/play/images/v2/PlayTube-icon-full.png', 'rb')
     response = FileResponse(file)
     return response
 
@@ -48,7 +48,7 @@ def getVideoThumbnail(request, video_id):
     try:
         file = open(video.thumbnail.path, 'rb')
     except:
-        file = open('play/static/play/images/PlayTube.png', 'rb')
+        file = open('static/play/images/v2/PlayTube-icon-full.png', 'rb')
     response = FileResponse(file)
     return response
 
@@ -73,7 +73,7 @@ def getChannelBanner(request, channel_id):
     try:
         file = open(channel.banner.path, 'rb')
     except:
-        file = open('play/static/play/images/PlayTube.png', 'rb')
+        file = open('static/play/images/v2/PlayTube-icon-full.png', 'rb')
     response = FileResponse(file)
     return response
 

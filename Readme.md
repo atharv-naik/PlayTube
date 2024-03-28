@@ -1,6 +1,6 @@
 # PlayTube: A Video-on-Demand Platform built in Django
 
-![PlayTube](/play/static/play/images/PlayTube.png)
+![PlayTube](/static/play/images/v2/PlayTube-icon-full.png)
 
 This project is a Video-on-Demand (VOD) platform service developed using Django, providing features similar to those found on YouTube. It allows users to upload videos, which are then transcoded and streamed using HLS (HTTP Live Streaming) with Adaptive Bitrate Streaming (ABS). The project also includes user authentication, social logins, video playback tracking, and more.
 
