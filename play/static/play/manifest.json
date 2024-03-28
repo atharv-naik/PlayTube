@@ -1,0 +1,17 @@
+{
+    "short_name": "PlayTube",
+    "name": "PlayTube",
+    "icons": [
+      {
+        "src": "/static/play/images/v2/PlayTube-icon-pwa.png",
+        "type": "image/png",
+        "sizes": "500x500"
+      }
+    ],
+    "start_url": "/",
+    "background_color": "#0d0d0d",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#0d0d0d",
+    "description": "PlayTube is a video sharing platform where users can upload their own videos and watch videos from other users."
+  }

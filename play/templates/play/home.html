@@ -26,7 +26,7 @@
             {% for video in videos %}
             <!-- video card -->
             <div class="video-card">
-                <a class="thumbnail" target="_blank" href="{% url 'play:watch' %}?v={{ video.video_id }}&ab_channel={{ video.channel.channel_id }}" data-duration="{{ video.duration|get_duration_stamp }}">
+                <a class="thumbnail" href="{% url 'play:watch' %}?v={{ video.video_id }}&ab_channel={{ video.channel.channel_id }}" data-duration="{{ video.duration|get_duration_stamp }}">
                     <div class="thumbnail-img-wrapper" onmouseenter="playVideo(this, '{{ video.video_id }}')">
                         <img src="https://source.unsplash.com/featured/{{ forloop.counter }}" alt="" class="thumbnail-img">
                         
