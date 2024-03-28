@@ -60,7 +60,6 @@ a {
 }
 
 .pt-logo {
-  background-image: url("https://icons.iconarchive.com/icons/dakirby309/simply-styled/128/YouTube-icon.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -230,7 +229,7 @@ a {
 }
 
 #pt-text-search:focus-within .clear-search-btn,
-#pt-text-search:active .clear-search-btn{
+#pt-text-search:active .clear-search-btn {
   visibility: visible;
 }
 

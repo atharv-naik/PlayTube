@@ -2,7 +2,7 @@ const body = document.querySelector("body");
 const movies = document.querySelectorAll(".movie");
 
 const btn = document.querySelector(".btn");
-const ytLogo = document.querySelector(".yt-logo-img");
+const ptLogo = document.querySelector(".pt-logo");
 
 function applyThemeStyles() {
   btn.style.border = "0.5px solid rgba(96, 96, 96, 0.562)";
@@ -16,17 +16,10 @@ function applyThemeStyles() {
   }
 }
 
-function redirectToSignInPage() {
-  window.location.href = "{% url 'play:login' %}";
+function setPTLogo() {
+  ptLogo.style.backgroundImage = `url(${ptLogo.dataset.url})`;
 }
-
-function redirectToLogOutPage() {
-  window.location.href = "{% url 'play:logout' %}";
-}
-
-function redirectToUploadVideoPage() {
-  window.location.href = "{% url 'play:upload-video' %}";
-}
+setPTLogo();
 
 // listen for '/' key press and focus the search bar if it does
 document.addEventListener("keydown", (e) => {
@@ -75,4 +68,22 @@ const clearSearchBtn = document.querySelector(".clear-search-btn");
 clearSearchBtn.addEventListener("click", (e) => {
   searchBar.value = "";
   searchBar.focus();
+});
+
+
+function search() {
+  // skip if search input is empty
+  if (!searchBar.value) return;
+  else {
+    // get search query
+    const searchQuery = searchBar.value;
+    // redirect to search page
+    window.location.href = `/results/?search_query=${searchQuery}`;
+  }
+}
+
+searchForm = document.querySelector(".search-bar-form");
+searchForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  search();
 });

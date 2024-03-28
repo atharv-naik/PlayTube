@@ -74,7 +74,7 @@
     <!-- favicon -->
     <link
       rel="shortcut icon"
-      href="https://icons.iconarchive.com/icons/dakirby309/simply-styled/128/YouTube-icon.png"
+      href="{{ http_protocol }}://{{ domain_name }}/static/play/images/v2/PlayTube-icon.png"
       type="image/x-icon"
     />
 
@@ -84,6 +84,9 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
     />
+
+    <!-- manifest file -->
+    <link rel="manifest" href="{% static 'play/manifest.json' %}" />
 
     {% block html_head %}{% endblock %} {% block css %}{% endblock %}
   </head>
