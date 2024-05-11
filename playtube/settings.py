@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'play.templatetags',
     'rest_framework',
     'corsheaders',
+    'utm_tracker',
 ]
 
 REST_FRAMEWORK = {
@@ -65,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'utm_tracker.middleware.UTMTrackerMiddleware',
 ]
 
 ROOT_URLCONF = 'playtube.urls'
