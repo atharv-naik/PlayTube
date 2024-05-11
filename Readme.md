@@ -1,6 +1,6 @@
 # PlayTube: A Video-on-Demand Platform built in Django
 
-![PlayTube](/static/play/images/v2/PlayTube-icon-full.png)
+![PlayTube](/play/static/play/images/v2/PlayTube-icon-full.png)
 
 This project is a Video-on-Demand (VOD) platform service developed using Django, providing features similar to those found on YouTube. It allows users to upload videos, which are then transcoded and streamed using HLS (HTTP Live Streaming) with Adaptive Bitrate Streaming (ABS). The project also includes user authentication, social logins, video playback tracking, and more.
 
@@ -105,7 +105,13 @@ This project is a Video-on-Demand (VOD) platform service developed using Django,
       python manage.py createsuperuser
    ```
 
-9. Run the below commands in *seperate shell environments* to start the Celery worker and the Redis server and the Django development server:
+9. Run collectstatic before starting the server:
+
+   ```bash
+      python manage.py collectstatic
+   ```
+
+10. Run the below commands in *seperate shell environments* to start the Celery worker, the Redis server and the Django development server:
 
    ```bash
       python manage.py runserver
@@ -116,8 +122,7 @@ This project is a Video-on-Demand (VOD) platform service developed using Django,
    ```
 
    Make sure to activate the virtual environment before running the celery worker instance.
-
-10. Navigate to `http://127.0.0.1:8000/` in your browser or to the IP:PORT you specified in the .env file (step 5)
+   Navigate to `http://127.0.0.1:8000/` in your browser or to the IP:PORT you specified in the .env file (step 5)
 
 ## Usage
 
