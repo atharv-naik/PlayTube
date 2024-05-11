@@ -32,6 +32,13 @@ def logo(request):
 @api_view(['GET'])
 def getVideoStream(request, video_id, file):
     video = Video.objects.get(video_id=video_id)
+    # visibility checks
+    if video.visibility == 'private':
+        if request.user.is_anonymous:
+            return Response(status=401)
+        if request.user.channel != video.channel:
+            return Response(status=403)
+
     video_path = video.video_file.path
     stream_path = os.path.join(os.path.dirname(video_path), file)
     try:

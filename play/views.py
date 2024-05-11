@@ -43,7 +43,7 @@ def logoutPage(request):
 def home(request):
     # check if play_video table is empty without using count()
     if Video.objects.exists():
-        videos = Video.objects.all()
+        videos = Video.objects.all().filter(visibility='public')
         # shuffle the videos
         videos = videos.order_by('?')
 
@@ -128,6 +128,14 @@ def watch(request):
         return render(request, 'play/404.html', info, status=404)
     try:
         video = Video.objects.get(video_id=video_id)
+        # visibility check
+        if video.visibility == 'private':
+            if not request.user.is_authenticated:
+                return redirect('play:login')
+            if request.user.channel != video.channel:
+                info = {'info': 'This video is private and can only be viewed by the channel owner'}
+                return render(request, 'play/404.html', info, status=404)
+
         channel_id = video.channel.channel_id if channel_id is None else channel_id
         channel = Channel.objects.get(
             channel_id=channel_id) if channel_id is not None else None
