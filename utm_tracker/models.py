@@ -7,7 +7,7 @@ class Source(models.Model):
         return self.name
 
 class Via(models.Model):
-    source = models.ForeignKey(Source, on_delete=models.SET_DEFAULT, default='direct', unique=True)
+    source = models.OneToOneField(Source, on_delete=models.SET_DEFAULT, default='direct')
     visits = models.PositiveIntegerField(default=0)
 
     def __str__(self):
