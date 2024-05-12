@@ -6,8 +6,8 @@ from .models import Via, Source
 
 class UTMTrackerMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        # ignore all admin urls
-        if request.path.startswith('/admin'):
+        # ignore all admin, static, media and api requests
+        if request.path.startswith('/admin') or request.path.startswith('/static') or request.path.startswith('/media') or request.path.startswith('/api'):
             return
 
         if 'via' in request.GET:
