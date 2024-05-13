@@ -75,6 +75,10 @@ This project is a Video-on-Demand (VOD) software service developed using Django,
       ALLOWED_HOSTS='localhost,127.0.0.1'
       CORS_ALLOW_ALL_ORIGINS=1
       CORS_ALLOWED_ORIGINS='http:127.0.0.1:8000,yoursite1.com,yoursite2.com'
+      
+      AWS_ACCESS_KEY_ID='<access-key-id>'
+      AWS_SECRET_ACCESS_KEY='<secret-access-key>'
+      AWS_REGION='<aws-region>'
     ```
 
    Optional settings:
