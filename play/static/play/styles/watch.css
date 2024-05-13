@@ -407,7 +407,6 @@ video {
 .timeline {
   background-color: rgba(168, 168, 168, 0.401);
   height: 4px;
-  margin: 0 6px;
   width: 100%;
   position: relative;
 }
@@ -417,7 +416,7 @@ video {
   left: 0;
   top: 0;
   bottom: 0;
-  right: calc(100% - var(--preview-position) * 100% + 0.6%);
+  right: clamp(0%, calc(100% - var(--preview-position) * 100% + 0.6%), 100%);
   background-color: rgba(179, 179, 179, 0.75);
 }
 
@@ -427,7 +426,7 @@ video {
   left: 0;
   top: 0;
   bottom: 0;
-  right: calc(100% - var(--buffer-position) * 100%);
+  right: clamp(0%, calc(100% - var(--buffer-position) * 100%), 100%);
   margin-inline: inherit;
 }
 
@@ -437,7 +436,7 @@ video {
   left: 0;
   top: 0;
   bottom: 0;
-  right: calc(100% - var(--progress-position) * 100%);
+  right: clamp(0%, calc(100% - var(--progress-position) * 100%), 100%);
   background-color: #ff0000;
 }
 
@@ -447,7 +446,7 @@ video {
   transform: translateX(-50%) scale(var(--scale));
   height: 200%;
   top: -50%;
-  left: calc(var(--progress-position) * 100%);
+  left: clamp(0%, calc((var(--progress-position) * 100%)), 100%);
   background-color: red;
   border-radius: 50%;
   transition: transform 150ms ease-in-out;
