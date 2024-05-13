@@ -104,11 +104,23 @@ def videoUpload(request):
         form = VideoUploadForm(request.POST, request.FILES)
         if form.is_valid():
             video = form.save(commit=False)
+
+            # set video properties
+
             video.channel = request.user.channel
+
+            if video.video_location == 'local':
+                http_protocol = 'https' if settings.USE_HTTPS else 'http'
+                video.stream_url = f'{http_protocol}://{settings.DOMAIN_NAME}/api/v2/video/{video.video_id}'
+            
+            elif video.video_location == 's3':
+                video.stream_url = f'https://{settings.AWS_S3_CUSTOM_DOMAIN}/videos/{video.channel.channel_id}/{video.video_id}'
+
             video.save()
             return JsonResponse({'success': True, 'redirect_url': reverse('play:home')})
         else:
             return JsonResponse({'success': False})
+
     form = VideoUploadForm()
     info = {
         'form': form,
@@ -150,6 +162,11 @@ def watch(request):
             # if t is None, then set t to the last viewed timestamp if user watched the video before
             t = history.timestamp if t is 0 else t
             history.save()
+        
+        # set video stream url
+        if not video.stream_url:
+            http_protocol = 'https' if settings.USE_HTTPS else 'http'
+            video.stream_url = f'{http_protocol}://{settings.DOMAIN_NAME}/api/v2/video/{video_id}'
 
         info = {
             'video_id': video_id,
@@ -158,7 +175,8 @@ def watch(request):
             'movie': video,
             'channel': channel,
             'domain_name': settings.DOMAIN_NAME,
-            'http_protocol': 'https' if settings.USE_HTTPS else 'http'
+            'http_protocol': 'https' if settings.USE_HTTPS else 'http',
+            'stream_url': video.stream_url,
         }
         return render(request, 'play/watch.html', info)
 

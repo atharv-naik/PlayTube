@@ -2,7 +2,9 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from .models import Channel, Video
 from django.contrib.auth.models import User
-from .tasks import handle_video_post_upload
+from .tasks import transcode_task, delete_s3_directory_task
+from play.metafile_managers import delete_s3_directory
+from django.conf import settings
 import shutil
 import os
 
@@ -17,6 +19,12 @@ def create_channel(sender, instance, created, **kwargs):
 @receiver(post_delete, sender=Video)
 def delete_video(sender, instance, **kwargs):
     if instance.video_file:
+        if instance.video_location == 's3':
+            # Network I/O; run in background
+            delete_s3_directory_task.apply_async(args=[
+                settings.AWS_STORAGE_BUCKET_NAME, f'videos/{instance.channel.channel_id}/{instance.video_id}'
+            ])
+        
         meta_data_root_path = os.path.dirname(instance.video_file.path)
         try:
             shutil.rmtree(meta_data_root_path)
@@ -31,13 +39,15 @@ def set_video_duration(sender, instance, created, **kwargs):
 
 # Trigger celery process to generate thumbnails and HLS playlist for a video
 @receiver(post_save, sender=Video)
-def start_celery_preprocess_task(sender, instance, created, **kwargs):
+def start_video_processing_pipeline(sender, instance, created, **kwargs):
     if instance.video_file and created:
 
-        handle_video_post_upload.delay(
-            instance.video_file.path,
-            instance.video_id,
-            instance.subtitle.path if instance.subtitle else "",
-            instance.channel.user.email,
-            instance.channel.user.username
-        )
+        info = {
+            'video_path': instance.video_file.path,
+            'video_id': instance.video_id,
+            'subtitle_path': instance.subtitle.path if instance.subtitle else "",
+            'uploader_email': instance.channel.user.email,
+            'uploader_name': instance.channel.user.username
+        }
+
+        transcode_task.apply_async(args=[info])

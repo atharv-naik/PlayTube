@@ -13,7 +13,7 @@ class VideoUploadForm(ModelForm):
     required_css_class = 'required'
     class Meta:
         model = Video
-        fields = ['title', 'description', 'genre', 'release_year', 'language', 'series', 'series_name', 'series_season', 'series_episode', 'thumbnail', 'subtitle', 'visibility', 'video_file']
+        fields = ['title', 'description', 'genre', 'release_year', 'language', 'series', 'series_name', 'series_season', 'series_episode', 'thumbnail', 'subtitle', 'visibility', 'video_file', 'video_location']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'text-input', 'placeholder': 'Add a title that describes your video', 'autofocus': True, 'autocomplete': 'off', 'required': True, 'maxlength': 100, 'minlength': 1, 'autocapitalize': 'on', 'spellcheck': 'true'}),
             'description': forms.Textarea(attrs={'class': 'text-input', 'placeholder': 'Tell viewers about your video', 'rows': 4, 'cols': 15}),
@@ -28,6 +28,5 @@ class VideoUploadForm(ModelForm):
             'thumbnail': forms.FileInput(attrs={'class': 'file-input', 'accept': '.png, .jpg, .jpeg'}),
             'subtitle': forms.FileInput(attrs={'class': 'file-input', 'accept': '.vtt, .srt'}),
             'visibility': forms.Select(attrs={'class': 'select-input', 'placeholder': 'Visibility'}),
+            'video_location': forms.Select(attrs={'class': 'select-input', 'placeholder': 'Choose server'}),
         }
-
-    

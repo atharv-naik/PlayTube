@@ -27,7 +27,7 @@
             <!-- video card -->
             <div class="video-card">
                 <a class="thumbnail" href="{% url 'play:watch' %}?v={{ video.video_id }}&ab_channel={{ video.channel.channel_id }}" data-duration="{{ video.duration|get_duration_stamp }}">
-                    <div class="thumbnail-img-wrapper" onmouseenter="playVideo(this, '{{ video.video_id }}')">
+                    <div class="thumbnail-img-wrapper" onmouseenter="playVideo(this, '{{ video.stream_url }}')">
                         <img src="https://source.unsplash.com/featured/{{ forloop.counter }}" alt="" class="thumbnail-img">
                         
                         <video class="thumbnail-hover-play-video" loop muted></video>
@@ -148,10 +148,10 @@
         });
 
         // play video on hover
-        function playVideo(container, video_id) {
+        function playVideo(container, video_stream_url) {
             const video = container.querySelector('.thumbnail-hover-play-video');
             const image = container.querySelector('.thumbnail-img');
-            const source = `${http_protocol}://${domain_name}/api/get-video-stream/${video_id}/playlist.m3u8`;
+            const source = `${video_stream_url}/playlist.m3u8`;
         
             video.style.display = 'block';
             image.style.display = 'none';
