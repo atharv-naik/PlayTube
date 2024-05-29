@@ -42,5 +42,5 @@ class UTMTrackerMiddleware(MiddlewareMixin):
         traffic_source.save()
 
         # save site hit
-        SiteHit.objects.create(ip_address=request.META.get('REMOTE_ADDR'))
+        SiteHit.objects.create(ip_address=get_client_ip(request))
 
