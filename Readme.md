@@ -2,7 +2,7 @@
 
 ![PlayTube](/play/static/play/images/v2/PlayTube-icon-full.png)
 
-This project is a Video-on-Demand (VOD) platform service developed using Django, providing features similar to those found on YouTube. It allows users to upload videos, which are then transcoded and streamed using HLS (HTTP Live Streaming) with Adaptive Bitrate Streaming (ABS). The project also includes user authentication, social logins, video playback tracking, and more.
+This project is a Video-on-Demand (VOD) software service developed using Django, providing features similar to those found on YouTube. It allows users to upload videos, which are then transcoded and streamed using HLS (HTTP Live Streaming) with Adaptive Bitrate Streaming (ABS). The project also includes user authentication, social logins, video playback tracking, and more.
 
 ## Table of Contents
 
@@ -18,6 +18,7 @@ This project is a Video-on-Demand (VOD) platform service developed using Django,
 1. **Video Upload, Transcoding, and Streaming:**
    - Users can upload videos which are automatically transcoded into HLS format for efficient streaming.
    - Transcoding tasks are handled asynchronously using Celery workers and a Redis queue.
+   - Transcoded videos are stored on Amazon S3 for optimized content delivery.
 
 2. **User Authentication and Social Logins:**
    - User registration, login, and logout functionalities are implemented.
@@ -36,6 +37,7 @@ This project is a Video-on-Demand (VOD) platform service developed using Django,
 - Django REST Framework
 - Celery
 - Redis
+- Amazon S3
 - Ffmpeg
 - `django-allauth` (for social logins)
 
@@ -73,6 +75,11 @@ This project is a Video-on-Demand (VOD) platform service developed using Django,
       ALLOWED_HOSTS='localhost,127.0.0.1'
       CORS_ALLOW_ALL_ORIGINS=1
       CORS_ALLOWED_ORIGINS='http:127.0.0.1:8000,yoursite1.com,yoursite2.com'
+      
+      AWS_ACCESS_KEY_ID='<access-key-id>'
+      AWS_SECRET_ACCESS_KEY='<secret-access-key>'
+      AWS_STORAGE_BUCKET_NAME='<bucket-name>'
+      AWS_REGION='<aws-region>'
     ```
 
    Optional settings:

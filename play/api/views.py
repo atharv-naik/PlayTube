@@ -31,7 +31,10 @@ def logo(request):
 
 @api_view(['GET'])
 def getVideoStream(request, video_id, file):
-    video = Video.objects.get(video_id=video_id)
+    try:
+        video = Video.objects.get(video_id=video_id)
+    except Video.DoesNotExist:
+        return Response(status=404)
     # visibility checks
     if video.visibility == 'private':
         if request.user.is_anonymous:
@@ -51,21 +54,27 @@ def getVideoStream(request, video_id, file):
 
 @api_view(['GET'])
 def getVideoThumbnail(request, video_id):
-    video = Video.objects.get(video_id=video_id)
+    try:
+        video = Video.objects.get(video_id=video_id)
+    except Video.DoesNotExist:
+        return Response(status=404)
     try:
         file = open(video.thumbnail.path, 'rb')
-    except:
+    except FileNotFoundError:
         file = open('static/play/images/v2/PlayTube-icon-full.png', 'rb')
     response = FileResponse(file)
     return response
 
 
 @api_view(['GET'])
-def getPreviewThumbnails(request, video_id, number):
-    video = Video.objects.get(video_id=video_id)
+def getPreviewThumbnails(request, video_id, file):
+    try:
+        video = Video.objects.get(video_id=video_id)
+    except Video.DoesNotExist:
+        return Response(status=404)
     video_path = video.video_file.path
     stream_path = os.path.join(os.path.dirname(
-        video_path), 'preview_images', f'preview{number}.jpg')
+        video_path), 'preview_images', file)
     try:
         file = open(stream_path, 'rb')
     except FileNotFoundError:
@@ -79,7 +88,7 @@ def getChannelBanner(request, channel_id):
     channel = Channel.objects.get(channel_id=channel_id)
     try:
         file = open(channel.banner.path, 'rb')
-    except:
+    except FileNotFoundError:
         file = open('static/play/images/v2/PlayTube-icon-full.png', 'rb')
     response = FileResponse(file)
     return response
@@ -106,7 +115,7 @@ def updateWatchTime(request):
 
     user = request.user
     # try to update history object for current video and user; create if it doesn't exist
-    history, created = History.objects.update_or_create(
+    history, _ = History.objects.update_or_create(
         channel=user.channel,
         video=video,
         defaults={'timestamp': t})
