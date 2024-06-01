@@ -78,6 +78,7 @@ This project is a Video-on-Demand (VOD) software service developed using Django,
       
       AWS_ACCESS_KEY_ID='<access-key-id>'
       AWS_SECRET_ACCESS_KEY='<secret-access-key>'
+      AWS_STORAGE_BUCKET_NAME='<bucket-name>'
       AWS_REGION='<aws-region>'
     ```
 

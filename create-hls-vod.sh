@@ -54,7 +54,7 @@ url=${3}
 master_playlist="#EXTM3U\n#EXT-X-VERSION:3\n"
 
 if [ -n "${subtitle_path}" ]; then
-  master_playlist+="#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID=\"subs\",NAME=\"English Subtitles\",LANGUAGE=\"en\",AUTOSELECT=NO,DEFAULT=YES,FORCED=NO,URI=${url}/subs_playlist.m3u8"
+  master_playlist+="#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID=\"subs\",NAME=\"English Subtitles\",LANGUAGE=\"en\",AUTOSELECT=NO,DEFAULT=YES,FORCED=NO,URI=${url}/subs_playlist.m3u8\n"
 fi
 
 
