@@ -199,8 +199,7 @@ def migrate_to_local_task(video_obj):
     try:
         download_from_s3(
             bucket_name=bucket_name,
-            s3_key=s3_key,
-            local_dir=video_dir
+            s3_key=s3_key
         )
     except Exception as e:
         logging.error(
