@@ -6,10 +6,15 @@ class Source(models.Model):
     def __str__(self):
         return self.name
 
+
 class Traffic(models.Model):
-    source = models.OneToOneField(Source, on_delete=models.SET_DEFAULT, default='direct')
+    source = models.OneToOneField(Source, on_delete=models.CASCADE)
     visits = models.PositiveIntegerField(default=0)
     last_visit = models.DateTimeField(auto_now=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    http_from = models.CharField(max_length=255, blank=True, null=True)
+    http_referer = models.URLField(blank=True, null=True)
+    user_agent = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.source.name
@@ -18,9 +23,14 @@ class Traffic(models.Model):
         verbose_name_plural = 'Traffic'
         ordering = ['-last_visit']
 
+
 class SiteHit(models.Model):
     ip_address = models.GenericIPAddressField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    http_from = models.CharField(max_length=255, blank=True, null=True)
+    http_referer = models.URLField(blank=True, null=True)
+    user_agent = models.CharField(max_length=255, blank=True, null=True)
+    source = models.ForeignKey(Source, on_delete=models.SET_DEFAULT, default='direct', null=True, blank=True)
 
     def __str__(self):
         return self.ip_address

@@ -169,8 +169,6 @@
       var ctx = document.getElementById('hitsLineChart').getContext('2d');
       var hitsChartData = {{ hits_data | safe }};
 
-      // var hitsChartData = [{"date": "2020-07-01", "hits": 1}, {"date": "2020-07-02", "hits": 1}, {"date": "2020-07-03", "hits": 1}, {"date": "2020-07-04", "hits": 1}, {"date": "2020-07-05", "hits": 10}, {"date": "2020-07-06", "hits": 1}, {"date": "2020-07-07", "hits": 1}, {"date": "2020-07-08", "hits": 1}, {"date": "2020-07-09", "hits": 1}, {"date": "2020-07-10", "hits": 1}, {"date": "2020-07-11", "hits": 1}, {"date": "2020-07-12", "hits": 1}, {"date": "2020-07-13", "hits": 0}, {"date": "2020-07-14", "hits": 1}, {"date": "2020-07-15", "hits": 5}, {"date": "2020-07-16", "hits": 1}, {"date": "2020-07-17", "hits": 1}, {"date": "2020-07-18", "hits": 1}, {"date": "2020-07-19", "hits": 0}, {"date": "2020-07-20", "hits": 1}, {"date": "2020-07-21", "hits": 1}, {"date": "2020-07-22", "hits": 0}, {"date": "2020-07-23", "hits": 1}, {"date": "2020-07-24", "hits": 1}, {"date": "2020-07-25", "hits": 1}, {"date": "2020-07-26", "hits": 1}, {"date": "2020-07-27", "hits": 1}, {"date": "2020-07-28", "hits": 1}, {"date": "2020-07-29", "hits": 1}]
-      
       // parse dates
       hitsChartData.forEach((data) => {
         data.date = new Date(data.date);
@@ -216,13 +214,9 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       var show_stats = "{{ show_stats }}";
-
-      if (show_stats === 'True') {
-        showStats();
-      }
-
-      
+      if (show_stats === 'True') showStats();
     });
+    
     </script>
 
 {% endblock %}
