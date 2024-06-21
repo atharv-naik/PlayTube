@@ -66,7 +66,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'utm_tracker.middleware.UTMTrackerMiddleware',
+    'utm_tracker.middleware.DetectBotsMiddleware',
+    'utm_tracker.middleware.VisitsTrackerMiddleware',
 ]
 
 ROOT_URLCONF = 'playtube.urls'
