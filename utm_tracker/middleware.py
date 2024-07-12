@@ -21,8 +21,9 @@ class DetectBotsMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        user_agent = request.META.get('HTTP_USER_AGENT')
-        request.is_bot = any(bot.search(user_agent) for bot in self.BOT_USER_AGENTS)
+        user_agent = request.META.get('HTTP_USER_AGENT', '')
+        request.is_bot = any(bot.search(user_agent)
+                             for bot in self.BOT_USER_AGENTS)
         return self.get_response(request)
 
 
