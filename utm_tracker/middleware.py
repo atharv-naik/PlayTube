@@ -47,7 +47,10 @@ class VisitsTrackerMiddleware(MiddlewareMixin):
         referer = request.META.get('HTTP_REFERER')
 
         # Ignore self-refering requests
-        if referer and request.build_absolute_uri().startswith(referer):
+        if referer and (
+            request.build_absolute_uri().startswith(
+                referer) or referer.startswith(request.build_absolute_uri())
+        ):
             return
 
         # Determine the source of the traffic
