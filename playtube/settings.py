@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'play.templatetags',
     'rest_framework',
     'corsheaders',
+    'utm_tracker',
 ]
 
 REST_FRAMEWORK = {
@@ -65,6 +66,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'utm_tracker.middleware.DetectBotsMiddleware',
+    'utm_tracker.middleware.VisitsTrackerMiddleware',
 ]
 
 ROOT_URLCONF = 'playtube.urls'
@@ -72,7 +75,9 @@ ROOT_URLCONF = 'playtube.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates') 
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -263,3 +268,13 @@ CSRF_TRUSTED_ORIGINS = str(os.getenv('CSRF_TRUSTED_ORIGINS')).split(',') if not 
 # Celery settings
 CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+
+# AWS S3 settings
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_REGION = os.getenv('AWS_REGION')
+AWS_DEFAULT_ACL = 'public-read'
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com'
+AWS_S3_SIGNATURE_VERSION = 's3v4'

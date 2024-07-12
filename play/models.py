@@ -97,6 +97,13 @@ class Video(models.Model):
     video_file = models.FileField(upload_to=getVideoUploadPath, validators=[
                                   validate_video_file], null=True, blank=True)
     
+    video_location = models.CharField(max_length=100, choices=[
+        ('local', 'Main Server (Local)'),
+        ('s3', 'Cloud Server (S3)')
+    ], default="local")
+
+    stream_url = models.URLField(null=True, blank=True)
+    
     duration = models.PositiveIntegerField(default=0)
 
     visibility = models.CharField(max_length=100, choices=[

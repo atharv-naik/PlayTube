@@ -14,7 +14,6 @@
 {% block content %}
 <div class="banner">
     <div class="banner-img-wrapper">
-        <!-- <img src="https://source.unsplash.com/featured/1500x500" alt="" class="banner-img"> -->
     </div>
     <div class="banner-text">
         <h1 class="banner-title" id="playtube">PlayTube</h1>
@@ -27,8 +26,8 @@
             <!-- video card -->
             <div class="video-card">
                 <a class="thumbnail" href="{% url 'play:watch' %}?v={{ video.video_id }}&ab_channel={{ video.channel.channel_id }}" data-duration="{{ video.duration|get_duration_stamp }}">
-                    <div class="thumbnail-img-wrapper" onmouseenter="playVideo(this, '{{ video.video_id }}')">
-                        <img src="https://source.unsplash.com/featured/{{ forloop.counter }}" alt="" class="thumbnail-img">
+                    <div class="thumbnail-img-wrapper" onmouseenter="playVideo(this, '{{ video.stream_url }}')">
+                        <img src="https://picsum.photos/500/500?random={{ forloop.counter }}" alt="" class="thumbnail-img">
                         
                         <video class="thumbnail-hover-play-video" loop muted></video>
                     </div>
@@ -148,10 +147,10 @@
         });
 
         // play video on hover
-        function playVideo(container, video_id) {
+        function playVideo(container, video_stream_url) {
             const video = container.querySelector('.thumbnail-hover-play-video');
             const image = container.querySelector('.thumbnail-img');
-            const source = `${http_protocol}://${domain_name}/api/get-video-stream/${video_id}/playlist.m3u8`;
+            const source = `${video_stream_url}/playlist.m3u8`;
         
             video.style.display = 'block';
             image.style.display = 'none';

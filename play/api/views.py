@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
 from play.models import Video, History, Channel
@@ -14,10 +15,18 @@ import os
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
-        'Video Stream': '/api/video/<str:video_id>/<str:file>',
-        'Preview Thumbnails': '/api/video/<str:video_id>/preview/<int:number>',
-        'Watch History': '/api/history/<str:user>',
-        'Update Watch History': '/api/history/<str:user>/<str:video_id>',
+        'Get Video Stream': '/get-video-stream/<str:video_id>/<str:file>',
+        'Get Preview Thumbnails': '/get-preview-thumbnails/<str:video_id>/<int:number>',
+        'Update Watch Time': '/update-watch-time/',
+        'Get Watch History': '/get-watch-history/<str:user>',
+        'Update Views': '/update-views/',
+        'Logo': '/logo/',
+        'Get Video Thumbnail': '/get-video-thumbnail/<str:video_id>',
+        'Get Channel Banner': '/get-channel-banner/<str:channel_id>',
+
+        # V2 API
+        'Get Video Stream V2': '/v2/video/<str:video_id>/<str:file>',
+        'Get Preview Thumbnails V2': '/v2/video/<str:video_id>/preview_images/<str:file>',
     }
     return Response(api_urls)
 
@@ -25,92 +34,95 @@ def apiOverview(request):
 @api_view(['GET'])
 def logo(request):
     file = open('static/play/images/v2/PlayTube-icon-full.png', 'rb')
-    response = FileResponse(file)
-    return response
+    return FileResponse(file, status=200)
 
 
 @api_view(['GET'])
 def getVideoStream(request, video_id, file):
-    video = Video.objects.get(video_id=video_id)
+    video = get_object_or_404(Video, video_id=video_id)
+    # visibility checks
+    if video.visibility == 'private':
+        if request.user.is_anonymous:
+            return Response(status=401)
+        if request.user.channel != video.channel:
+            return Response(status=403)
+
     video_path = video.video_file.path
     stream_path = os.path.join(os.path.dirname(video_path), file)
     try:
         file = open(stream_path, 'rb')
     except FileNotFoundError:
         return Response(status=404)
-    response = FileResponse(file)
-    return response
+    return FileResponse(file, status=200)
 
 
 @api_view(['GET'])
 def getVideoThumbnail(request, video_id):
-    video = Video.objects.get(video_id=video_id)
+    video = get_object_or_404(Video, video_id=video_id)
     try:
         file = open(video.thumbnail.path, 'rb')
-    except:
+    except (FileNotFoundError, ValueError):
         file = open('static/play/images/v2/PlayTube-icon-full.png', 'rb')
-    response = FileResponse(file)
-    return response
+    return FileResponse(file, status=200)
 
 
 @api_view(['GET'])
-def getPreviewThumbnails(request, video_id, number):
-    video = Video.objects.get(video_id=video_id)
+def getPreviewThumbnails(request, video_id, file):
+    video = get_object_or_404(Video, video_id=video_id)
     video_path = video.video_file.path
     stream_path = os.path.join(os.path.dirname(
-        video_path), 'preview_images', f'preview{number}.jpg')
+        video_path), 'preview_images', file)
     try:
         file = open(stream_path, 'rb')
     except FileNotFoundError:
         return Response(status=404)
-    response = FileResponse(file)
-    return response
+    return FileResponse(file, status=200)
 
 
 @api_view(['GET'])
 def getChannelBanner(request, channel_id):
-    channel = Channel.objects.get(channel_id=channel_id)
+    channel = get_object_or_404(Channel, channel_id=channel_id)
     try:
         file = open(channel.banner.path, 'rb')
-    except:
+    except (FileNotFoundError, ValueError):
         file = open('static/play/images/v2/PlayTube-icon-full.png', 'rb')
-    response = FileResponse(file)
-    return response
+    return FileResponse(file, status=200)
 
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def getWatchHistory(request, user):
-    user = User.objects.get(username=user)
+    user = get_object_or_404(User, username=user)
     history = History.objects.filter(channel=user.channel)
     serializer = HistorySerializer(history, many=True)
-    return Response(serializer.data)
+    return Response(serializer.data, status=200)
 
 
 @api_view(['POST'])
 def updateWatchTime(request):
     # check if anonymous user
-    if request.user.is_anonymous:
-        return Response('User is not logged in')
+    if not request.user.is_authenticated:
+        return Response(status=401)
 
     video_id = request.POST.get('video_id')
-    video = Video.objects.get(video_id=video_id)
+    video = get_object_or_404(Video, video_id=video_id)
     t = int(eval(request.data['timestamp']))
 
     user = request.user
     # try to update history object for current video and user; create if it doesn't exist
-    history, created = History.objects.update_or_create(
+    history, _ = History.objects.update_or_create(
         channel=user.channel,
         video=video,
-        defaults={'timestamp': t})
+        defaults={'timestamp': t}
+        )
     history.save()
-    return Response()
+    return Response(status=200)
 
 
 @api_view(['POST'])
 def updateViews(request):
     video_id = request.POST.get('video_id')
-    video = Video.objects.get(video_id=video_id)
+    video = get_object_or_404(Video, video_id=video_id)
     video.views = F('views') + 1
     video.save()
-    return Response()
+    return Response(status=200)
