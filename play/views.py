@@ -43,7 +43,12 @@ def logoutPage(request):
 def home(request):
     # check if play_video table is empty without using count()
     if Video.objects.exists():
-        videos = Video.objects.all().filter(visibility='public')
+        # get videos that are either public or uploaded by the logged in user
+        if request.user.is_authenticated:
+            videos = Video.objects.filter(
+                Q(visibility='public') | Q(channel=request.user.channel))
+        else:
+            videos = Video.objects.filter(visibility='public')
         # shuffle the videos
         videos = videos.order_by('?')
 
