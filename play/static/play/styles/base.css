@@ -57,6 +57,7 @@ a {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.3s ease;
 }
 
 .pt-logo {
@@ -375,9 +376,10 @@ a {
 
 /* FOOTER */
 footer {
-  background-color: #d33e2a;
+  background-color: #000000;
+  border-top: solid 3px #d33e2a;
   color: black;
-  padding: 1rem 1rem 0 1rem;
+  padding: 1rem 2rem 0 2rem;
   font-size: 0.8rem;
   margin-top: 1rem;
 }
@@ -390,18 +392,50 @@ footer .footer-main {
 
 footer .logo-text {
   font-family: "Oswald", sans-serif;
-  font-size: 3rem;
+  font-size: -1.5rem;
   font-weight: 600;
-  color: black;
-  letter-spacing: -1.5px;
+  color: #d33e2a;
+  line-height: 80%;
+  letter-spacing: 1px;
   scale: 1 1.2;
   margin: 1rem 0;
+  
 }
 
 footer .footer-description {
   margin: 2em 0;
-  width: 75%;
+  width: 100%;
+  color: white;
   font-size: 1.1rem;
+}
+
+.footer-links{
+    height: 100%;
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-links ul{
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links ul li{
+  margin-bottom: 0.5rem;
+}
+
+.footer-links ul li a{
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  letter-spacing: 0.2cap;
+  transition: color 0.3s ease;
+}
+.footer-links ul li a:hover{
+    color: #d33e2a
 }
 
 footer .socials {
@@ -409,23 +443,37 @@ footer .socials {
   flex-direction: row;
   align-items: center;
   gap: 50px;
-  color: black;
+  color: rgb(255, 255, 255);
   margin: 0rem 1rem;
 }
 
-footer .socials a {
-  color: black;
+footer .socials a svg{
+  scale: 2.5;
+  fill: white;
+  transition: fill 0.3s ease;
+}
+footer .socials a svg:hover{
+  fill: #d33e2a;
   scale: 2.5;
 }
 
 footer .footer-bottom-section {
-  border-top: 1px solid black;
+  border-top: 1px solid rgb(255, 255, 255);
   padding: 0.5rem 0;
   text-align: center;
+  font-size: 0.8rem;
+  color: white;
+}
+
+footer .footer-bottom-section .info-icon {
+  margin-right: 0.5rem;
+  fill: white;
+  vertical-align: middle;
 }
 
 footer .copyright {
-  font-weight: 600;
+  margin-left: 0.5rem;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 1100px) {
