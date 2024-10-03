@@ -379,7 +379,7 @@ footer {
   background-color: #000000;
   border-top: solid 3px #d33e2a;
   color: black;
-  padding: 1rem 2rem 0 2rem;
+  padding: 1rem 1rem 0 1rem;
   font-size: 0.8rem;
   margin-top: 1rem;
 }
@@ -392,7 +392,7 @@ footer .footer-main {
 
 footer .logo-text {
   font-family: "Oswald", sans-serif;
-  font-size: -1.5rem;
+  font-size: 3rem;
   font-weight: 600;
   color: #d33e2a;
   line-height: 80%;
@@ -404,39 +404,11 @@ footer .logo-text {
 
 footer .footer-description {
   margin: 2em 0;
-  width: 100%;
+  width: 70%;
   color: white;
   font-size: 1.1rem;
 }
 
-.footer-links{
-    height: 100%;
-    display: flex;
-    width: 100%;
-    margin-top: 10px;
-    align-items: center;
-    justify-content: center;
-}
-
-.footer-links ul{
-  list-style: none;
-  padding: 0;
-}
-
-.footer-links ul li{
-  margin-bottom: 0.5rem;
-}
-
-.footer-links ul li a{
-  color: white;
-  text-decoration: none;
-  font-size: 1.1rem;
-  letter-spacing: 0.2cap;
-  transition: color 0.3s ease;
-}
-.footer-links ul li a:hover{
-    color: #d33e2a
-}
 
 footer .socials {
   display: flex;
@@ -474,6 +446,7 @@ footer .footer-bottom-section .info-icon {
 footer .copyright {
   margin-left: 0.5rem;
   font-weight: bold;
+  color: #d33e2a;
 }
 
 @media screen and (max-width: 1100px) {
